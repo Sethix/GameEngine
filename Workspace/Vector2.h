@@ -149,6 +149,8 @@ namespace JTL
 
 	Vector2  perp(Vector2 &a);
 
+	Vector2  reflect(const Vector2 &incident, const Vector2 &normal);
+
 #pragma endregion
 
 }

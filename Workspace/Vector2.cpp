@@ -78,6 +78,11 @@ namespace JTL
 		return{ -a.y, a.x };
 	}
 
+	Vector2  reflect(const Vector2 &incident, const Vector2 &normal)
+	{
+		return incident - (normal * (2 * dot(incident, normal)));
+	}
+
 
 	void	 DebugV2()
 	{
