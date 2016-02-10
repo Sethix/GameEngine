@@ -7,12 +7,6 @@ namespace JTL
 {
 #pragma region BinaryOperators
 
-	Vector3  Matrix3::operator[](unsigned i) const  { return *(Vector3*)mm[i]; }
-	Vector3& Matrix3::operator[](unsigned i)		{ return *(Vector3*)mm[i]; }
-
-	Vector2& Matrix3::right()						{ return *(Vector2*)mm[0]; }
-
-
 	Matrix3& Matrix3::operator += (const Matrix3 &rhs)
 	{
 		return *this = Matrix3{
@@ -44,7 +38,6 @@ namespace JTL
 			mm[2][0] * rhs.mm[0][1] + mm[2][1] * rhs.mm[1][1] + mm[2][2] * rhs.mm[2][1],
 			mm[2][0] * rhs.mm[0][2] + mm[2][1] * rhs.mm[1][2] + mm[2][2] * rhs.mm[2][2] };
 	}
-
 
 	Vector3& Matrix3::operator *= (const Vector3 &rhs)
 	{
@@ -94,6 +87,16 @@ namespace JTL
 
 #pragma endregion
 
+#pragma region UnaryOperators
+
+	Vector3  Matrix3::operator[]  (unsigned i) const { return *(Vector3*)mm[i]; }
+
+	Vector3& Matrix3::operator[]  (unsigned i)		 { return *(Vector3*)mm[i]; }
+
+#pragma endregion
+
+#pragma region TransformationFunctionality
+
 	Matrix3 Matrix3::rotate		  (const float & angle)
 	{
 		return	Matrix3{ cos(angle), sin(angle), 0,
@@ -115,6 +118,7 @@ namespace JTL
 			t.x, t.y, 1 };
 	}
 
+#pragma endregion
 
 	float   determinant			  (const Matrix3 &a)
 	{

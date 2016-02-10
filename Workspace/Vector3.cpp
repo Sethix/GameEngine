@@ -1,7 +1,120 @@
+#include <cassert>
+#include <cfloat>
+#include <cmath>
 #include "Vector3.h"
 
 namespace JTL
 {
+#pragma region BinaryOperators
+
+	Vector3& Vector3::operator+= (const Vector3 &rhs)
+	{
+		return *this = Vector3{ x + rhs.x, y + rhs.y, z + rhs.z };
+	}
+
+	Vector3& Vector3::operator-= (const Vector3 &rhs)
+	{
+		return *this = Vector3{ x - rhs.x, y - rhs.y, z - rhs.z };
+	}
+
+	Vector3& Vector3::operator*= (const float   &rhs)
+	{
+		return *this = Vector3{ x * rhs, y * rhs, z * rhs };
+	}
+
+	Vector3& Vector3::operator/= (const float   &rhs)
+	{
+		return *this = Vector3{ x / rhs, y / rhs, z / rhs };
+	}
+
+
+	Vector3  Vector3::operator+  (const Vector3 &rhs) const
+	{
+		Vector3 result = *this;
+		result += rhs;
+		return result;
+	}
+
+	Vector3  Vector3::operator-  (const Vector3 &rhs) const
+	{
+		Vector3 result = *this;
+		result -= rhs;
+		return result;
+	}
+
+	Vector3  Vector3::operator*  (const float   &rhs) const
+	{
+		Vector3 result = *this;
+		result *= rhs;
+		return result;
+	}
+
+	Vector3  Vector3::operator/  (const float   &rhs) const
+	{
+		Vector3 result = *this;
+		result /= rhs;
+		return result;
+	}
+
+
+	bool Vector3::operator==     (const Vector3 &rhs) const
+	{
+		return  x == rhs.x && y == rhs.y && z == rhs.z
+			|| rhs < *this + E_VEC3 && *this - E_VEC3 < rhs;
+	}
+
+	bool Vector3::operator!=	 (const Vector3 &rhs) const
+	{
+		return !(*this == rhs);
+	}
+
+	bool Vector3::operator<		 (const Vector3 &rhs) const
+	{
+		return x < rhs.x - FLT_EPSILON
+			&& y < rhs.y - FLT_EPSILON
+			&& z < rhs.z - FLT_EPSILON;
+	}
+
+	bool Vector3::operator>		 (const Vector3 &rhs) const
+	{
+		return x > rhs.x + FLT_EPSILON
+			&& y > rhs.y + FLT_EPSILON
+			&& z > rhs.z + FLT_EPSILON;
+	}
+
+	bool Vector3::operator<=		(const Vector3 &rhs) const
+	{
+		return *this == rhs || *this < rhs;
+	}
+
+	bool Vector3::operator>=		(const Vector3 &rhs) const
+	{
+		return *this == rhs || *this > rhs;
+	}
+
+#pragma endregion
+
+#pragma region UnaryOperators
+
+	float&  Vector3::operator[](unsigned i)		  { return v[i]; }
+
+	float   Vector3::operator[](unsigned i) const { return v[i]; }
+
+
+	Vector3& Vector3::operator-() const
+	{
+		return Vector3{ -x,-y,-z };
+	}
+
+#pragma endregion
+
+#pragma region VectorFunctions
+
+	void Vector3::normalize()
+	{
+		*this = normal(*this);
+	}
+
 	float    dot	(const Vector3 &a  , const Vector3 &b)
 	{
 		return a.x * b.x + a.y * b.y + a.z * b.z;
@@ -76,6 +189,12 @@ namespace JTL
 		return temp;
 	}
 
+	Vector3  reflect(const Vector3 &incident, const Vector3 &normal)
+	{
+		return incident - (normal * (2 * dot(incident, normal)));
+	}
+
+#pragma endregion
 
 	void	 DebugV3()
 	{

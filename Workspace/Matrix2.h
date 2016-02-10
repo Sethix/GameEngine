@@ -48,6 +48,7 @@
 			(void DebugM2())
 
 
+
 	Credits -
 		Justin T Hamm -
 			- Creator of JTL -
@@ -112,7 +113,7 @@ namespace JTL
 
 		Matrix2& operator *= (const Matrix2 &rhs);
 
-		Matrix2& operator *= (const Vector2 &rhs);
+		Vector2& operator *= (const Vector2 &rhs);
 
 
 		Matrix2  operator +  (const Matrix2 &rhs) const;
@@ -121,7 +122,7 @@ namespace JTL
 
 		Matrix2  operator *  (const Matrix2 &rhs) const;
 
-		Matrix2  operator *  (const Vector2 &rhs) const;
+		Vector2  operator *  (const Vector2 &rhs) const;
 
 
 		bool     operator == (const Matrix2 &rhs) const;
@@ -130,7 +131,7 @@ namespace JTL
 
 	};
 
-#pragma region FunctionHeaders
+#pragma region MatrixFunctionHeaders
 
 		inline float   determinant (const Matrix2 &a);
 

@@ -31,25 +31,38 @@
 
 			(==)
 
+		* Call row by vector 3 using subscript
+
+			([])
+
 		* Calculate the determinant of a matrix 3
 
-			(float determinant(Matrix2))
+			(float determinant(Matrix3))
 
 		* Calculate the inverse of a matrix 3
 
-			(Matrix2 inverse(Matrix2))
+			(Matrix3 inverse(Matrix3))
 
 		* Transpose matrix 3 to diagonally flip the values
 
-			(Matrix2 transpose(Matrix2))
+			(Matrix3 transpose(Matrix3))
 
 		* Run test cases to make sure all functions work
 
 			(void DebugM3())
 
+		* Rotate using a float value
+
+			(Matrix3 rotate(float))
+
 		* Scale using a vector 2 value
 
-			(Matrix3
+			(Matrix3 scale(Vector2))
+
+		* Translate using a vector 2 value
+
+			(Matrix3 translate(Vector2))
+
 
 
 	Credits -
@@ -110,18 +123,11 @@ namespace JTL
 
 #pragma region BinaryOperators
 
-		Vector3  operator[](unsigned i) const;
-		Vector3 &operator[](unsigned i);
-
-		Vector2 &right();
-	
-
 		Matrix3& operator += (const Matrix3 &rhs);
 
 		Matrix3& operator -= (const Matrix3 &rhs);
 
 		Matrix3& operator *= (const Matrix3 &rhs);
-
 
 		Vector3& operator *= (const Vector3 &rhs);
 
@@ -139,21 +145,33 @@ namespace JTL
 
 #pragma endregion
 
+#pragma region UnaryOperators
+
+		Vector3  operator[](unsigned i) const;
+
+		Vector3 &operator[](unsigned i);
+
+#pragma endregion
+
+#pragma region TransformationFunctionality
+
 		static Matrix3 rotate(const float &angle);
 
 		static Matrix3 scale(const Vector2 &s);
 
 		static Matrix3 translate(const Vector2 &t);
 
+#pragma endregion
+
 	};
 
-#pragma region FunctionHeaders
+#pragma region MatrixFunctionHeaders
 
-		float   determinant (const Matrix3 &a);
+		float    determinant	(const Matrix3 &a);
 
-		Matrix3 inverse	    (const Matrix3 &a);
+		Matrix3  inverse	    (const Matrix3 &a);
 
-		Matrix3 transpose   (const Matrix3 &a);
+		Matrix3  transpose		(const Matrix3 &a);
 
 #pragma endregion
 

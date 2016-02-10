@@ -1,10 +1,132 @@
+/******************************************************
+
+-----------------------Vector2.h-----------------------
+
+	Purpose -
+		Contains two floating point values.
+
+
+
+	Functionality -
+		Capable of the following,
+
+
+		* Addition between vectors
+
+			(+, +=)
+
+		* Subtraction between vectors
+
+			(-, -=)
+
+		* Multiplication between vectors
+
+			(*, *=)
+
+		* Division between vectors
+
+			(/, /=)
+
+		* Imperfect equality comparison between vectors
+
+			(==, !=, >, >=, <, <=)
+
+		* Calculate the dot product of two vectors
+
+			(float dot(Vector2, Vector2))
+
+		* Calculate the length of a vector
+
+			(float mag(Vector2))
+
+		* Convert from a vector to an angle
+
+			(float toAngle(Vector2))
+
+		* Convert from an angle to a vector
+
+			(Vector2 fromAngle(float))
+
+		* Calculate the normal of a vector
+
+			(Vector2 normal(Vector2))
+
+		* Set the a vector to it's normal
+
+			(Vector2 normalize())
+
+		* Interpolate between two vectors using a value from 0-1
+
+			(Vector2 lerp(Vector2(0), Vector2(1), float))
+
+		* Clamp a vector inside a minimum and maximum point
+
+			(Vector2 clamp(Vector2(A), Vector2(MIN), Vector2(MAX));
+
+		* Grab the minimum values from an array of vectors
+
+			(Vector2 min(Vector2*, size_t))
+
+		* Grab the maximum values from an array of vectors
+
+			(Vector2 max(Vector2*, size_t))
+
+		* Calculate the perpendicular of a vector
+
+			(Vector2 perp(Vector2))
+
+		* Calculate physcal reflection off of a normalized surface
+
+			(Vector2 reflect(Vector2 incident, Vector2 normal))
+
+		* Run test cases to make sure all functions work
+
+			(void DebugV2())
+
+
+
+	Credits -
+		Justin T Hamm -
+			- Creator of JTL -
+
+		Esmeralda Salamone -
+			- Programming Instructor -
+
+		Terry Nguyen -
+			- Assistant Instructor -
+
+
+
+	License -
+		The MIT License (MIT)
+
+Copyright (c) [2016] [Justin T Hamm]
+
+			Permission is hereby granted, free of charge, to any person obtaining a copy
+			of this software and associated documentation files (the "Software"), to deal
+			in the Software without restriction, including without limitation the rights
+			to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+			copies of the Software, and to permit persons to whom the Software is
+			furnished to do so, subject to the following conditions:
+
+			The above copyright notice and this permission notice shall be included in all
+			copies or substantial portions of the Software.
+
+			THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+			IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+			FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+			AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+			LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+			OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+			SOFTWARE.
+
+
+*******************************************************/
+
 #pragma once
 
-#include <cmath>
-#include <cfloat>
-#include <assert.h>
-
 #define E_VEC2 Vector2{FLT_EPSILON, FLT_EPSILON}
+
 
 namespace JTL
 {
@@ -19,115 +141,54 @@ namespace JTL
 
 #pragma region BinaryOperators
 
-		Vector2& operator+= (const Vector2 &rhs)
-		{
-			return *this = Vector2{ x + rhs.x, y + rhs.y };
-		}
+		Vector2& operator+= (const Vector2 &rhs);
+		
+		Vector2& operator-= (const Vector2 &rhs);
 
-		Vector2& operator-= (const Vector2 &rhs)
-		{
-			return *this = Vector2{ x - rhs.x, y - rhs.y };
-		}
+		Vector2& operator*= (const float   &rhs);
 
-		Vector2& operator*= (const float   &rhs)
-		{
-			return *this = Vector2{ x * rhs, y * rhs };
-		}
-
-		Vector2& operator/= (const float   &rhs)
-		{
-			return *this = Vector2{ x / rhs, y / rhs };
-		}
+		Vector2& operator/= (const float   &rhs);
 
 
-		Vector2  operator+  (const Vector2 &rhs) const
-		{
-			Vector2 result = *this;
-			result += rhs;
-			return result;
-		}
+		Vector2  operator+  (const Vector2 &rhs) const;
 
-		Vector2  operator-  (const Vector2 &rhs) const
-		{
-			Vector2 result = *this;
-			result -= rhs;
-			return result;
-		}
+		Vector2  operator-  (const Vector2 &rhs) const;
 
-		Vector2  operator*  (const float   &rhs) const
-		{
-			Vector2 result = *this;
-			result *= rhs;
-			return result;
-		}
+		Vector2  operator*  (const float   &rhs) const;
 
-		Vector2  operator/  (const float   &rhs) const
-		{
-			Vector2 result = *this;
-			result /= rhs;
-			return result;
-		}
+		Vector2  operator/  (const float   &rhs) const;
 
 
-		bool operator==     (const Vector2 &rhs) const
-		{
-			return x == rhs.x && y == rhs.y
-				|| rhs < *this + E_VEC2 && *this - E_VEC2 < rhs;
-		}
+		bool operator==     (const Vector2 &rhs) const;
 
-		bool operator!=     (const Vector2 &rhs) const
-		{			
-			return !(*this == rhs);
-		}
+		bool operator!=     (const Vector2 &rhs) const;
 
-		bool operator<      (const Vector2 &rhs) const
-		{
-			return x < rhs.x - FLT_EPSILON 
-				&& y < rhs.y - FLT_EPSILON;
-		}
+		bool operator<      (const Vector2 &rhs) const;
 
-		bool operator>      (const Vector2 &rhs) const
-		{
-			return x > rhs.x + FLT_EPSILON 
-				&& y > rhs.y + FLT_EPSILON;
-		}
+		bool operator>      (const Vector2 &rhs) const;
 
-		bool operator<=     (const Vector2 &rhs) const
-		{
-			return *this == rhs || *this < rhs;
-		}
+		bool operator<=     (const Vector2 &rhs) const;
 
-		bool operator>=     (const Vector2 &rhs) const
-		{
-			return *this == rhs || *this > rhs;
-		}
+		bool operator>=     (const Vector2 &rhs) const;
 
 #pragma endregion
-
 
 #pragma region UnaryOperators
 
-		float &operator[](unsigned idx)		  { return v[idx]; }
-		float  operator[](unsigned idx) const { return v[idx]; }
+		float &operator[](unsigned idx);
 
-		Vector2& operator-() const
-		{
-			return Vector2{ -x,-y };
-		}
+		float  operator[](unsigned idx) const;
+
+
+		Vector2& operator-() const;
 
 #pragma endregion
 
-
-		Vector2  normal	   (const Vector2 &v);
-
-		void     normalize ()
-		{
-			*this = normal(*this);
-		}
+		void normalize();
 
 	};
 
-#pragma region FunctionHeaders
+#pragma region VectorFunctionHeaders
 
 	float    dot(const Vector2 &a, const Vector2 &b);
 

@@ -1,7 +1,118 @@
+#include <cassert>
+#include <cfloat>
+#include <cmath>
 #include "Vector2.h"
 
 namespace JTL
 {
+#pragma region BinaryOperators
+
+	Vector2& Vector2::operator+= (const Vector2 &rhs)
+	{
+		return *this = Vector2{ x + rhs.x, y + rhs.y };
+	}
+
+	Vector2& Vector2::operator-= (const Vector2 &rhs)
+	{
+		return *this = Vector2{ x - rhs.x, y - rhs.y };
+	}
+
+	Vector2& Vector2::operator*= (const float   &rhs)
+	{
+		return *this = Vector2{ x * rhs, y * rhs };
+	}
+
+	Vector2& Vector2::operator/= (const float   &rhs)
+	{
+		return *this = Vector2{ x / rhs, y / rhs };
+	}
+
+
+	Vector2  Vector2::operator+  (const Vector2 &rhs) const
+	{
+		Vector2 result = *this;
+		result += rhs;
+		return result;
+	}
+
+	Vector2  Vector2::operator-  (const Vector2 &rhs) const
+	{
+		Vector2 result = *this;
+		result -= rhs;
+		return result;
+	}
+
+	Vector2  Vector2::operator*  (const float   &rhs) const
+	{
+		Vector2 result = *this;
+		result *= rhs;
+		return result;
+	}
+
+	Vector2  Vector2::operator/  (const float   &rhs) const
+	{
+		Vector2 result = *this;
+		result /= rhs;
+		return result;
+	}
+
+
+	bool Vector2::operator==     (const Vector2 &rhs) const
+	{
+		return x == rhs.x && y == rhs.y
+			|| rhs < *this + E_VEC2 && *this - E_VEC2 < rhs;
+	}
+
+	bool Vector2::operator!=     (const Vector2 &rhs) const
+	{
+		return !(*this == rhs);
+	}
+
+	bool Vector2::operator<      (const Vector2 &rhs) const
+	{
+		return x < rhs.x - FLT_EPSILON
+			&& y < rhs.y - FLT_EPSILON;
+	}
+
+	bool Vector2::operator>      (const Vector2 &rhs) const
+	{
+		return x > rhs.x + FLT_EPSILON
+			&& y > rhs.y + FLT_EPSILON;
+	}
+
+	bool Vector2::operator<=     (const Vector2 &rhs) const
+	{
+		return *this == rhs || *this < rhs;
+	}
+
+	bool Vector2::operator>=     (const Vector2 &rhs) const
+	{
+		return *this == rhs || *this > rhs;
+	}
+
+#pragma endregion
+
+#pragma region UnaryOperators
+
+	float   &Vector2::operator[](unsigned idx)		 { return v[idx]; }
+
+	float    Vector2::operator[](unsigned idx) const { return v[idx]; }
+
+
+	Vector2& Vector2::operator-() const
+	{
+		return Vector2{ -x,-y };
+	}
+
+#pragma endregion
+
+#pragma region VectorFunctions
+
+	void     Vector2::normalize()
+	{
+		*this = normal(*this);
+	}
+
 	float    dot		(const Vector2 &a  , const Vector2 &b)
 	{
 		return a.x * b.x + a.y * b.y;
@@ -73,16 +184,17 @@ namespace JTL
 		return temp;
 	}
 
-	Vector2  perp(Vector2 &a)
+	Vector2  perp		(Vector2 &a)
 	{
 		return{ -a.y, a.x };
 	}
 
-	Vector2  reflect(const Vector2 &incident, const Vector2 &normal)
+	Vector2  reflect	(const Vector2 &incident, const Vector2 &normal)
 	{
 		return incident - (normal * (2 * dot(incident, normal)));
 	}
 
+#pragma endregion
 
 	void	 DebugV2()
 	{

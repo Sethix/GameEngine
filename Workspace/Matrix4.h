@@ -1,13 +1,101 @@
-#pragma once
+/******************************************************
 
-#include "Vector3.h"
-#include "Vector4.h"
-#include "Matrix3.h"
+-----------------------Matrix4.h-----------------------
+
+	Purpose -
+		Contains an array of numbers in a 4X4 grid.
+
+
+
+	Functionality -
+		Capable of the following,
+
+
+		* Addition between matrices
+
+			(+, +=)
+
+		* Subtraction between matrices
+
+			(-, -=)
+
+		* Multiplication between matrices
+
+			(*, *=)
+
+		* Multiplication between matrix and vector 4
+
+			(*, *=)
+
+		* Imperfect equality comparison between matrices
+
+			(==)
+
+		* Calculate the determinant of a matrix 4
+
+			(float determinant(Matrix4))
+
+		* Calculate the inverse of a matrix 4
+
+			(Matrix4 inverse(Matrix4))
+
+		* Transpose matrix 4 to diagonally flip the values
+
+			(Matrix4 transpose(Matrix4))
+
+		* Run test cases to make sure all functions work
+
+			(void DebugM4())
+
+
+
+	Credits -
+		Justin T Hamm -
+			- Creator of JTL -
+
+		Esmeralda Salamone -
+			- Programming Instructor -
+
+		Terry Nguyen -
+			- Assistant Instructor -
+
+
+
+	License -
+		The MIT License (MIT)
+
+			Copyright (c) [2016] [Justin T Hamm]
+
+			Permission is hereby granted, free of charge, to any person obtaining a copy
+			of this software and associated documentation files (the "Software"), to deal
+			in the Software without restriction, including without limitation the rights
+			to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+			copies of the Software, and to permit persons to whom the Software is
+			furnished to do so, subject to the following conditions:
+
+			The above copyright notice and this permission notice shall be included in all
+			copies or substantial portions of the Software.
+
+			THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+			IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+			FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+			AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+			LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+			OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+			SOFTWARE.
+
+
+*******************************************************/
+
+#pragma once
 
 #define ID_MAT4 Matrix4{ 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1 }
 
+
 namespace JTL
 {
+
+	struct Vector4;
 
 	__declspec(align(32)) struct Matrix4
 	{
@@ -16,105 +104,33 @@ namespace JTL
 			float m[16], mm[4][4];
 		};
 
-#pragma region BinaryOperators
-
-		
+#pragma region BinaryOperators	
 		 
-		Matrix4& operator += (const Matrix4 &rhs)
-		{
-			return *this = Matrix4{
-				m[0] + rhs.m[0],  m[1] + rhs.m[1] ,  m[2] + rhs.m[2] ,  m[3] + rhs.m[3]  ,
-				m[4] + rhs.m[4],  m[5] + rhs.m[5] ,  m[6] + rhs.m[6] ,  m[7] + rhs.m[7]  ,
-				m[8] + rhs.m[8],  m[9] + rhs.m[9] ,  m[10] + rhs.m[10],  m[11] + rhs.m[11] ,
-				m[12] + rhs.m[12], m[13] + rhs.m[13],  m[14] + rhs.m[14],  m[15] + rhs.m[15] };
-		}
+		Matrix4& operator += (const Matrix4 &rhs);
 
-		Matrix4& operator -= (const Matrix4 &rhs)
-		{
-			return *this = Matrix4{
-				m[0] - rhs.m[0] ,  m[1] - rhs.m[1] ,  m[2] - rhs.m[2] ,  m[3] - rhs.m[3]  ,
-				m[4] - rhs.m[4] ,  m[5] - rhs.m[5] ,  m[6] - rhs.m[6] ,  m[7] - rhs.m[7]  ,
-				m[8] - rhs.m[8] ,  m[9] - rhs.m[9] ,  m[10] - rhs.m[10],  m[11] - rhs.m[11] ,
-				m[12] - rhs.m[12],  m[13] - rhs.m[13],  m[14] - rhs.m[14],  m[15] - rhs.m[15] };
-		}
+		Matrix4& operator -= (const Matrix4 &rhs);
 
-		Matrix4& operator *= (const Matrix4 &rhs)
-		{
-			return *this = Matrix4{
-				mm[0][0] * rhs.mm[0][0] + mm[0][1] * rhs.mm[1][0] + mm[0][2] * rhs.mm[2][0] + mm[0][3] * rhs.mm[3][0],
-				mm[0][0] * rhs.mm[0][1] + mm[0][1] * rhs.mm[1][1] + mm[0][2] * rhs.mm[2][1] + mm[0][3] * rhs.mm[3][1],
-				mm[0][0] * rhs.mm[0][2] + mm[0][1] * rhs.mm[1][2] + mm[0][2] * rhs.mm[2][2] + mm[0][3] * rhs.mm[3][2],
-				mm[0][0] * rhs.mm[0][3] + mm[0][1] * rhs.mm[1][3] + mm[0][2] * rhs.mm[2][3] + mm[0][3] * rhs.mm[3][3],
+		Matrix4& operator *= (const Matrix4 &rhs);
 
-				mm[1][0] * rhs.mm[0][0] + mm[1][1] * rhs.mm[1][0] + mm[1][2] * rhs.mm[2][0] + mm[1][3] * rhs.mm[3][0],
-				mm[1][0] * rhs.mm[0][1] + mm[1][1] * rhs.mm[1][1] + mm[1][2] * rhs.mm[2][1] + mm[1][3] * rhs.mm[3][1],
-				mm[1][0] * rhs.mm[0][2] + mm[1][1] * rhs.mm[1][2] + mm[1][2] * rhs.mm[2][2] + mm[1][3] * rhs.mm[3][2],
-				mm[1][0] * rhs.mm[0][3] + mm[1][1] * rhs.mm[1][3] + mm[1][2] * rhs.mm[2][3] + mm[1][3] * rhs.mm[3][3],
-
-				mm[2][0] * rhs.mm[0][0] + mm[2][1] * rhs.mm[1][0] + mm[2][2] * rhs.mm[2][0] + mm[2][3] * rhs.mm[3][0],
-				mm[2][0] * rhs.mm[0][1] + mm[2][1] * rhs.mm[1][1] + mm[2][2] * rhs.mm[2][1] + mm[2][3] * rhs.mm[3][1],
-				mm[2][0] * rhs.mm[0][2] + mm[2][1] * rhs.mm[1][2] + mm[2][2] * rhs.mm[2][2] + mm[2][3] * rhs.mm[3][2],
-				mm[2][0] * rhs.mm[0][3] + mm[2][1] * rhs.mm[1][3] + mm[2][2] * rhs.mm[2][3] + mm[2][3] * rhs.mm[3][3],
-
-				mm[3][0] * rhs.mm[0][0] + mm[3][1] * rhs.mm[1][0] + mm[3][2] * rhs.mm[2][0] + mm[3][3] * rhs.mm[3][0],
-				mm[3][0] * rhs.mm[0][1] + mm[3][1] * rhs.mm[1][1] + mm[3][2] * rhs.mm[2][1] + mm[3][3] * rhs.mm[3][1],
-				mm[3][0] * rhs.mm[0][2] + mm[3][1] * rhs.mm[1][2] + mm[3][2] * rhs.mm[2][2] + mm[3][3] * rhs.mm[3][2],
-				mm[3][0] * rhs.mm[0][3] + mm[3][1] * rhs.mm[1][3] + mm[3][2] * rhs.mm[2][3] + mm[3][3] * rhs.mm[3][3]
-
-			};
-		}
-
-		Matrix4& operator *= (const Vector4 &rhs)
-		{
-			return *this *= Matrix4{ rhs.x,0,0,0,
-									 rhs.y,0,0,0,
-									 rhs.z,0,0,0,
-									 rhs.w,0,0,0 };
-		}
+		Vector4& operator *= (const Vector4 &rhs);
 
 
-		Matrix4  operator +  (const Matrix4 &rhs) const
-		{
-			Matrix4 result = *this;
-			result += rhs;
-			return result;
-		}
+		Matrix4  operator +  (const Matrix4 &rhs) const;
 
-		Matrix4  operator -  (const Matrix4 &rhs) const
-		{
-			Matrix4 result = *this;
-			result -= rhs;
-			return result;
-		}
+		Matrix4  operator -  (const Matrix4 &rhs) const;
 
-		Matrix4  operator *  (const Matrix4 &rhs) const
-		{
-			Matrix4 result = *this;
-			result *= rhs;
-			return result;
-		}
+		Matrix4  operator *  (const Matrix4 &rhs) const;
 
-		Matrix4  operator *  (const Vector4 &rhs) const
-		{
-			Matrix4 result = *this;
-			result *= rhs;
-			return result;
-		}
+		Vector4  operator *  (const Vector4 &rhs) const;
 
 
-		bool     operator == (const Matrix4 &rhs) const
-		{
-			return m[0] == rhs.m[0], m[1] == rhs.m[1], m[2] == rhs.m[2], m[3] == rhs.m[3],
-				m[4] == rhs.m[4], m[5] == rhs.m[5], m[6] == rhs.m[6], m[7] == rhs.m[7],
-				m[8] == rhs.m[8], m[9] == rhs.m[9], m[10] == rhs.m[10], m[11] == rhs.m[11],
-				m[12] == rhs.m[12], m[13] == rhs.m[13], m[14] == rhs.m[14], m[15] == rhs.m[15];
-		}
+		bool     operator == (const Matrix4 &rhs) const;
 
 #pragma endregion
 
 	};
 
-#pragma region FunctionHeaders
+#pragma region MatrixFunctionHeaders
 
 	float   determinant(const Matrix4 &a);
 

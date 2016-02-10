@@ -1,10 +1,126 @@
+#include <cassert>
+#include <cfloat>
+#include <cmath>
 #include "Vector4.h"
 
 namespace JTL
 {
+#pragma region BinaryOperators
+
+	Vector4& Vector4::operator+= (const Vector4 &rhs)
+	{
+		return *this = Vector4{ x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w };
+	}
+
+	Vector4& Vector4::operator-= (const Vector4 &rhs)
+	{
+		return *this = Vector4{ x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w };
+	}
+
+	Vector4& Vector4::operator*= (const float   &rhs)
+	{
+		return *this = Vector4{ x * rhs, y * rhs, z * rhs, w * rhs };
+	}
+
+	Vector4& Vector4::operator/= (const float   &rhs)
+	{
+		return *this = Vector4{ x / rhs, y / rhs, z / rhs, w / rhs };
+	}
+
+
+	Vector4  Vector4::operator+  (const Vector4 &rhs) const
+	{
+		Vector4 result = *this;
+		result += rhs;
+		return result;
+	}
+
+	Vector4  Vector4::operator-  (const Vector4 &rhs) const
+	{
+		Vector4 result = *this;
+		result -= rhs;
+		return result;
+	}
+
+	Vector4  Vector4::operator*  (const float   &rhs) const
+	{
+		Vector4 result = *this;
+		result *= rhs;
+		return result;
+	}
+
+	Vector4  Vector4::operator/  (const float   &rhs) const
+	{
+		Vector4 result = *this;
+		result /= rhs;
+		return result;
+	}
+
+
+	bool Vector4::operator==	 (const Vector4 &rhs) const
+	{
+		return (x == rhs.x && y == rhs.y && z == rhs.z && w == rhs.w)
+			|| (rhs < *this + E_VEC4 && *this - E_VEC4 < rhs);
+	}
+
+	bool Vector4::operator!=	 (const Vector4 &rhs) const
+	{
+		return !(*this == rhs);
+	}
+
+	bool Vector4::operator<		 (const Vector4 &rhs) const
+	{
+		return x < rhs.x - FLT_EPSILON
+			&& y < rhs.y - FLT_EPSILON
+			&& z < rhs.z - FLT_EPSILON
+			&& w < rhs.w - FLT_EPSILON;
+	}
+
+	bool Vector4::operator>		 (const Vector4 &rhs) const
+	{
+		return x > rhs.x + FLT_EPSILON
+			&& y > rhs.y + FLT_EPSILON
+			&& z > rhs.z + FLT_EPSILON
+			&& w > rhs.w + FLT_EPSILON;
+	}
+
+	bool Vector4::operator<=	 (const Vector4 &rhs) const
+	{
+		return *this == rhs || *this < rhs;
+	}
+
+	bool Vector4::operator>=	 (const Vector4 &rhs) const
+	{
+		return *this == rhs || *this > rhs;
+	}
+
+#pragma endregion
+
+#pragma region UnaryOperators
+
+	float& Vector4::operator[](unsigned i)		 { return v[i]; };
+
+	float  Vector4::operator[](unsigned i) const { return v[i]; };
+
+
+	Vector4& Vector4::operator-() const
+	{
+		return Vector4{ -x,-y,-z,-w };
+	}
+
+#pragma endregion
+
+#pragma region VectorFunctions
+
+	void Vector4::normalize()
+	{
+		*this = normal(*this);
+	}
+
 	float    dot	(const Vector4 &a  , const Vector4 &b)
 	{
-		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+	
+	return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 	}
 
 	float    mag	(const Vector4 &v)
@@ -75,6 +191,7 @@ namespace JTL
 		return temp;
 	}
 
+#pragma endregion
 
 	void	 DebugV4()
 	{
