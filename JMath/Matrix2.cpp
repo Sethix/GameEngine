@@ -27,12 +27,6 @@ namespace JTL
 								mm[1][0] * rhs.mm[0][1] + mm[1][1] * rhs.mm[1][1] };
 	};
 
-	Vector2& Matrix2::operator *= (const Vector2 &rhs)
-	{
-		return *this *= Vector2{ m[0] * m[1] * rhs.x,
-								 m[2] * m[3] * rhs.y };
-	}
-
 
 	Matrix2  Matrix2::operator +  (const Matrix2 &rhs) const
 	{
@@ -57,9 +51,8 @@ namespace JTL
 
 	Vector2  Matrix2::operator *  (const Vector2 &rhs) const
 	{
-		Matrix2 temp = *this;
-		Vector2 result = temp *= rhs;
-		return result;
+		return Vector2{ m[0] * m[1] * rhs.x,
+						m[2] * m[3] * rhs.y };
 	}
 
 
@@ -75,7 +68,7 @@ namespace JTL
 		return a.m[0] * a.m[3] - a.m[1] * a.m[2];
 	}
 
-	Matrix2 inverse	   (const Matrix2 &a)
+	Matrix2 inverse	    (const Matrix2 &a)
 	{
 		float d = 1 / determinant(a);
 		return{ a.m[0] * d ,a.m[1] * d ,a.m[2] * d ,a.m[3] * d };
@@ -89,6 +82,9 @@ namespace JTL
 
 	void    DebugM2()
 	{
+
+#pragma region Matrix2Asserts
+
 		assert((ID_MAT2 * ID_MAT2) == ID_MAT2);
 
 		assert(determinant(ID_MAT2) == 1);
@@ -96,5 +92,8 @@ namespace JTL
 		assert(inverse(ID_MAT2) == ID_MAT2);
 
 		assert(transpose(ID_MAT2) == ID_MAT2);
+
+#pragma endregion
+
 	}
 }

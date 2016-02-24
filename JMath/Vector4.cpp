@@ -103,7 +103,7 @@ namespace JTL
 	float  Vector4::operator[](unsigned i) const { return v[i]; };
 
 
-	Vector4& Vector4::operator-() const
+	Vector4  Vector4::operator-() const
 	{
 		return Vector4{ -x,-y,-z,-w };
 	}

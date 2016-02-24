@@ -21,15 +21,12 @@ namespace JTL
 
 	void Transform::setParent(Transform *a_parent)
 	{
-		// If we have a parent, we need to be set free!
 		if (e_parent)
 			e_parent->e_children.remove(this);
 
-		// If the new parent isn't null, then adopt us!
 		if (a_parent)
 			a_parent->e_children.push_front(this);
 
-		// Then set the parent
 		e_parent = a_parent;
 	}
 

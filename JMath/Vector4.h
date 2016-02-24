@@ -168,7 +168,7 @@ namespace JTL
 		float  operator[](unsigned i) const;
 
 
-		Vector4& operator-() const;
+		Vector4  operator-() const;
 
 #pragma endregion
 

@@ -7,8 +7,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathLibrary", "Workspace\Wo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{A86FA52D-5EAE-4561-B416-1B7A9B5FE5B9}"
 	ProjectSection(ProjectDependencies) = postProject
+		{B3246F88-6026-4A60-9E0E-7CE83AB637DB} = {B3246F88-6026-4A60-9E0E-7CE83AB637DB}
 		{49406B99-439A-41A9-A453-2108CECC0FFE} = {49406B99-439A-41A9-A453-2108CECC0FFE}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine", "GameEngine\GameEngine.vcxproj", "{B3246F88-6026-4A60-9E0E-7CE83AB637DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +37,14 @@ Global
 		{A86FA52D-5EAE-4561-B416-1B7A9B5FE5B9}.Release|x64.Build.0 = Release|x64
 		{A86FA52D-5EAE-4561-B416-1B7A9B5FE5B9}.Release|x86.ActiveCfg = Release|Win32
 		{A86FA52D-5EAE-4561-B416-1B7A9B5FE5B9}.Release|x86.Build.0 = Release|Win32
+		{B3246F88-6026-4A60-9E0E-7CE83AB637DB}.Debug|x64.ActiveCfg = Debug|x64
+		{B3246F88-6026-4A60-9E0E-7CE83AB637DB}.Debug|x64.Build.0 = Debug|x64
+		{B3246F88-6026-4A60-9E0E-7CE83AB637DB}.Debug|x86.ActiveCfg = Debug|Win32
+		{B3246F88-6026-4A60-9E0E-7CE83AB637DB}.Debug|x86.Build.0 = Debug|Win32
+		{B3246F88-6026-4A60-9E0E-7CE83AB637DB}.Release|x64.ActiveCfg = Release|x64
+		{B3246F88-6026-4A60-9E0E-7CE83AB637DB}.Release|x64.Build.0 = Release|x64
+		{B3246F88-6026-4A60-9E0E-7CE83AB637DB}.Release|x86.ActiveCfg = Release|Win32
+		{B3246F88-6026-4A60-9E0E-7CE83AB637DB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

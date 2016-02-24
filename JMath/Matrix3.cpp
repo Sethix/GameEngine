@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cmath>
 #include "Matrix3.h"
 #include "Vector2.h"
 #include "Vector3.h"
@@ -39,15 +40,6 @@ namespace JTL
 			mm[2][0] * rhs.mm[0][2] + mm[2][1] * rhs.mm[1][2] + mm[2][2] * rhs.mm[2][2] };
 	}
 
-	Vector3& Matrix3::operator *= (const Vector3 &rhs)
-	{
-		return Vector3{
-			m[0] * m[1] * m[2] * rhs.x,
-			m[3] * m[4] * m[5] * rhs.y,
-			m[6] * m[7] * m[8] * rhs.z
-		};
-	}
-
 
 	Matrix3  Matrix3::operator +  (const Matrix3 &rhs) const
 	{
@@ -72,9 +64,11 @@ namespace JTL
 
 	Vector3  Matrix3::operator *  (const Vector3 &rhs) const
 	{
-		Matrix3 temp = *this;
-		Vector3 result = temp *= rhs;
-		return result;
+		return Vector3{
+			m[0] * m[1] * m[2] * rhs.x,
+			m[3] * m[4] * m[5] * rhs.y,
+			m[6] * m[7] * m[8] * rhs.z
+		};
 	}
 
 

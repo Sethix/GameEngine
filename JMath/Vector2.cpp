@@ -17,6 +17,16 @@ namespace JTL
 		return *this = Vector2{ x - rhs.x, y - rhs.y };
 	}
 
+	Vector2& Vector2::operator*= (const Vector2 &rhs)
+	{
+		return *this = Vector2{ x * rhs.x, y * rhs.y };
+	}
+
+	Vector2& Vector2::operator/= (const Vector2 &rhs)
+	{
+		return *this = Vector2{ x / rhs.x, y / rhs.y };
+	}
+
 	Vector2& Vector2::operator*= (const float   &rhs)
 	{
 		return *this = Vector2{ x * rhs, y * rhs };
@@ -39,6 +49,20 @@ namespace JTL
 	{
 		Vector2 result = *this;
 		result -= rhs;
+		return result;
+	}
+
+	Vector2  Vector2::operator*  (const Vector2 &rhs) const
+	{
+		Vector2 result = *this;
+		result *= rhs;
+		return result;
+	}
+
+	Vector2  Vector2::operator/  (const Vector2 &rhs) const
+	{
+		Vector2 result = *this;
+		result /= rhs;
 		return result;
 	}
 
@@ -99,7 +123,7 @@ namespace JTL
 	float    Vector2::operator[](unsigned idx) const { return v[idx]; }
 
 
-	Vector2& Vector2::operator-() const
+	Vector2  Vector2::operator-() const
 	{
 		return Vector2{ -x,-y };
 	}
@@ -184,7 +208,7 @@ namespace JTL
 		return temp;
 	}
 
-	Vector2  perp		(Vector2 &a)
+	Vector2  perp		(const Vector2 &a)
 	{
 		return{ -a.y, a.x };
 	}

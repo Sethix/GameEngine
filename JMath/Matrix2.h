@@ -1,9 +1,9 @@
 /******************************************************
 
------------------------Matrix3.h-----------------------
+-----------------------Matrix2.h-----------------------
 
 	Purpose -
-		Contains an array of numbers in a 3X3 grid.
+		Contains an array of numbers in a 2X2 grid.
 
 
 
@@ -11,19 +11,19 @@
 		Capable of the following,
 
 
-		* Addition between matrices
-
+		* Addition between matrices			
+			
 			(+, +=)
 
-		* Subtraction between matrices
-
+		* Subtraction between matrices		
+		
 			(-, -=)
 
-		* Multiplication between matrices
-
+		* Multiplication between matrices	
+		
 			(*, *=)
 
-		* Multiplication between matrix and vector 3
+		* Multiplication between matrix and vector 2
 
 			(*, *=)
 
@@ -31,37 +31,21 @@
 
 			(==)
 
-		* Call row by vector 3 using subscript
+		* Calculate the determinant of a matrix 2
 
-			([])
+			(float determinant(Matrix2))
 
-		* Calculate the determinant of a matrix 3
+		* Calculate the inverse of a matrix 2
 
-			(float determinant(Matrix3))
+			(Matrix2 inverse(Matrix2))
 
-		* Calculate the inverse of a matrix 3
+		* Transpose matrix 2 to diagonally flip the values
 
-			(Matrix3 inverse(Matrix3))
-
-		* Transpose matrix 3 to diagonally flip the values
-
-			(Matrix3 transpose(Matrix3))
+			(Matrix2 transpose(Matrix2))
 
 		* Run test cases to make sure all functions work
 
-			(void DebugM3())
-
-		* Rotate using a float value
-
-			(Matrix3 rotate(float))
-
-		* Scale using a vector 2 value
-
-			(Matrix3 scale(Vector2))
-
-		* Translate using a vector 2 value
-
-			(Matrix3 translate(Vector2))
+			(void DebugM2())
 
 
 
@@ -105,61 +89,41 @@
 
 #pragma once
 
-#define ID_MAT3 Matrix3{ 1,0,0,0,1,0,0,0,1 }
+#include "Vector2.h"
+
+#define ID_MAT2 Matrix2{ 1,0,0,1}
 
 
 namespace JTL
 {
 
-	struct Vector2;
-	struct Vector3;
-
-	__declspec(align(16)) struct Matrix3
+	__declspec(align(32)) struct Matrix2
 	{
 		union
 		{
-			float m[9], mm[3][3];
+			float m[4], mm[2][2];
+			Vector2 c[2];
 		};
 
 #pragma region BinaryOperators
 
-		Matrix3& operator += (const Matrix3 &rhs);
+		Matrix2& operator += (const Matrix2 &rhs);
 
-		Matrix3& operator -= (const Matrix3 &rhs);
+		Matrix2& operator -= (const Matrix2 &rhs);
 
-		Matrix3& operator *= (const Matrix3 &rhs);
-
-		Vector3& operator *= (const Vector3 &rhs);
+		Matrix2& operator *= (const Matrix2 &rhs);
 
 
-		Matrix3  operator +  (const Matrix3 &rhs) const;
+		Matrix2  operator +  (const Matrix2 &rhs) const;
 
-		Matrix3  operator -  (const Matrix3 &rhs) const;
+		Matrix2  operator -  (const Matrix2 &rhs) const;
 
-		Matrix3  operator *  (const Matrix3 &rhs) const;
+		Matrix2  operator *  (const Matrix2 &rhs) const;
 
-		Vector3  operator *  (const Vector3 &rhs) const;
+		Vector2  operator *  (const Vector2 &rhs) const;
 
 
-		bool     operator == (const Matrix3 &rhs) const;
-
-#pragma endregion
-
-#pragma region UnaryOperators
-
-		Vector3  operator[](unsigned i) const;
-
-		Vector3 &operator[](unsigned i);
-
-#pragma endregion
-
-#pragma region TransformationFunctionality
-
-		static Matrix3 rotate(const float &angle);
-
-		static Matrix3 scale(const Vector2 &s);
-
-		static Matrix3 translate(const Vector2 &t);
+		bool     operator == (const Matrix2 &rhs) const;
 
 #pragma endregion
 
@@ -167,11 +131,13 @@ namespace JTL
 
 #pragma region MatrixFunctionHeaders
 
-		float    determinant	(const Matrix3 &a);
+		inline float   determinant (const Matrix2 &a);
 
-		Matrix3  inverse	    (const Matrix3 &a);
+		inline Matrix2 inverse     (const Matrix2 &a);
 
-		Matrix3  transpose		(const Matrix3 &a);
+		inline Matrix2 transpose   (const Matrix2 &a);
+
+		inline void	   DebugM2     ();
 
 #pragma endregion
 

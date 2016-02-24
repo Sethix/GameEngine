@@ -101,7 +101,7 @@ namespace JTL
 	float   Vector3::operator[](unsigned i) const { return v[i]; }
 
 
-	Vector3& Vector3::operator-() const
+	Vector3  Vector3::operator-() const
 	{
 		return Vector3{ -x,-y,-z };
 	}

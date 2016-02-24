@@ -23,11 +23,13 @@ namespace JTL
 	void Rigidbody::integrate(Transform *t, float dt)
 	{
 
-		jerk = force / mass - acceleration; // Jerk is optional!
-		acceleration = acceleration + jerk * dt; // acceleration = force/mass;
+		jerk = force / mass - acceleration;
+		acceleration = acceleration + jerk * dt;
 		angularAcceleration = torque / mass * dt;
+
 		velocity = velocity + acceleration * dt;
 		angularVelocity = angularVelocity + angularAcceleration * dt;
+
 		t->setPosition(t->getPosition() + velocity * dt);
 		t->setAngle(t->getAngle() + angularVelocity * dt);
 

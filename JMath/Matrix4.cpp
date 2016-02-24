@@ -1,3 +1,4 @@
+#include <cassert>
 #include "Matrix3.h"
 #include "Matrix4.h"
 #include "Vector4.h"
@@ -50,14 +51,6 @@ namespace JTL
 		};
 	}
 
-	Vector4& Matrix4::operator *= (const Vector4 &rhs)
-	{
-		return *this *= Vector4{ m[0]  * m[1]  * m[2]  * m[3]  * rhs.x,
-							 	 m[4]  * m[5]  * m[6]  * m[7]  * rhs.y,
-								 m[8]  * m[9]  * m[10] * m[11] * rhs.z,
-								 m[12] * m[13] * m[14] * m[15] * rhs.w,};
-	}
-
 
 	Matrix4  Matrix4::operator +  (const Matrix4 &rhs) const
 	{
@@ -82,9 +75,10 @@ namespace JTL
 
 	Vector4  Matrix4::operator *  (const Vector4 &rhs) const
 	{
-		Matrix4 temp = *this;
-		Vector4 result = temp *= rhs;
-		return result;
+		return Vector4{ m[0] * m[1] * m[2] * m[3] * rhs.x,
+			m[4] * m[5] * m[6] * m[7] * rhs.y,
+			m[8] * m[9] * m[10] * m[11] * rhs.z,
+			m[12] * m[13] * m[14] * m[15] * rhs.w, };
 	}
 
 

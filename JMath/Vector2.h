@@ -1,9 +1,9 @@
 /******************************************************
 
------------------------Vector3.h-----------------------
+-----------------------Vector2.h-----------------------
 
 	Purpose -
-		Contains three floating point values.
+		Contains two floating point values.
 
 
 
@@ -33,47 +33,55 @@
 
 		* Calculate the dot product of two vectors
 
-			(float dot(Vector3, Vector3))
+			(float dot(Vector2, Vector2))
 
 		* Calculate the length of a vector
 
-			(float mag(Vector3))
+			(float mag(Vector2))
 
-		* Calculate the cross product between vectors
+		* Convert from a vector to an angle
 
-			(Vector3 cross(Vector3, Vector3)
+			(float toAngle(Vector2))
+
+		* Convert from an angle to a vector
+
+			(Vector2 fromAngle(float))
 
 		* Calculate the normal of a vector
 
-			(Vector3 normal(Vector3))
+			(Vector2 normal(Vector2))
 
 		* Set the a vector to it's normal
 
-			(Vector3 normalize())
+			(Vector2 normalize())
 
 		* Interpolate between two vectors using a value from 0-1
 
-			(Vector3 lerp(Vector3(0), Vector3(1), float))
+			(Vector2 lerp(Vector2(0), Vector2(1), float))
 
 		* Clamp a vector inside a minimum and maximum point
 
-			(Vector3 clamp(Vector3(A), Vector3(MIN), Vector3(MAX));
+			(Vector2 clamp(Vector2(A), Vector2(MIN), Vector2(MAX));
 
 		* Grab the minimum values from an array of vectors
 
-			(Vector3 min(Vector3*, size_t))
+			(Vector2 min(Vector2*, size_t))
 
 		* Grab the maximum values from an array of vectors
 
-			(Vector3 max(Vector3*, size_t))
+			(Vector2 max(Vector2*, size_t))
+
+		* Calculate the perpendicular of a vector
+
+			(Vector2 perp(Vector2))
 
 		* Calculate physcal reflection off of a normalized surface
 
-			(Vector3 reflect(Vector3 incident, Vector3 normal))
+			(Vector2 reflect(Vector2 incident, Vector2 normal))
 
 		* Run test cases to make sure all functions work
 
-			(void DebugV3())
+			(void DebugV2())
 
 
 
@@ -92,7 +100,7 @@
 	License -
 		The MIT License (MIT)
 
-			Copyright (c) [2016] [Justin T Hamm]
+Copyright (c) [2016] [Justin T Hamm]
 
 			Permission is hereby granted, free of charge, to any person obtaining a copy
 			of this software and associated documentation files (the "Software"), to deal
@@ -117,65 +125,70 @@
 
 #pragma once
 
-#include "Vector2.h"
-
-#define E_VEC3 Vector3{FLT_EPSILON, FLT_EPSILON, FLT_EPSILON}
+#define E_VEC2 Vector2{FLT_EPSILON, FLT_EPSILON}
 
 
 namespace JTL
 {
 
-	__declspec(align(16)) struct Vector3
+    __declspec(align(32)) struct Vector2
 	{
 		union
 		{
-			float v[3];
-			struct { float x, y, z; };
-			Vector2 xy;
+			float v[2];
+			struct { float x, y; };
 		};
 
 #pragma region BinaryOperators
 
-		Vector3& operator+= (const Vector3 &rhs);
+		Vector2& operator+= (const Vector2 &rhs);
+		
+		Vector2& operator-= (const Vector2 &rhs);
 
-		Vector3& operator-= (const Vector3 &rhs);
+		Vector2& operator*= (const Vector2 &rhs);
 
-		Vector3& operator*= (const float   &rhs);
+		Vector2& operator/= (const Vector2 &rhs);
 
-		Vector3& operator/= (const float   &rhs);
+		Vector2& operator*= (const float   &rhs);
 
-
-		Vector3  operator+  (const Vector3 &rhs) const;
-
-		Vector3  operator-  (const Vector3 &rhs) const;
-
-		Vector3  operator*  (const float   &rhs) const;
-
-		Vector3  operator/  (const float   &rhs) const;
+		Vector2& operator/= (const float   &rhs);
 
 
-		bool operator==     (const Vector3 &rhs) const;
+		Vector2  operator+  (const Vector2 &rhs) const;
 
-		bool operator!=		(const Vector3 &rhs) const;
+		Vector2  operator-  (const Vector2 &rhs) const;
 
-		bool operator<		(const Vector3 &rhs) const;
+		Vector2  operator*  (const Vector2 &rhs) const;
 
-		bool operator>		(const Vector3 &rhs) const;
+		Vector2  operator/  (const Vector2 &rhs) const;
 
-		bool operator<=		(const Vector3 &rhs) const;
+		Vector2  operator*  (const float   &rhs) const;
 
-		bool operator>=		(const Vector3 &rhs) const;
+		Vector2  operator/  (const float   &rhs) const;
+
+
+		bool operator==     (const Vector2 &rhs) const;
+
+		bool operator!=     (const Vector2 &rhs) const;
+
+		bool operator<      (const Vector2 &rhs) const;
+
+		bool operator>      (const Vector2 &rhs) const;
+
+		bool operator<=     (const Vector2 &rhs) const;
+
+		bool operator>=     (const Vector2 &rhs) const;
 
 #pragma endregion
 
 #pragma region UnaryOperators
 
-		float &operator[](unsigned i);
+		float &operator[](unsigned idx);
 
-		float  operator[](unsigned i) const;
+		float  operator[](unsigned idx) const;
 
 
-		Vector3& operator-() const;
+		Vector2  operator-() const;
 
 #pragma endregion
 
@@ -185,23 +198,27 @@ namespace JTL
 
 #pragma region VectorFunctionHeaders
 
-		float    dot    (const Vector3 &a, const Vector3 &b);
+	float    dot(const Vector2 &a, const Vector2 &b);
 
-		float    mag    (const Vector3 &v);
+	float    mag(const Vector2 &v);
 
-		Vector3  normal (const Vector3 &v);
+	float    toAngle(const Vector2 &v);
 
-		Vector3  cross  (const Vector3 &a, const Vector3 &b);
+	Vector2  fromAngle(const float &a);
 
-		Vector3  lerp   (const Vector3 &a, const Vector3 &b, const float &alpha);
+	Vector2  normal(const Vector2 &v);
 
-		Vector3  clamp  (const Vector3 &a, const Vector3 &min, const Vector3 &max);
+	Vector2  lerp(const Vector2 &a, const Vector2 &b, const float &alpha);
 
-		Vector3  min    (const Vector3 *pts, size_t n);
+	Vector2  clamp(const Vector2 &a, const Vector2 &min, const Vector2 &max);
 
-		Vector3  max    (const Vector3 *pts, size_t n);
+	Vector2  min(const Vector2 *pts, size_t n);
 
-		Vector3  reflect(const Vector3 &incident, const Vector3 &normal);
+	Vector2  max(const Vector2 *pts, size_t n);
+
+	Vector2  perp(const Vector2 &a);
+
+	Vector2  reflect(const Vector2 &incident, const Vector2 &normal);
 
 #pragma endregion
 
