@@ -140,7 +140,7 @@ namespace JTL
 
 	Matrix4 transpose(const Matrix4 &a);
 
-	Matrix4 matrix3To4(const Matrix3 &a);
+	//Matrix4 matrix3To4(const Matrix3 &a);
 
 #pragma endregion
 

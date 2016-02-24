@@ -71,7 +71,6 @@ namespace JTL
 
 			if (pdepth < 0)
 			{
-				cd.penDepth = 0;
 				return cd;
 			}
 		}
@@ -133,7 +132,6 @@ namespace JTL
 
 			if (pdepth < 0)
 			{
-				cd.penDepth = 0;
 				return cd;
 			}
 		}
@@ -181,7 +179,6 @@ namespace JTL
 
 			if (pdepth < 0) 
 			{ 
-				cd.penDepth = 0;
 				return cd;
 			}
 		}
@@ -195,39 +192,25 @@ namespace JTL
 		
 		CollisionData cd{ INFINITY };
 
-		Vector2 axis = perp(b.normal);
+		Vector2 axis = b.normal;
 
 		float amin = INFINITY;
-		float bmin = INFINITY;
 		float amax = -INFINITY;
-		float bmax = -INFINITY;
 
 		cd.collisionNormal = axis;
 
 		for (size_t j = 0; j < a.size; ++j)
 		{
-			float pp = JTL::dot(axis, a.verts[j]);
+			float pp = JTL::dot(axis, b.position-a.verts[j]);
 
 			amin = fminf(pp, amin);
 			amax = fmaxf(pp, amax);
 		}
 
-
-		float pp = JTL::dot(axis, b.position);
-
-		bmin = fminf(pp, bmin);
-		bmax = fmaxf(pp, bmax);
-
-		float pdepth = fminf(amax - bmin, bmax - amin);
+		float pdepth = fminf(amax, amin);
 
 		if (pdepth < cd.penDepth)
 			cd = { pdepth, axis };
-
-		if (pdepth < 0)
-		{
-			cd.penDepth = 0;
-			return cd;
-		}
 
 		return cd;
 
@@ -244,8 +227,8 @@ namespace JTL
 			axes.push_back(perp(normal(a.verts[i] - a.verts[(i + 1) % a.size])));
 
 
-		float tmin = 0,  //"Entering" scalar for the ray
-			tmax = 1;  //"Leaving"  scalar for the ray            
+		float tmin = mag(b.position),  //"Entering" scalar for the ray
+			tmax = mag(b.position) + mag(b.direction * b.length);  //"Leaving"  scalar for the ray            
 
 		Vector2 cnormal;
 
@@ -262,7 +245,7 @@ namespace JTL
 				cnormal = axes[i];
 				cd = {(tmax - tmin) * b.length, axes[i]};
 			}
-			else    tmax = fminf(tmax, t);
+			else tmax = fminf(tmax, t);
 
 			if (tmin > tmax) 
 			{

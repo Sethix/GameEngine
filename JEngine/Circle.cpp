@@ -177,8 +177,8 @@ namespace JTL
 		assert(!iTest(cc, cr));
 
 		//CIRCLE VS CONVEX2D
-		assert(iTest_data(chull, ac).penDepth != 0);
-		assert(iTest_data(chull, bc).penDepth == 0);
-		assert(iTest_data(chull, cc).penDepth != 0);
+		assert(iTest_data(chull, ac).penDepth  > 0);
+		assert(iTest_data(chull, bc).penDepth <= 0);
+		assert(iTest_data(chull, cc).penDepth  > 0);
 	}
 }

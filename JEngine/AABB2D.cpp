@@ -269,9 +269,9 @@ namespace JTL
 		assert(!iTest(cb, cr));
 
 		//AABB VS CONVEX2D
-		assert(iTest_data(chull, ab).penDepth == 0);
-		assert(iTest_data(chull, bb).penDepth != 0);
-		assert(iTest_data(chull, cb).penDepth == 0);
+		assert(iTest_data(chull, ab).penDepth <= 0);
+		assert(iTest_data(chull, bb).penDepth  > 0);
+		assert(iTest_data(chull, cb).penDepth <= 0);
 	}
 
 }
