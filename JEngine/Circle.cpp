@@ -1,3 +1,4 @@
+#include <cassert>
 #include <algorithm>
 #include "Circle.h"
 #include "JMath.h"
@@ -46,7 +47,7 @@ namespace JTL
 	bool	iTest(const Circle &ac, const Ray2D &bc)
 	{
 		Vector2 pc = bc.position + bc.direction * fclamp(dot((ac.position - bc.position), bc.direction), 0, bc.length);
-		return dot(pc - bc.position, pc - bc.position)
+		return dot(ac.position - pc, ac.position - pc)
 			<=  (ac.radius * ac.radius);
 	}
 
@@ -103,10 +104,81 @@ namespace JTL
 
 	void DebugCircle()
 	{
+#pragma region TestShapes
 
+		AABB2D ab(Vector2{ 10 , 10 }, Vector2{ 20 , 20 });
+		AABB2D bb(Vector2{ 15 , 15 }, Vector2{ 25 , 25 });
+		AABB2D cb(Vector2{ 25 , 25 }, Vector2{ 35 , 35 });
 
-		/*assert(!iTest(ac, cc));
+		Circle ac{ Vector2{ 20, 20 }, 5 };
+		Circle bc{ Vector2{ 10  , 10 }, 8 };
+		Circle cc{ Vector2{ 25 , 25 }, 5 };
+
+		Plane ap{ Vector2{ 15 ,15 } , Vector2{ 0 ,1 } };
+		Plane bp{ Vector2{ 15 ,15 } , Vector2{ 1 ,0 } };
+		Plane cp{ Vector2{ 0  ,0 } , Vector2{ 0 ,1 } };
+
+		Ray2D ar{ Vector2{ 0,0 }, normal(Vector2{ 0.5,0.5 }), 50 };
+		Ray2D br{ Vector2{ 14.9f,1 }, Vector2{ 0,1 }, 50 };
+		Ray2D cr{ Vector2{ 1,13 }, Vector2{ 1,0 }, 50 };
+
+		ConvexHull2D chull;
+
+		chull.size = 4;
+		chull.verts[0] = Vector2{ 20,22 };
+		chull.verts[1] = Vector2{ 23,18 };
+		chull.verts[2] = Vector2{ 26,22 };
+		chull.verts[3] = Vector2{ 23,28 };
+
+#pragma endregion
+
+		//CIRCLE VS CIRCLE
 		assert(!iTest(ac, bc));
-		assert(!iTest(bc, cc));*/
+		assert( iTest(ac, cc));
+		assert(!iTest(bc, cc));
+
+		//CIRCLE VS AABB
+		assert( iTest(ab, ac));
+		assert( iTest(ab, bc));
+		assert(!iTest(ab, cc));
+
+		assert( iTest(bb, ac));
+		assert( iTest(bb, bc));
+		assert( iTest(bb, cc));
+
+		assert(!iTest(cb, ac));
+		assert(!iTest(cb, bc));
+		assert( iTest(cb, cc));
+
+		//CIRCLE VS PLANE
+		assert( iTest(ac, ap));
+		assert( iTest(ac, bp));
+		assert(!iTest(ac, cp));
+
+		assert( iTest(bc, ap));
+		assert( iTest(bc, bp));
+		assert(!iTest(bc, cp));
+
+		assert(!iTest(cc, ap));
+		assert(!iTest(cc, bp));
+		assert(!iTest(cc, cp));
+
+		//CIRCLE VS RAY2D
+		assert( iTest(ac, ar));
+		assert(!iTest(ac, br));
+		assert(!iTest(ac, cr));
+
+		assert( iTest(bc, ar));
+		assert( iTest(bc, br));
+		assert( iTest(bc, cr));
+
+		assert( iTest(cc, ar));
+		assert(!iTest(cc, br));
+		assert(!iTest(cc, cr));
+
+		//CIRCLE VS CONVEX2D
+		assert(iTest_data(chull, ac).penDepth != 0);
+		assert(iTest_data(chull, bc).penDepth == 0);
+		assert(iTest_data(chull, cc).penDepth != 0);
 	}
 }
