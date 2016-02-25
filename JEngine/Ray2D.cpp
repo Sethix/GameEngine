@@ -18,7 +18,7 @@ namespace JTL
 		Vector3 nr = { a.direction.x  , a.direction.y  , 0 };
 		np = (m * np);
 		nr = (m * nr);
-		return Ray2D{ np.xy, normal(nr.xy), a.length };
+		return Ray2D{ np.xy, normal(nr.xy), a.length * (mag(np.xy) - mag(a.position)) };
 	}
 
 #pragma region ShapeFunctions
@@ -79,13 +79,20 @@ namespace JTL
 		Ray2D br{ Vector2{ 14.9f,1 }, Vector2{ 0,1 }, 50 };
 		Ray2D cr{ Vector2{ 1,13 }, Vector2{ 1,0 }, 50 };
 
-		ConvexHull2D chull;
+		ConvexHull2D achull, bchull;
 
-		chull.size = 4;
-		chull.verts[0] = Vector2{ 20,22 };
-		chull.verts[1] = Vector2{ 23,18 };
-		chull.verts[2] = Vector2{ 26,22 };
-		chull.verts[3] = Vector2{ 23,28 };
+		achull.size = 4;
+		achull.verts[0] = Vector2{ 26,22 };
+		achull.verts[1] = Vector2{ 23,28 };
+		achull.verts[2] = Vector2{ 20,22 };
+		achull.verts[3] = Vector2{ 23,18 };
+
+		bchull.size = 3;
+		bchull.verts[0] = Vector2{ 30,10 };
+		bchull.verts[1] = Vector2{ 20,20 };
+		bchull.verts[2] = Vector2{ 12,10 };
+
+		
 
 #pragma endregion
 
@@ -129,8 +136,12 @@ namespace JTL
 		assert(!iTest(cp, cr));
 
 		//RAY2D VS CONVEX2D
-		assert(iTest_data(chull, ar).penDepth  > 0);
-		assert(iTest_data(chull, br).penDepth  > 0);
-		assert(iTest_data(chull, cr).penDepth <= 0);
+		assert(iTest_data(achull, ar).penDepth  > 0);
+		assert(iTest_data(achull, br).penDepth <= 0);
+		assert(iTest_data(achull, cr).penDepth <= 0);
+
+		assert(iTest_data(bchull, ar).penDepth <= 0);
+		assert(iTest_data(bchull, br).penDepth  > 0);
+		assert(iTest_data(bchull, cr).penDepth  > 0);
 	}
 }

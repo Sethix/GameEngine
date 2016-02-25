@@ -227,31 +227,34 @@ namespace JTL
 			axes.push_back(perp(normal(a.verts[i] - a.verts[(i + 1) % a.size])));
 
 
-		float tmin = mag(b.position),  //"Entering" scalar for the ray
-			tmax = mag(b.position) + mag(b.direction * b.length);  //"Leaving"  scalar for the ray            
+		float tmin = 0,  //"Entering" scalar for the ray
+			tmax = 1;  //"Leaving"  scalar for the ray            
 
 		Vector2 cnormal;
+		float tpmin;
 
 		for (int i = 0; i < axes.size(); ++i)
 		{
-			float N = dot(axes[i], b.position - a.verts[i]);
-			float D = -dot(axes[i], b.direction);
+			float N = -dot(axes[i], b.position - a.verts[i]);
+			float D = dot(axes[i], b.direction);
+
+			if (fabs(D) < FLT_EPSILON)
+			{
+				if (N < 0) return cd = { 0 };
+				else continue;
+			}
 
 			float t = N / D;
 
 			if (D < 0 && t > tmin)
 			{
-				tmin = fmaxf(tmin, t);
+				tmin = t;
 				cnormal = axes[i];
-				cd = {(tmax - tmin) * b.length, axes[i]};
+				cd = { (mag(b.direction * b.length)) - tmin, axes[i] };
 			}
-			else tmax = fminf(tmax, t);
+			else    tmax = t;
 
-			if (tmin > tmax) 
-			{
-				cd.penDepth = 0;
-				return cd;
-			}
+			if (tmin > tmax) return cd = { 0 };
 		}
 		return cd;
 	}
