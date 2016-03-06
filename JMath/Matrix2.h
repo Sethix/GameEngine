@@ -88,11 +88,9 @@
 *******************************************************/
 
 #pragma once
-
 #include "Vector2.h"
 
 #define ID_MAT2 Matrix2{ 1,0,0,1}
-
 
 namespace JTL
 {

@@ -1,6 +1,7 @@
 #include <cassert>
 #include <cfloat>
 #include <cmath>
+#include "JMath.h"
 #include "Vector2.h"
 
 namespace JTL
@@ -173,11 +174,8 @@ namespace JTL
 	{
 		Vector2 r = a;
 
-		if (a.x < min.x) r.x = min.x;
-		else if (a.x > max.x) r.x = max.x;
-
-		if (a.y < min.y) r.y = min.y;
-		else if (a.y > max.y) r.y = max.y;
+		r.x = fclamp(a.x, min.x, max.x);
+		r.y = fclamp(a.y, min.y, max.y);
 
 		return r;
 	}
@@ -220,7 +218,7 @@ namespace JTL
 
 #pragma endregion
 
-	void	 DebugV2()
+	void DebugV2()
 	{
 
 		Vector2 a{ 1, 1 };

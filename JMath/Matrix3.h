@@ -107,7 +107,6 @@
 
 #define ID_MAT3 Matrix3{ 1,0,0,0,1,0,0,0,1 }
 
-
 namespace JTL
 {
 

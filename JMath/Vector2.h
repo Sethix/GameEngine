@@ -127,7 +127,6 @@ Copyright (c) [2016] [Justin T Hamm]
 
 #define E_VEC2 Vector2{FLT_EPSILON, FLT_EPSILON}
 
-
 namespace JTL
 {
 

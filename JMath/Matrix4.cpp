@@ -183,7 +183,7 @@ namespace JTL
 	}
 
 
-	void	   DebugM4()
+	void	DebugM4()
 	{
 		assert((ID_MAT4 * ID_MAT4) == ID_MAT4);
 

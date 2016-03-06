@@ -193,7 +193,7 @@ namespace JTL
 
 #pragma endregion
 
-	void	 DebugV4()
+	void DebugV4()
 	{
 
 		Vector4 a{ 1, 1, 1, 1 };

@@ -83,8 +83,6 @@ namespace JTL
 	void    DebugM2()
 	{
 
-#pragma region Matrix2Asserts
-
 		assert((ID_MAT2 * ID_MAT2) == ID_MAT2);
 
 		assert(determinant(ID_MAT2) == 1);
@@ -92,8 +90,6 @@ namespace JTL
 		assert(inverse(ID_MAT2) == ID_MAT2);
 
 		assert(transpose(ID_MAT2) == ID_MAT2);
-
-#pragma endregion
 
 	}
 }

@@ -4,7 +4,7 @@ namespace JTL
 {
 
 	Transform::Transform()
-		: e_parent(nullptr),
+		: parent(nullptr),
 		scale({ 1,1 }),
 		position({ 0,0 }),
 		angle(0) { }
@@ -12,31 +12,31 @@ namespace JTL
 
 	Transform::~Transform()
 	{
-		auto t = e_children;
+		auto t = children;
 		for each(Transform *child in t)
-			child->setParent(e_parent);
+			child->setParent(parent);
 
 		setParent(nullptr);
 	}
 
 	void Transform::setParent(Transform *a_parent)
 	{
-		if (e_parent)
-			e_parent->e_children.remove(this);
+		if (parent)
+			parent->children.remove(this);
 
 		if (a_parent)
-			a_parent->e_children.push_front(this);
+			a_parent->children.push_front(this);
 
-		e_parent = a_parent;
+		parent = a_parent;
 	}
 
 	Matrix3 Transform::getGlobalTransform() const
 	{
 		return
-			Matrix3::rotate(angle)
+			Matrix3::translate(position)
+			* Matrix3::rotate(angle)
 			* Matrix3::scale(scale)
-			* Matrix3::translate(position)
-			* (e_parent ? e_parent->getGlobalTransform()
+			* (parent ? parent->getGlobalTransform()
 				: ID_MAT3);
 	}
 

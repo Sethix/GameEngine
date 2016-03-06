@@ -6,7 +6,7 @@
 #include "Matrix3.h"
 #include "AABB2D.h"
 #include "Circle.h"
-#include "Plane.h"
+#include "Plane2D.h"
 #include "Ray2D.h"
 
 
@@ -15,13 +15,12 @@ namespace JTL
 
 	ConvexHull2D operator*(const Matrix3 &m, const ConvexHull2D &a)
 	{
-		ConvexHull2D r;
+		ConvexHull2D r = a;
 		r.size = a.size;
 
 		for (int i = 0; i < a.size; ++i)
-		{
-			r.verts[i] = (m * Vector3{ a.verts[i].x, a.verts[i].x, 0 }).xy;
-		}
+			r.verts[i] = (m * Vector3{ a.verts[i].x, a.verts[i].y, 1 }).xy;
+
 		return r;
 	}
 
@@ -187,7 +186,7 @@ namespace JTL
 
 	}
 
-	CollisionData iTest_data(const ConvexHull2D &a, const Plane &b)
+	CollisionData iTest_data(const ConvexHull2D &a, const Plane2D &b)
 	{
 		
 		CollisionData cd{ INFINITY };
@@ -218,7 +217,7 @@ namespace JTL
 
 	CollisionData iTest_data(const ConvexHull2D &a, const Ray2D &b)
 	{
-		CollisionData cd = { false, INFINITY }; // setup return value
+		CollisionData cd = { false, INFINITY };
 
 		std::vector<Vector2> axes;
 
@@ -227,11 +226,7 @@ namespace JTL
 			axes.push_back(perp(normal(a.verts[i] - a.verts[(i + 1) % a.size])));
 
 
-		float tmin = 0,  //"Entering" scalar for the ray
-			tmax = 1;  //"Leaving"  scalar for the ray            
-
-		Vector2 cnormal;
-		float tpmin;
+		float tmin = 0, tmax = 1;          
 
 		for (int i = 0; i < axes.size(); ++i)
 		{
@@ -246,11 +241,13 @@ namespace JTL
 
 			float t = N / D;
 
-			if (D < 0 && t > tmin)
+			if (D < 0)
 			{
-				tmin = t;
-				cnormal = axes[i];
-				cd = { (mag(b.direction * b.length)) - tmin, axes[i] };
+				if (t > tmin)
+				{
+					tmin = t;
+					cd = { (mag(b.direction * b.length)) - tmin, axes[i] };
+				}
 			}
 			else    tmax = t;
 
@@ -260,7 +257,6 @@ namespace JTL
 	}
 
 #pragma endregion
-
 
 	void DebugHull2D()
 	{

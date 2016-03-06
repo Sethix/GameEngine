@@ -196,7 +196,7 @@ namespace JTL
 
 #pragma endregion
 
-	void	 DebugV3()
+	void DebugV3()
 	{
 
 		Vector3 a{ 1, 1, 1 };

@@ -65,9 +65,9 @@ namespace JTL
 	Vector3  Matrix3::operator *  (const Vector3 &rhs) const
 	{
 		return Vector3{
-			m[0] * m[1] * m[2] * rhs.x,
-			m[3] * m[4] * m[5] * rhs.y,
-			m[6] * m[7] * m[8] * rhs.z
+			dot(Vector3{ m[0], m[1], m[2] }, rhs),
+			dot(Vector3{ m[3], m[4], m[5] }, rhs),
+			dot(Vector3{ m[6], m[7], m[8] }, rhs)
 		};
 	}
 
@@ -107,9 +107,9 @@ namespace JTL
 
 	Matrix3 Matrix3::translate	  (const Vector2 &t)
 	{
-		return Matrix3{ 1, 0, 0,
-			0, 1, 0,
-			t.x, t.y, 1 };
+		return Matrix3{ 1, 0, t.x,
+						0, 1, t.y,
+						0, 0, 1 };
 	}
 
 #pragma endregion
@@ -148,7 +148,7 @@ namespace JTL
 	}
 
 
-	inline void	   DebugM3()
+	void	DebugM3()
 	{
 		Matrix3 a = { 1,2,3,4,5,6,7,8,9 };
 		Matrix3 b = { 10,11,12,13,14,15,16,17,18 };

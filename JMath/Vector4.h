@@ -108,11 +108,9 @@
 *******************************************************/
 
 #pragma once
-
 #include "Vector3.h"
 
 #define E_VEC4 Vector4{FLT_EPSILON, FLT_EPSILON, FLT_EPSILON, FLT_EPSILON}
-
 
 namespace JTL
 {

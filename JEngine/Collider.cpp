@@ -25,30 +25,47 @@ namespace JTL
 		{
 		case Collider::e_CIRCLE:
 			return iTest_data(t_lhs.getGlobalTransform() * lhs.circle,
-				t_rhs.getGlobalTransform() * rhs.circle);
+							  t_rhs.getGlobalTransform() * rhs.circle);
 		case Collider::e_CIRCLE | Collider::e_AABB:
 			return iTest_data(t_lhs.getGlobalTransform() * lhs.circle,
-				t_rhs.getGlobalTransform() * rhs.aabb);
+							  t_rhs.getGlobalTransform() * rhs.aabb);
 		case Collider::e_CIRCLE | Collider::e_RAY:
 			return iTest_data(t_lhs.getGlobalTransform() * lhs.circle,
-				t_rhs.getGlobalTransform() * rhs.ray);
+							  t_rhs.getGlobalTransform() * rhs.ray);
 		case Collider::e_CIRCLE | Collider::e_PLANE:
 			return iTest_data(t_lhs.getGlobalTransform() * lhs.circle,
-				t_rhs.getGlobalTransform() * rhs.plane);
+							  t_rhs.getGlobalTransform() * rhs.plane);
+		case Collider::e_CIRCLE | Collider::e_CONVEX:
+			return iTest_data(t_lhs.getGlobalTransform() * lhs.circle,
+							  t_rhs.getGlobalTransform() * rhs.chull);
 
 		case Collider::e_AABB:
 			return iTest_data(t_lhs.getGlobalTransform() * lhs.aabb,
-				t_rhs.getGlobalTransform() * rhs.aabb);
+							  t_rhs.getGlobalTransform() * rhs.aabb);
 		case Collider::e_AABB | Collider::e_RAY:
 			return iTest_data(t_lhs.getGlobalTransform() * lhs.aabb,
-				t_rhs.getGlobalTransform() * rhs.ray);
+							  t_rhs.getGlobalTransform() * rhs.ray);
 		case Collider::e_AABB | Collider::e_PLANE:
 			return iTest_data(t_lhs.getGlobalTransform() * lhs.aabb,
-				t_rhs.getGlobalTransform() * rhs.plane);
+							  t_rhs.getGlobalTransform() * rhs.plane);
+		case Collider::e_AABB | Collider::e_CONVEX:
+			return iTest_data(t_lhs.getGlobalTransform() * lhs.aabb,
+							  t_rhs.getGlobalTransform() * rhs.chull);
 
 		case Collider::e_RAY | Collider::e_PLANE:
 			return iTest_data(t_lhs.getGlobalTransform() * lhs.ray,
-				t_rhs.getGlobalTransform() * rhs.plane);
+							  t_rhs.getGlobalTransform() * rhs.plane);
+		case Collider::e_RAY | Collider::e_CONVEX:
+			return iTest_data(t_lhs.getGlobalTransform() * lhs.ray,
+							  t_rhs.getGlobalTransform() * rhs.chull);
+
+		case Collider::e_PLANE | Collider::e_CONVEX:
+			return iTest_data(t_lhs.getGlobalTransform() * lhs.plane,
+							  t_rhs.getGlobalTransform() * rhs.chull);
+
+		case Collider::e_CONVEX:
+			return iTest_data(t_lhs.getGlobalTransform() * lhs.chull,
+							  t_rhs.getGlobalTransform() * rhs.chull);
 		}
 	}
 }

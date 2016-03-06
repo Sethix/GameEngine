@@ -6,7 +6,7 @@
 #include "Matrix3.h"
 #include "AABB2D.h"
 #include "Circle.h"
-#include "Plane.h"
+#include "Plane2D.h"
 #include "ConvexHull2D.h"
 
 namespace JTL
@@ -14,7 +14,7 @@ namespace JTL
 
 	Ray2D	operator*	(const Matrix3 &m, const Ray2D &a)
 	{
-		Vector3 np = { a.position.x, a.position.y, 0 };
+		Vector3 np = { a.position.x, a.position.y, 1 };
 		Vector3 nr = { a.direction.x  , a.direction.y  , 0 };
 		np = (m * np);
 		nr = (m * nr);
@@ -33,7 +33,7 @@ namespace JTL
 		return iTest(bc, ac);
 	}
 
-	bool iTest(const Ray2D &ac, const Plane &bc)
+	bool iTest(const Ray2D &ac, const Plane2D &bc)
 	{
 		float r = dot(bc.normal, (ac.position - bc.position)) / -(dot(bc.normal, ac.direction));
 		return 0 <= r && r <= ac.length && -(dot(bc.normal, ac.direction)) > 0;
@@ -49,12 +49,17 @@ namespace JTL
 		return iTest_data(ac, bc);
 	}
 
-	CollisionData iTest_data(const Ray2D &ac, const Plane &bc)
+	CollisionData iTest_data(const Ray2D &ac, const Plane2D &bc)
 	{
 		CollisionData cd = { 0 };
 		float r = mag(bc.normal * (ac.position - bc.position) / -(bc.normal * ac.direction));
 		if (r <= 0 && r <= ac.length) cd = { r, perp(bc.normal) };
 		return cd;
+	}
+
+	CollisionData iTest_data(const Ray2D &ac, const ConvexHull2D &bc)
+	{
+		return iTest_data(bc, ac);
 	}
 
 #pragma endregion
@@ -71,15 +76,16 @@ namespace JTL
 		Circle bc{ Vector2{ 10  , 10 }, 8 };
 		Circle cc{ Vector2{ 25 , 25 }, 5 };
 
-		Plane ap{ Vector2{ 15 ,15 } , Vector2{ 0 ,1 } };
-		Plane bp{ Vector2{ 15 ,15 } , Vector2{ 1 ,0 } };
-		Plane cp{ Vector2{ 1  ,1 } , Vector2{ 0 ,-1 } };
+		Plane2D ap{ Vector2{ 15 ,15 } , Vector2{ 0 ,1 } };
+		Plane2D bp{ Vector2{ 15 ,15 } , Vector2{ 1 ,0 } };
+		Plane2D cp{ Vector2{ 1  ,1 } , Vector2{ 0 ,-1 } };
 
 		Ray2D ar{ Vector2{ 0,0 }, normal(Vector2{ 0.5,0.5 }), 50 };
 		Ray2D br{ Vector2{ 14.9f,1 }, Vector2{ 0,1 }, 50 };
 		Ray2D cr{ Vector2{ 1,13 }, Vector2{ 1,0 }, 50 };
+		Ray2D dr{ Vector2{ -15,8 }, Vector2{ 1,0 }, 50 };
 
-		ConvexHull2D achull, bchull;
+		ConvexHull2D achull, bchull, cchull;
 
 		achull.size = 4;
 		achull.verts[0] = Vector2{ 26,22 };
@@ -92,6 +98,12 @@ namespace JTL
 		bchull.verts[1] = Vector2{ 20,20 };
 		bchull.verts[2] = Vector2{ 12,10 };
 
+		cchull.size = 5;
+		cchull.verts[0] = Vector2{ -5    , 10 };
+		cchull.verts[1] = Vector2{ -10   , 20 };
+		cchull.verts[2] = Vector2{ -15   , 10 };
+		cchull.verts[3] = Vector2{ -12.5 , 5  };
+		cchull.verts[4] = Vector2{ -7.5  , 5  };
 		
 
 #pragma endregion
@@ -143,5 +155,7 @@ namespace JTL
 		assert(iTest_data(bchull, ar).penDepth <= 0);
 		assert(iTest_data(bchull, br).penDepth  > 0);
 		assert(iTest_data(bchull, cr).penDepth  > 0);
+
+		assert(iTest_data(cchull, dr).penDepth  > 0);
 	}
 }

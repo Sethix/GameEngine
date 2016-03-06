@@ -5,7 +5,7 @@
 #include "Vector3.h"
 #include "Matrix3.h"
 #include "Circle.h"
-#include "Plane.h"
+#include "Plane2D.h"
 #include "Ray2D.h"
 #include "ConvexHull2D.h"
 
@@ -78,7 +78,7 @@ namespace JTL
 		return iTest(Circle{ clamp(bc.position, ac.min, ac.max) , 0 }, bc);
 	}
 
-	bool	iTest		(const AABB2D &ac, const Plane &bc)
+	bool	iTest		(const AABB2D &ac, const Plane2D &bc)
 	{
 		return dot(bc.normal, (ac.pos() - bc.position)) <= 
 				  (ac.dim().x / 2) * dot(bc.normal, Vector2{ 1,0 }) 
@@ -94,7 +94,7 @@ namespace JTL
 		for (int i = 0; i < 2; ++i)
 			ray.direction[i] = (ray.direction[i] == 0) ? FLT_EPSILON : ray.direction[i];
 
-		Plane planes[4];
+		Plane2D planes[4];
 
 		planes[0] = { Vector2{ ac.min.x  , ac.pos().y },Vector2{ -1, 0 } };
 		planes[1] = { Vector2{ ac.pos().x, ac.min.y   },Vector2{  0,-1 } };
@@ -161,7 +161,7 @@ namespace JTL
 		else return CollisionData{ 0,0 };
 	}
 
-	CollisionData iTest_data(const AABB2D &ac, const Plane &bc)
+	CollisionData iTest_data(const AABB2D &ac, const Plane2D &bc)
 	{
 		if (iTest(ac, bc))
 		{
@@ -192,6 +192,11 @@ namespace JTL
 		else return CollisionData{ 0,0 };
 	}
 
+	CollisionData iTest_data(const AABB2D &ac, const ConvexHull2D &bc)
+	{
+		return iTest_data(bc, ac);
+	}
+
 #pragma endregion
 
 	void DebugAABB2D()
@@ -206,9 +211,9 @@ namespace JTL
 		Circle bc{ Vector2{0  , 0  }, 1 };
 		Circle cc{ Vector2{25 , 25 }, 5 };
 
-		Plane ap{ Vector2{15 ,15 } , Vector2{0 ,1 } };
-		Plane bp{ Vector2{15 ,15 } , Vector2{1 ,0 } };
-		Plane cp{ Vector2{0  ,0  } , Vector2{0 ,1 } };
+		Plane2D ap{ Vector2{15 ,15 } , Vector2{0 ,1 } };
+		Plane2D bp{ Vector2{15 ,15 } , Vector2{1 ,0 } };
+		Plane2D cp{ Vector2{0  ,0  } , Vector2{0 ,1 } };
 
 		Ray2D ar{ Vector2{0,0 }, normal(Vector2{0.5,0.5}), 50 };
 		Ray2D br{ Vector2{14.9f,1}, Vector2{0,1}, 50 };

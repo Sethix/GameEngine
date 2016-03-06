@@ -116,11 +116,9 @@
 *******************************************************/
 
 #pragma once
-
 #include "Vector2.h"
 
 #define E_VEC3 Vector3{FLT_EPSILON, FLT_EPSILON, FLT_EPSILON}
-
 
 namespace JTL
 {
