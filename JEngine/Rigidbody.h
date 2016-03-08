@@ -67,11 +67,12 @@
 #pragma once
 #include "Vector2.h"
 #include "Transform.h"
+#include "ComponentData.h"
 
 namespace JTL
 {
 
-	class Rigidbody
+	class Rigidbody : public ComponentData<Rigidbody>
 	{
 	public:
 		Vector2 velocity, acceleration, force, jerk;

@@ -63,12 +63,13 @@
 #include "Ray2D.h"
 #include "Plane2D.h"
 #include "ConvexHull2D.h"
+#include "ComponentData.h"
 
 namespace JTL
 {
 	class Transform;
 
-	class Collider
+	class Collider : public ComponentData<Collider>
 	{
 	public:
 		enum SHAPE { e_CIRCLE = 1, e_AABB = 2, e_RAY = 4, e_PLANE = 8, e_CONVEX = 16 } shape;

@@ -69,24 +69,23 @@
 #include "Vector4.h"
 #include "Matrix3.h"
 #include "Matrix4.h"
+#include "ComponentData.h"
 #include <list>
 
 namespace JTL
 {
 
-	class Transform
+	class Transform : public ComponentData<Transform>
 	{
 		Transform *parent;
 		std::list<Transform*> children;
 		Vector2 position, scale;
 		float angle;
-		// Matrix3 local; Updates whenever a setter is used
 
 	public:
 		Transform();
 		~Transform();
 
-		//Matrix4 version to use with drawing.
 		Matrix3 getGlobalTransform() const;
 
 		void setParent(Transform *);
