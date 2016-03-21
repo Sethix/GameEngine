@@ -10,14 +10,19 @@ namespace JTL
 	float Time::getTotalTime()
 	{
 		INIT_ASSERT(Time);
-		return previousTime = glfwGetTime();
+		return glfwGetTime();
 	}
 
 	float Time::getDeltaTime()
 	{
 		INIT_ASSERT(Time);
-		double pTime = previousTime;
-		return glfwGetTime() - pTime;
+		return getTotalTime() - previousTime;
+	}
+
+	bool Time::step()
+	{
+		previousTime = glfwGetTime();
+		INIT_ASSERT(Time); return true;
 	}
 
 }

@@ -12,17 +12,50 @@
 		Capable of the following,
 
 
-		* Addition of force to be used in translation
+		* Return a matrix containing our position, rotation,
+		  and scale in world space.
 
-			(void addForce(const Vector2&))
+			(Matrix3 getGlobalTransform() const)
 
-		* Addition of torque to be used in rotation
+		* Return our globalTransform as a matrix4 for drawing.
 
-			(void addTorque(const float&)
+			(Matrix4 getDrawMatrix() const)
 
-		* Integrate force/torque into current acceleration
+		* Set our parent transform to attach this transform to.
 
-			(void integrate(Transform*, float [deltaTime]))
+			(void setParent(Transform*))
+
+		* Set our position.
+
+			(void setPosition(Vector2&))
+
+		* Set our scale.
+
+			(void setScale(Vector2&))
+
+		* Set our rotation in radians.
+
+			(void setAngle(float&))
+
+		* Get our position.
+
+			(Vector2 getPosition() const)
+
+		* Get our scale.
+
+			(Vector2 getScale() const)
+
+		* Get our rotation in radians.
+
+			(float getAngle() const)
+
+		* Get the vector to our right locally.
+
+			(Vector2 getRight() const)
+
+		* Get the vector to our up locally.
+
+			(Vector2 getUp() const)
 
 
 
@@ -74,7 +107,6 @@
 
 namespace JTL
 {
-
 	class Transform : public ComponentData<Transform>
 	{
 		Transform *parent;
@@ -86,19 +118,39 @@ namespace JTL
 		Transform();
 		~Transform();
 
+		// Get our global transformation matrix.
 		Matrix3 getGlobalTransform() const;
 
+		// Get our global transformation matrix as a matrix4.
+		Matrix4 getDrawMatrix() const;
+
+
+		// Set our parent object. Child object are locked to the transform of a parent.
 		void setParent(Transform *);
+
+		// Set our position relative to our origin. If we have no parent our origin is 0,0.
 		void setPosition(const Vector2 &);
+
+		// Set our X and Y scale.
 		void setScale(const Vector2 &);
+
+		// Set our rotation in radians. For degrees use the macro in JMath.
 		void setAngle(float);
 
+
+		// Return our current position.
 		Vector2 getPosition() const;
+
+		// Return our current scale.
 		Vector2 getScale() const;
+
+		// Return our current angle in radians.
 		float   getAngle() const;
 
+		// Get the vector to our right locally.
 		Vector2 getRight() const;
+
+		// Get the vector to our up locally.
 		Vector2 getUp() const;
 	};
-
 }

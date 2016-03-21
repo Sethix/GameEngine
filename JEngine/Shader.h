@@ -1,10 +1,10 @@
 /******************************************************
 
-----------------------Collider.h-----------------------
+------------------------Shader.h-----------------------
 
 	Purpose -
-		To provide a container to be used in
-		testing intersection between two objects.
+		Contains shader programs with vertex
+		and fragment shaders to be used with OpenGL.
 
 
 
@@ -12,10 +12,9 @@
 		Capable of the following,
 
 
-		* Intersection test between two objects.
+		* Bind the shader so that mesh's use it for drawing. 
 
-			(CollisionData isColliding(Transform&, Collider&, 
-									   Transform&, Collider&))
+			(void Bind())
 
 
 
@@ -56,39 +55,26 @@
 
 
 *******************************************************/
+
 #pragma once
-#include "AABB2D.h"
-#include "Circle.h"
-#include "Ray2D.h"
-#include "Plane2D.h"
-#include "ConvexHull2D.h"
-#include "ComponentData.h"
 
 namespace JTL
 {
-	class Transform;
 
-	class Collider : public ComponentData<Collider>
+	class Shader
 	{
 	public:
-		enum SHAPE { e_CIRCLE = 1, e_AABB = 2, e_RAY = 4, e_PLANE = 8, e_CONVEX = 16 } shape;
-		
-		union
-		{
-			Circle			circle;
-			AABB2D			aabb;
-			Ray2D			ray;
-			Plane2D			plane;
-			ConvexHull2D	chull;
-		};
+		// You can use the default shader with the default constructor.
+		// If you would prefer you can load in shaders yourself.
+		// Set fPath to true if it's a file path or false if it's a source string.
+		Shader();
+		Shader(const char* vertLoc, const char* fragLoc, const bool &fPath);
+		~Shader();
 
-		// Used in collision resolution to detect how to handle the collision.
-		bool isTrigger;
+		// Bind the program.
+		void Bind();
 
-		Collider();
+	private:
+		unsigned int program, shaders[2];
 	};
-
-	// Returns collision data between two objects.
-	CollisionData isColliding(const Transform &, const Collider &,
-							  const Transform &, const Collider &);
 }

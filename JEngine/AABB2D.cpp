@@ -1,3 +1,5 @@
+// TODO : Clean-up and move to math library as it's more fitting
+
 #include <cassert>
 #include <algorithm>
 #include "AABB2D.h"
@@ -11,15 +13,9 @@
 
 namespace JTL
 {
-	Vector2 AABB2D::dim() const
-	{
-		return max - min;
-	}
+	Vector2 AABB2D::dim() const { return max - min; }
 
-	Vector2 AABB2D::pos() const
-	{
-		return (max + min) / 2;
-	}
+	Vector2 AABB2D::pos() const { return (max + min) / 2; }
 
 #pragma region ShapeFunctions
 
@@ -28,18 +24,18 @@ namespace JTL
 		Vector2 omin = a.min;
 		Vector2 omax = a.max;
 
-		Vector2 rmin = m[2].xy;
-		Vector2 rmax = m[2].xy;
+		Vector2 rmin = { m.mm[0][2], m.mm[1][2] };
+		Vector2 rmax = { m.mm[0][2], m.mm[1][2] };
 
 		float p, q;
 
 		for (unsigned j = 0; j < 2; ++j)
 			for (unsigned i = 0; i < 2; ++i)
 			{
-				p = omin[i] * m[i][j];
-				q = omax[i] * m[i][j];
+				p = omin[i] * m[j][i];
+				q = omax[i] * m[j][i];
 
-				if (p < q) std::swap(p, q);
+				if (p > q) std::swap(p, q);
 				rmin[j] += p;
 				rmax[j] += q;
 			}
@@ -70,7 +66,8 @@ namespace JTL
 
 	bool	iTest		(const AABB2D &ac, const AABB2D &bc)
 	{
-		return !(ac.max < bc.min || bc.max < ac.min);
+		return !(ac.max.x < bc.min.x || bc.max.x < ac.min.x 
+			||   ac.max.y < bc.min.y || bc.max.y < ac.min.y);
 	}
 
 	bool	iTest		(const AABB2D &ac, const Circle &bc)
@@ -128,15 +125,15 @@ namespace JTL
 			a.size = 4;
 			b.size = 4;
 
-			a.verts[0] = ac.min;
+			a.verts[2] = ac.min;
 			a.verts[1] = Vector2{ ac.min.x, ac.max.y };
-			a.verts[2] = ac.max;
-			a.verts[3] = Vector2{ ac.max.y, ac.min.y };
+			a.verts[0] = ac.max;
+			a.verts[3] = Vector2{ ac.max.x, ac.min.y };
 
-			b.verts[0] = bc.min;
+			b.verts[2] = bc.min;
 			b.verts[1] = Vector2{ bc.min.x, bc.max.y };
-			b.verts[2] = bc.max;
-			b.verts[3] = Vector2{ bc.max.y, bc.min.y };
+			b.verts[0] = bc.max;
+			b.verts[3] = Vector2{ bc.max.x, bc.min.y };
 
 			return iTest_data(a, b);
 		}

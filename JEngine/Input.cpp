@@ -1,3 +1,5 @@
+// TODO : Clean-up(?)
+
 #define GLEW_STATIC
 
 #include "Input.h"
@@ -85,6 +87,9 @@ namespace JTL
 	bool Input::getMouseButtonPress(unsigned key) { INIT_ASSERT(Input); return getMouseButton(key) && !mouseState[key]; }
 	bool Input::getMouseButtonRelease(unsigned key) { INIT_ASSERT(Input); return !getMouseButton(key) && mouseState[key]; }
 
+	int Input::getActiveJoysticks() { INIT_ASSERT(Input); return activeJoysticks; }
+
+	float Input::getJoyAxis(int joy, unsigned axis) { INIT_ASSERT(Input); return joyAxes[joy][axis]; }
 	bool Input::getJoy(int joy, unsigned key) { INIT_ASSERT(Input); return joyPress[joy][key] > joyRelease[joy][key]; }
 	bool Input::getJoyPress(int joy, unsigned key) { INIT_ASSERT(Input); return getJoy(joy, key) && !joyState[joy][key]; }
 	bool Input::getJoyRelease(int joy, unsigned key) { INIT_ASSERT(Input); return !getJoy(joy, key) && joyState[joy][key]; }

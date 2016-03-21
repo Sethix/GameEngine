@@ -1,21 +1,10 @@
 /******************************************************
 
-----------------------Collider.h-----------------------
+----------------------Lifetime.h-----------------------
 
 	Purpose -
-		To provide a container to be used in
-		testing intersection between two objects.
-
-
-
-	Functionality -
-		Capable of the following,
-
-
-		* Intersection test between two objects.
-
-			(CollisionData isColliding(Transform&, Collider&, 
-									   Transform&, Collider&))
+		To contain information about an objects
+		lifespan and when it should be destroyed.
 
 
 
@@ -56,39 +45,17 @@
 
 
 *******************************************************/
+
 #pragma once
-#include "AABB2D.h"
-#include "Circle.h"
-#include "Ray2D.h"
-#include "Plane2D.h"
-#include "ConvexHull2D.h"
 #include "ComponentData.h"
 
 namespace JTL
 {
-	class Transform;
-
-	class Collider : public ComponentData<Collider>
+	class Lifespan : public ComponentData<Lifespan>
 	{
 	public:
-		enum SHAPE { e_CIRCLE = 1, e_AABB = 2, e_RAY = 4, e_PLANE = 8, e_CONVEX = 16 } shape;
-		
-		union
-		{
-			Circle			circle;
-			AABB2D			aabb;
-			Ray2D			ray;
-			Plane2D			plane;
-			ConvexHull2D	chull;
-		};
+		float timeLimit, curTime;
 
-		// Used in collision resolution to detect how to handle the collision.
-		bool isTrigger;
-
-		Collider();
+		Lifespan() : timeLimit(10), curTime(0) {}
 	};
-
-	// Returns collision data between two objects.
-	CollisionData isColliding(const Transform &, const Collider &,
-							  const Transform &, const Collider &);
 }

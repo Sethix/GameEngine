@@ -20,6 +20,10 @@
 
 			(bool iTest(Shape, Shape))
 
+		* Check if two shapes are intersecting and return data if they are.
+
+			(CollisionData iTest_Data(Shape, Shape))
+
 		* Run test cases to make sure all functions work
 
 			(void DebugPlane2D())
@@ -69,7 +73,6 @@
 
 namespace JTL
 {
-	
 #pragma region ForwardDeclarations
 
 	struct Matrix3;
@@ -85,26 +88,25 @@ namespace JTL
 
 	struct Plane2D { Vector2 position, normal; };
 
-	Plane2D operator*(const Matrix3 &m, const Plane2D &a);
+	Plane2D operator*(const Matrix3 &m, const Plane2D &p);
 
 #pragma region CollisionFunctions
 
-	bool iTest(const Plane2D &ac, const AABB2D &bc);
+	bool iTest(const Plane2D &a, const AABB2D &b);
 
-	bool iTest(const Plane2D &ac, const Circle &bc);
+	bool iTest(const Plane2D &a, const Circle &b);
 
-	bool iTest(const Plane2D &ac, const Ray2D &bc);
+	bool iTest(const Plane2D &a, const Ray2D &b);
 
-	CollisionData iTest_data(const Plane2D &ac, const AABB2D &bc);
+	CollisionData iTest_data(const Plane2D &a, const AABB2D &b);
 
-	CollisionData iTest_data(const Plane2D &ac, const Circle &bc);
+	CollisionData iTest_data(const Plane2D &a, const Circle &b);
 
-	CollisionData iTest_data(const Plane2D &ac, const Ray2D &bc);
+	CollisionData iTest_data(const Plane2D &a, const Ray2D &b);
 
-	CollisionData iTest_data(const Plane2D &ac, const ConvexHull2D &bc);
+	CollisionData iTest_data(const Plane2D &a, const ConvexHull2D &b);
 
 #pragma endregion
 
 	void DebugPlane2D();
-
 }

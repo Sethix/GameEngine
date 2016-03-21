@@ -1,3 +1,5 @@
+// TODO : Clean-up and move to math library as it's more fitting
+
 #include <cassert>
 #include <vector>
 #include "ConvexHull2D.h"
@@ -44,8 +46,6 @@ namespace JTL
 			float bmin = INFINITY;
 			float amax = -INFINITY;
 			float bmax = -INFINITY;
-
-			cd.collisionNormal = axes[i];
 
 			for (size_t j = 0; j < a.size; ++j)
 			{

@@ -1,3 +1,5 @@
+// TODO : Documentation and clean-up
+
 #pragma once
 #include "Window.h"
 
@@ -49,6 +51,9 @@ namespace JTL
 		bool getMouseButtonPress(unsigned);
 		bool getMouseButtonRelease(unsigned);
 
+		int getActiveJoysticks();
+		
+		float getJoyAxis(int, unsigned);
 		bool getJoy(int, unsigned);
 		bool getJoyPress(int, unsigned);
 		bool getJoyRelease(int, unsigned);

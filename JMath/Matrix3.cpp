@@ -93,8 +93,8 @@ namespace JTL
 
 	Matrix3 Matrix3::rotate		  (const float & angle)
 	{
-		return	Matrix3{ cos(angle), sin(angle), 0,
-			-sin(angle),  cos(angle), 0,
+		return	Matrix3{ cos(angle), -sin(angle), 0,
+			sin(angle),  cos(angle), 0,
 			0		   , 0          , 1 };
 	}
 

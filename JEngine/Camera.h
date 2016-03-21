@@ -1,10 +1,10 @@
 /******************************************************
 
-----------------------Collider.h-----------------------
+-----------------------Camera.h------------------------
 
 	Purpose -
-		To provide a container to be used in
-		testing intersection between two objects.
+		To set viewport data and return projection data
+		so that we may move the camera in 2-D space.
 
 
 
@@ -12,10 +12,17 @@
 		Capable of the following,
 
 
-		* Intersection test between two objects.
+		* Return view matrix
 
-			(CollisionData isColliding(Transform&, Collider&, 
-									   Transform&, Collider&))
+			(Matrix4 getView())
+
+		* Return projection matrix
+
+			(void getProj())
+
+		* Update and draw everything relative to our camera.
+
+			(void update())
 
 
 
@@ -57,38 +64,30 @@
 
 *******************************************************/
 #pragma once
-#include "AABB2D.h"
-#include "Circle.h"
-#include "Ray2D.h"
-#include "Plane2D.h"
-#include "ConvexHull2D.h"
 #include "ComponentData.h"
+#include "Vector2.h"
+#include "Matrix4.h"
 
 namespace JTL
 {
-	class Transform;
-
-	class Collider : public ComponentData<Collider>
+	class Camera : public ComponentData<Camera>
 	{
 	public:
-		enum SHAPE { e_CIRCLE = 1, e_AABB = 2, e_RAY = 4, e_PLANE = 8, e_CONVEX = 16 } shape;
-		
-		union
-		{
-			Circle			circle;
-			AABB2D			aabb;
-			Ray2D			ray;
-			Plane2D			plane;
-			ConvexHull2D	chull;
-		};
+		// This can be used to achieve effects such as split screen multiplayer
+		// by using multiple camera entities.
+		enum SPACE {FULL, TOP_HALF, BOT_HALF, LFT_HALF, RGT_HALF, TL_CORNER, TR_CORNER, BL_CORNER, BR_CORNER, CENTER_SQUARE} space;
 
-		// Used in collision resolution to detect how to handle the collision.
-		bool isTrigger;
+		// This allows us to move our camera. It is used in the view matrix.
+		Vector2 pos;
 
-		Collider();
+
+		// Return the view matrix.
+		Matrix4 getView();
+
+		// Return the projection matrix.
+		Matrix4 getProj();
+
+		// Set our viewport in GL and draw everything.
+		void update();
 	};
-
-	// Returns collision data between two objects.
-	CollisionData isColliding(const Transform &, const Collider &,
-							  const Transform &, const Collider &);
 }

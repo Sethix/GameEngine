@@ -1,21 +1,10 @@
 /******************************************************
 
-----------------------Collider.h-----------------------
+------------------PlayerController.h-------------------
 
 	Purpose -
-		To provide a container to be used in
-		testing intersection between two objects.
-
-
-
-	Functionality -
-		Capable of the following,
-
-
-		* Intersection test between two objects.
-
-			(CollisionData isColliding(Transform&, Collider&, 
-									   Transform&, Collider&))
+		To contain information used in loading and
+		rendering textures on an object.
 
 
 
@@ -56,39 +45,29 @@
 
 
 *******************************************************/
+
 #pragma once
-#include "AABB2D.h"
-#include "Circle.h"
-#include "Ray2D.h"
-#include "Plane2D.h"
-#include "ConvexHull2D.h"
 #include "ComponentData.h"
+#include "Vector2.h"
+#include "Vector4.h"
+#include "Shader.h"
 
 namespace JTL
 {
-	class Transform;
-
-	class Collider : public ComponentData<Collider>
+	class Sprite : public ComponentData<Sprite>
 	{
 	public:
-		enum SHAPE { e_CIRCLE = 1, e_AABB = 2, e_RAY = 4, e_PLANE = 8, e_CONVEX = 16 } shape;
-		
-		union
-		{
-			Circle			circle;
-			AABB2D			aabb;
-			Ray2D			ray;
-			Plane2D			plane;
-			ConvexHull2D	chull;
-		};
+		Shader shader;
 
-		// Used in collision resolution to detect how to handle the collision.
-		bool isTrigger;
+		int frame;
+		Vector4 tint;
 
-		Collider();
+		Vector2 offset;
+		Vector2 dimension;
+		float angle;
+
+		std::string assetName;
+
+		Sprite();
 	};
-
-	// Returns collision data between two objects.
-	CollisionData isColliding(const Transform &, const Collider &,
-							  const Transform &, const Collider &);
 }

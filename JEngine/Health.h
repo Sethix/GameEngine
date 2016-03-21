@@ -1,10 +1,9 @@
 /******************************************************
 
-----------------------Collider.h-----------------------
+-----------------------Health.h------------------------
 
 	Purpose -
-		To provide a container to be used in
-		testing intersection between two objects.
+		To give objects durability and regeneration.
 
 
 
@@ -12,10 +11,29 @@
 		Capable of the following,
 
 
-		* Intersection test between two objects.
+		* Return the objects current health.
 
-			(CollisionData isColliding(Transform&, Collider&, 
-									   Transform&, Collider&))
+			(float getCurrentHealth())
+
+		* Return the objects max health.
+
+			(float getMaxHealth())
+
+		* Return the objects health regeneration rate.
+
+			(float getRegenRate())
+
+		* Set the objects current health.
+
+			(void setCurrentHealth(const float&))
+
+		* Set the objects max health.
+
+			(void setMaxHealth(const float&))
+
+		* Set the objects health regeneration rate.
+
+			(void setRegenRate(const float&))
 
 
 
@@ -56,39 +74,25 @@
 
 
 *******************************************************/
+
 #pragma once
-#include "AABB2D.h"
-#include "Circle.h"
-#include "Ray2D.h"
-#include "Plane2D.h"
-#include "ConvexHull2D.h"
 #include "ComponentData.h"
 
 namespace JTL
 {
-	class Transform;
-
-	class Collider : public ComponentData<Collider>
+	class Health : public ComponentData<Health>
 	{
+		float curHealth;
+		float maxHealth;
+		float regenRate;
+
 	public:
-		enum SHAPE { e_CIRCLE = 1, e_AABB = 2, e_RAY = 4, e_PLANE = 8, e_CONVEX = 16 } shape;
-		
-		union
-		{
-			Circle			circle;
-			AABB2D			aabb;
-			Ray2D			ray;
-			Plane2D			plane;
-			ConvexHull2D	chull;
-		};
+		float getCurrentHealth() { return curHealth; }
+		float getMaxHealth()	 { return maxHealth; }
+		float getRegenRate()	 { return regenRate; }
 
-		// Used in collision resolution to detect how to handle the collision.
-		bool isTrigger;
-
-		Collider();
+		void setCurrentHeath(const float &hp) { curHealth = hp; }
+		void setMaxHealth(const float &hp)	  { maxHealth = hp; }
+		void setRegenRate(const float &hp)	  { regenRate = hp; }
 	};
-
-	// Returns collision data between two objects.
-	CollisionData isColliding(const Transform &, const Collider &,
-							  const Transform &, const Collider &);
 }

@@ -1,21 +1,11 @@
 /******************************************************
 
-----------------------Collider.h-----------------------
+---------------StaticCollisionResolution.h-------------
 
 	Purpose -
-		To provide a container to be used in
-		testing intersection between two objects.
-
-
-
-	Functionality -
-		Capable of the following,
-
-
-		* Intersection test between two objects.
-
-			(CollisionData isColliding(Transform&, Collider&, 
-									   Transform&, Collider&))
+		A system used to sort through stored
+		collision data and handle collision between
+		static entities.
 
 
 
@@ -56,39 +46,46 @@
 
 
 *******************************************************/
+
 #pragma once
-#include "AABB2D.h"
-#include "Circle.h"
-#include "Ray2D.h"
-#include "Plane2D.h"
-#include "ConvexHull2D.h"
-#include "ComponentData.h"
+#include "CollisionDetection.h"
 
 namespace JTL
 {
-	class Transform;
-
-	class Collider : public ComponentData<Collider>
+	class StaticResolution : public CollisionSystem
 	{
-	public:
-		enum SHAPE { e_CIRCLE = 1, e_AABB = 2, e_RAY = 4, e_PLANE = 8, e_CONVEX = 16 } shape;
-		
-		union
+		bool condition(Collision &c)
 		{
-			Circle			circle;
-			AABB2D			aabb;
-			Ray2D			ray;
-			Plane2D			plane;
-			ConvexHull2D	chull;
-		};
+			return (c.first->rigidbody > -1 && c.second->rigidbody < 0)
+				&&  c.first->collider->isTrigger == false
+				&&  c.second->collider->isTrigger == false
+				|| (c.first->rigidbody <  0 && c.second->rigidbody > -1)
+				&&  c.first->collider->isTrigger == false
+				&&  c.second->collider->isTrigger == false;
+		}
 
-		// Used in collision resolution to detect how to handle the collision.
-		bool isTrigger;
+		void update(Collision &c)
+		{
+			if (c.first->rigidbody > -1)
+			{
+				Vector2 MTV = c.collision.collisionNormal * c.collision.penDepth;
 
-		Collider();
+				Vector2 p1 = c.first->transform->getPosition() + MTV;
+
+				c.first->transform->setPosition(p1);
+				c.first->rigidbody->velocity = reflect(c.first->rigidbody->velocity, c.collision.collisionNormal);
+				//c.first->rigidbody->acceleration += reflect(c.first->rigidbody->acceleration, c.collision.collisionNormal);
+			}
+			else
+			{
+				Vector2 MTV = c.collision.collisionNormal * c.collision.penDepth;
+
+				Vector2 p1 = c.second->transform->getPosition() + MTV;
+
+				c.second->transform->setPosition(p1);
+				c.second->rigidbody->velocity = reflect(c.second->rigidbody->velocity, c.collision.collisionNormal);
+				//c.second->rigidbody->acceleration = reflect(c.second->rigidbody->acceleration, c.collision.collisionNormal);
+			}
+		}
 	};
-
-	// Returns collision data between two objects.
-	CollisionData isColliding(const Transform &, const Collider &,
-							  const Transform &, const Collider &);
 }

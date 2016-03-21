@@ -1,10 +1,11 @@
 /******************************************************
 
------------------------Ray2D.h-------------------------
+-----------------------Asset.h-------------------------
 
 	Purpose -
-		Represents a ray in 2-Dimensional space
-		for collision testing.
+		To contain all of our asset data in a place
+		accessible to the whole program so that we
+		may load and draw textures.
 
 
 
@@ -12,21 +13,20 @@
 		Capable of the following,
 
 
-		* Multiplication between ray and Matrix3 to apply transformation
+		* Load an image from a file path provided and
+		  store it using a name.
 
-			(*, *=)
+			(void loadTexture(const String *&Name, const int &Columns, const int &Rows, const char *path))
 
-		* Check if two shapes are intersecting
+		* Return loaded texture data using a name.
 
-			(bool iTest(Shape, Shape))
+			(Texture getTextures(const String&))
 
-		* Check if two shapes are intersecting and return data if they are.
+		* Draw a texture to the screen in world space using OpenGl.
 
-			(CollisionData iTest_Data(Shape, Shape))
-
-		* Run test cases to make sure all functions work
-
-			(void DebugRay2D())
+			(void drawTexture(const String &Name, Shader &, 
+							  const Vector4 &Tint, const int &Index, 
+							  const Matrix4 &Model, const Matrix4 &View, const Matrix4 &Projection)
 
 
 
@@ -69,44 +69,43 @@
 *******************************************************/
 
 #pragma once
-#include "Vector2.h"
+#include <unordered_map>
 
 namespace JTL
-{	
+{
 #pragma region ForwardDeclarations
-
-	struct Matrix3;
-
-	struct AABB2D;
-	struct Circle;
-	struct Plane2D;
-	struct ConvexHull2D;
-
-	struct CollisionData;
+	
+	class Shader;
+	class Mesh;
+	class Transform;
+	
+	struct Matrix4;
+	struct Vector4;
 
 #pragma endregion
 
-	struct Ray2D { Vector2 position, direction; float length; };
+	class Asset
+	{
+		Asset() {}
+		Mesh *mesh;
 
-	Ray2D operator*(const Matrix3 &m, const Ray2D &r);
+	public:
 
-#pragma region CollisionFunctions
+		struct Texture { unsigned _handle; int width, height; unsigned rows, cols; };
 
-	bool iTest(const Ray2D &a, const AABB2D &b);
+		std::unordered_map<std::string, Texture> textures;
 
-	bool iTest(const Ray2D &a, const Circle &b);
+		// Load a texture or spritesheet from a path and assign a name.
+		void loadTexture(const std::string &name, const unsigned &rows, const unsigned &cols, const char *path);
 
-	bool iTest(const Ray2D &a, const Plane2D &b);
+		// Get our loaded textures by the name given.
+		Texture getTextures(const std::string &name);
 
-	CollisionData iTest_data(const Ray2D &a, const AABB2D &b);
+		// Draw our texture in world space.
+		void drawTexture(const std::string & name, Shader &shader, const Vector4 &color, const int &idx,
+						 const Matrix4 &model, const Matrix4 &view, const Matrix4 &proj);
 
-	CollisionData iTest_data(const Ray2D &a, const Circle &b);
 
-	CollisionData iTest_data(const Ray2D &a, const Plane2D &b);
-
-	CollisionData iTest_data(const Ray2D &a, const ConvexHull2D &b);
-
-#pragma endregion
-
-	void DebugRay2D();
+		static Asset &instance() { static Asset i; return i; }
+	};
 }

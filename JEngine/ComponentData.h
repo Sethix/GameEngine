@@ -1,22 +1,25 @@
+// TODO : Documentation
+
 #pragma once
 #include <vector>
 #include <queue>
 
 namespace JTL
 {
-
 	template<typename T>
 	struct Handle
 	{
 		int index;
 		Handle(int i = -1) : index(i) {}
 
-		T *operator->() { return &ComponentData<T>::at(index); }
+		T *operator->()		  { return &ComponentData<T>::at(index); }
 		T *operator->() const { return &ComponentData<T>::at(index); }
+		T *operator& ()		  { return &ComponentData<T>::at(index); }
 		T *operator& () const { return &ComponentData<T>::at(index); }
+		T  operator* ()		  { return  ComponentData<T>::at(index); }
 		T  operator* () const { return  ComponentData<T>::at(index); }
 
-		operator int() { return index; }
+		operator int()		 { return index; }
 		operator int() const { return index; }
 	};
 
@@ -73,12 +76,11 @@ namespace JTL
 
 		int getIndex() { return index; }
 
-		bool isValid() { return !isVacant };
+		bool isValid() { return !isVacant; };
 
 		virtual void onFree() {}
 
 #pragma endregion
 
 	};
-
 }

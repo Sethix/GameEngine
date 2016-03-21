@@ -28,6 +28,10 @@
 
 			(bool iTest(Shape, Shape))
 
+		* Check if two shapes are intersecting and return data if they are.
+
+			(CollisionData iTest_Data(Shape, Shape))
+
 		* Run test cases to make sure all functions work
 
 			(void DebugAABB2D())
@@ -77,7 +81,6 @@
 
 namespace JTL
 {
-
 #pragma region ForwardDeclarations
 
 	struct Matrix3;
@@ -93,15 +96,12 @@ namespace JTL
 
 	struct AABB2D
 	{
-
 		AABB2D(const Vector2 &bl, const Vector2 &tr) : min(bl), max(tr) {};
 
 		Vector2 min, max;
 
 		Vector2 dim() const;
-
 		Vector2 pos() const;
-
 	};
 
 #pragma region ShapeFunctions
@@ -110,32 +110,31 @@ namespace JTL
 
 	AABB2D genAABB2D(const Vector2 *pts, const size_t &n);
 
-	AABB2D rotate(const AABB2D &x, const float &a);
+	AABB2D rotate(const AABB2D &aabb, const float &angle);
 
 #pragma endregion
 
 #pragma region CollisionFunctions
 
-	bool iTest(const AABB2D &ac, const AABB2D &bc);
+	bool iTest(const AABB2D &a, const AABB2D &b);
 
-	bool iTest(const AABB2D &ac, const Circle &bc);
+	bool iTest(const AABB2D &a, const Circle &b);
 
-	bool iTest(const AABB2D &ac, const Plane2D &bc);
+	bool iTest(const AABB2D &a, const Plane2D &b);
 
-	bool iTest(const AABB2D &ac, const Ray2D &bc);
+	bool iTest(const AABB2D &a, const Ray2D &b);
 
-	CollisionData iTest_data(const AABB2D &ac, const AABB2D &bc);
+	CollisionData iTest_data(const AABB2D &a, const AABB2D &b);
 
-	CollisionData iTest_data(const AABB2D &ac, const Circle &bc);
+	CollisionData iTest_data(const AABB2D &a, const Circle &b);
 
-	CollisionData iTest_data(const AABB2D &ac, const Plane2D &bc);
+	CollisionData iTest_data(const AABB2D &a, const Plane2D &b);
 
-	CollisionData iTest_data(const AABB2D &ac, const Ray2D &bc);
+	CollisionData iTest_data(const AABB2D &a, const Ray2D &b);
 
-	CollisionData iTest_data(const AABB2D &ac, const ConvexHull2D &bc);
+	CollisionData iTest_data(const AABB2D &a, const ConvexHull2D &b);
 
 #pragma endregion
 
 	void DebugAABB2D();
-
 }

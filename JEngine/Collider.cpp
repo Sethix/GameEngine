@@ -3,9 +3,7 @@
 
 namespace JTL
 {
-
-	Collider::Collider() : shape(Collider::e_CIRCLE), circle({ {0,0},1 })
-	{ }
+	Collider::Collider() : shape(Collider::e_CIRCLE), circle({ {0,0},1 }) { }
 
 	CollisionData isColliding(const Transform &at, const Collider &ac,
 							  const Transform &bt, const Collider &bc)
@@ -20,6 +18,8 @@ namespace JTL
 			std::swap(lhs, rhs);
 			std::swap(t_lhs, t_rhs);
 		}
+
+#pragma region Shape_switch_statement
 
 		switch (lhs.shape | rhs.shape)
 		{
@@ -67,5 +67,8 @@ namespace JTL
 			return iTest_data(t_lhs.getGlobalTransform() * lhs.chull,
 							  t_rhs.getGlobalTransform() * rhs.chull);
 		}
+
+#pragma endregion
+
 	}
 }

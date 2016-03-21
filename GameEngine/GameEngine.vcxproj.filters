@@ -31,6 +31,18 @@
     <Filter Include="Source Files\Entity Components">
       <UniqueIdentifier>{7689ab14-2cc4-48df-90ed-802993b39a08}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GLComponents">
+      <UniqueIdentifier>{4adb229e-a723-4f52-8782-f015aa09efea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLComponents">
+      <UniqueIdentifier>{4a6d9200-b642-438b-b792-ea44a460d34f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sub Systems">
+      <UniqueIdentifier>{8b90d5ee-eb12-44a7-b167-4a1637b2e857}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sub Systems">
+      <UniqueIdentifier>{c2e9f6e7-3cf8-4ad6-bdca-f97bdb22f52b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\JEngine\Collider.h">
@@ -78,6 +90,63 @@
     <ClInclude Include="..\JEngine\Input.h">
       <Filter>Header Files\System Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\JEngine\Health.h">
+      <Filter>Header Files\Entity Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\Mana.h">
+      <Filter>Header Files\Entity Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\Lifetime.h">
+      <Filter>Header Files\Entity Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\PlayerController.h">
+      <Filter>Header Files\Entity Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\Sprite.h">
+      <Filter>Header Files\Entity Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\CollisionDetection.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\DebugStatistics.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\DynamicCollisionResolution.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\StaticCollisionResolution.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\RigidbodyDynamics.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\Render.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\PlayerUpdate.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\Shader.h">
+      <Filter>Header Files\GLComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\Mesh.h">
+      <Filter>Header Files\GLComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\ShaderLoader.h">
+      <Filter>Header Files\GLComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\Asset.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\Camera.h">
+      <Filter>Header Files\Entity Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\DebugDraw.h">
+      <Filter>Header Files\Entity Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\TriggerCollisionResolution.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\JEngine\Collider.cpp">
@@ -112,6 +181,27 @@
     </ClCompile>
     <ClCompile Include="..\JEngine\Input.cpp">
       <Filter>Source Files\System Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\JEngine\Mesh.cpp">
+      <Filter>Source Files\GLComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\JEngine\Shader.cpp">
+      <Filter>Source Files\GLComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\JEngine\DebugDraw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\JEngine\ShaderLoader.cpp">
+      <Filter>Source Files\GLComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\JEngine\Asset.cpp">
+      <Filter>Source Files\Sub Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\JEngine\Camera.cpp">
+      <Filter>Source Files\Entity Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\JEngine\Sprite.cpp">
+      <Filter>Source Files\Entity Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -92,7 +92,7 @@ namespace JTL
 
 #pragma endregion
 
-	float   determinant (const Matrix4 &a)
+	float   determinant(const Matrix4 &a)
 	{
 		return{ a.mm[0][3] * a.mm[1][2] * a.mm[2][1] * a.mm[3][0] - a.mm[0][2] * a.mm[1][3] * a.mm[2][1] * a.mm[3][0] -
 			a.mm[0][3] * a.mm[1][1] * a.mm[2][2] * a.mm[3][0] + a.mm[0][1] * a.mm[1][3] * a.mm[2][2] * a.mm[3][0] +
@@ -108,7 +108,7 @@ namespace JTL
 			a.mm[0][1] * a.mm[1][0] * a.mm[2][2] * a.mm[3][3] + a.mm[0][0] * a.mm[1][1] * a.mm[2][2] * a.mm[3][3] };
 	}
 
-	Matrix4 inverse	    (const Matrix4 &a)
+	Matrix4 inverse(const Matrix4 &a)
 	{
 		float d = 1 / determinant(a);
 
@@ -166,7 +166,7 @@ namespace JTL
 				a.m[4] * a.m[2] * a.m[9] + a.m[8] * a.m[1] * a.m[6] - a.m[8] * a.m[2] * a.m[5]) * d };
 	}
 
-	Matrix4 transpose   (const Matrix4 &a)
+	Matrix4 transpose(const Matrix4 &a)
 	{
 		return Matrix4{ a.mm[0][0], a.mm[1][0], a.mm[2][0], a.mm[3][0] ,
 			a.mm[0][1], a.mm[1][1], a.mm[2][1], a.mm[3][1] ,
@@ -174,12 +174,20 @@ namespace JTL
 			a.mm[0][3], a.mm[1][3], a.mm[2][3], a.mm[3][3] };
 	}
 
-	Matrix4 matrix3To4  (const Matrix3 &a)
+	Matrix4 matrix3To4(const Matrix3 &a)
 	{
 		return Matrix4{ a.m[0],a.m[1], 0, a.m[2],
 						a.m[3],a.m[4], 0, a.m[5],
 						0 ,    0 ,     1 ,0,
 						a.m[6],a.m[7], 0, a.m[8] };
+	}
+
+	Matrix4 orthoProj(const float &l, const float &r, const float &b, const float &t, const float &n, const float &f)
+	{
+		return Matrix4{ 2 / (r - l), 0, 0,  0,
+						0, 2 / (t - b), 0,  0,
+						0, 0, -2 / (f - n), 0,
+						-((r + l) / (r - l)), -((t + b) / (t / b)), -((f + n) / (f - n)), 1 };
 	}
 
 

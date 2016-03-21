@@ -1,9 +1,10 @@
+// TODO : Documentation and add more defaults
+
 #pragma once
 #include "Entity.h"
 
 namespace JTL
 {
-
 	struct Factory
 	{
 		static Handle<Entity> CreateBox(Vector2 pos, Vector2 vel, Vector2 dim, float mass)
@@ -89,5 +90,4 @@ namespace JTL
 			return e;
 		}
 	};
-
 }

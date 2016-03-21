@@ -18,7 +18,7 @@
 
 		* Addition of torque to be used in rotation
 
-			(void addTorque(const float&)
+			(void addTorque(const float&))
 
 		* Integrate force/torque into current acceleration
 
@@ -71,7 +71,6 @@
 
 namespace JTL
 {
-
 	class Rigidbody : public ComponentData<Rigidbody>
 	{
 	public:
@@ -81,9 +80,14 @@ namespace JTL
 		float angularVelocity, angularAcceleration, torque, angularJerk, angularDrag;
 
 		Rigidbody();
+
+		// Add force determining acceleration at next integration.
 		void addForce(const Vector2 &);
+
+		// Add torque for determining angular acceleration at next integration.
 		void addTorque(const float &);
+
+		// Integrate force and torque to change our velocity/angular velocity.
 		void integrate(Transform *, float dt);
 	};
-
 }

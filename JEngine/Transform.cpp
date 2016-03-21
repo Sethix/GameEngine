@@ -1,8 +1,8 @@
+// TODO: Clean-up
 #include "Transform.h"
 
 namespace JTL
 {
-
 	Transform::Transform()
 		: parent(nullptr),
 		scale({ 1,1 }),
@@ -40,44 +40,21 @@ namespace JTL
 				: ID_MAT3);
 	}
 
-	void Transform::setPosition(const Vector2 &a_position)
-	{
-		position = a_position;
-	}
+	Matrix4 Transform::getDrawMatrix() const { return matrix3To4(getGlobalTransform()); }
 
-	void Transform::setScale(const Vector2 &a_scale)
-	{
-		scale = a_scale;
-	}
+	void Transform::setPosition(const Vector2 &a_position) { position = a_position; }
 
-	void Transform::setAngle(float a_angle)
-	{
-		angle = a_angle;
-	}
+	void Transform::setScale(const Vector2 &a_scale) { scale = a_scale; }
 
-	Vector2 Transform::getPosition() const
-	{
-		return position;
-	}
+	void Transform::setAngle(float a_angle) { angle = a_angle; }
 
-	Vector2 Transform::getScale() const
-	{
-		return scale;
-	}
+	Vector2 Transform::getPosition() const { return position; }
 
-	float Transform::getAngle() const
-	{
-		return angle;
-	}
+	Vector2 Transform::getScale() const { return scale; }
 
-	Vector2 Transform::getRight() const
-	{
-		return fromAngle(angle);
-	}
+	float Transform::getAngle() const { return angle; }
 
-	Vector2 Transform::getUp() const
-	{
-		return perp(fromAngle(angle));
-	}
+	Vector2 Transform::getRight() const { return fromAngle(angle); }
 
+	Vector2 Transform::getUp() const { return perp(fromAngle(angle)); }
 }

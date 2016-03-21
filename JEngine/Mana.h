@@ -1,10 +1,9 @@
 /******************************************************
 
-----------------------Collider.h-----------------------
+------------------------Mana.h-------------------------
 
 	Purpose -
-		To provide a container to be used in
-		testing intersection between two objects.
+		To give objects a resource to draw from.
 
 
 
@@ -12,10 +11,29 @@
 		Capable of the following,
 
 
-		* Intersection test between two objects.
+		* Return the objects current mana.
 
-			(CollisionData isColliding(Transform&, Collider&, 
-									   Transform&, Collider&))
+			(float getCurrentMana())
+
+		* Return the objects max mana.
+
+			(float getMaxMana())
+
+		* Return the objects mana regeneration rate.
+
+			(float getRegenRate())
+
+		* Set the objects current mana.
+
+			(void setCurrentMana(const float&))
+
+		* Set the objects max mana.
+
+			(void setMaxMana(const float&))
+
+		* Set the objects mana regeneration rate.
+
+			(void setRegenRate(const float&))
 
 
 
@@ -56,39 +74,25 @@
 
 
 *******************************************************/
+
 #pragma once
-#include "AABB2D.h"
-#include "Circle.h"
-#include "Ray2D.h"
-#include "Plane2D.h"
-#include "ConvexHull2D.h"
 #include "ComponentData.h"
 
 namespace JTL
 {
-	class Transform;
-
-	class Collider : public ComponentData<Collider>
+	class Mana : public ComponentData<Mana>
 	{
+		float curMana;
+		float maxMana;
+		float regenRate;
+
 	public:
-		enum SHAPE { e_CIRCLE = 1, e_AABB = 2, e_RAY = 4, e_PLANE = 8, e_CONVEX = 16 } shape;
-		
-		union
-		{
-			Circle			circle;
-			AABB2D			aabb;
-			Ray2D			ray;
-			Plane2D			plane;
-			ConvexHull2D	chull;
-		};
+		float getCurrentMana() { return curMana;   }
+		float getMaxMana()	   { return maxMana;   }
+		float getRegenRate()   { return regenRate; }
 
-		// Used in collision resolution to detect how to handle the collision.
-		bool isTrigger;
-
-		Collider();
+		void setCurrentMana(float mp) { curMana = mp;   }
+		void setMaxMana(float mp)	  { maxMana = mp;   }
+		void setRegenRate(float mp)   { regenRate = mp; }
 	};
-
-	// Returns collision data between two objects.
-	CollisionData isColliding(const Transform &, const Collider &,
-							  const Transform &, const Collider &);
 }

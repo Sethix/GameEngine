@@ -1,10 +1,13 @@
+// TODO : Re-build this class. Kind of bad.
+// Served it's purpose and taught me openGL.
+
 /******************************************************
 
-----------------------Collider.h-----------------------
+---------------------DebugDraw.h-----------------------
 
 	Purpose -
-		To provide a container to be used in
-		testing intersection between two objects.
+		To display a visual representation of entity
+		data such as colliders for testing purposes.
 
 
 
@@ -12,10 +15,11 @@
 		Capable of the following,
 
 
-		* Intersection test between two objects.
+		* Draw Collider, Transform or Rigidbody on the screen.
 
-			(CollisionData isColliding(Transform&, Collider&, 
-									   Transform&, Collider&))
+			(void draw(const Transform&, const Rigidbody&, const Matrix4&))
+
+			(void draw(const Transform&, const Matrix4&))
 
 
 
@@ -57,38 +61,28 @@
 
 *******************************************************/
 #pragma once
-#include "AABB2D.h"
-#include "Circle.h"
-#include "Ray2D.h"
-#include "Plane2D.h"
-#include "ConvexHull2D.h"
-#include "ComponentData.h"
+#include "System.h"
+#include "Shader.h"
+#include "Mesh.h"
+#include "Collider.h"
+#include "Rigidbody.h"
+#include "Vector4.h"
+
+#define SHAPECOLOR Vector4{0.4f, 0.2f, 0.6f, 1.0f}
 
 namespace JTL
 {
-	class Transform;
-
-	class Collider : public ComponentData<Collider>
+	class DebugDraw
 	{
+		Shader shader;
+		Mesh *mesh;
+		bool isRigidBody;
 	public:
-		enum SHAPE { e_CIRCLE = 1, e_AABB = 2, e_RAY = 4, e_PLANE = 8, e_CONVEX = 16 } shape;
-		
-		union
-		{
-			Circle			circle;
-			AABB2D			aabb;
-			Ray2D			ray;
-			Plane2D			plane;
-			ConvexHull2D	chull;
-		};
-
-		// Used in collision resolution to detect how to handle the collision.
-		bool isTrigger;
-
-		Collider();
+		DebugDraw(const Transform &tform);
+		DebugDraw(const Rigidbody &rbody);
+		DebugDraw(const Collider &coll);
+		~DebugDraw();
+		void draw(const Transform &tform, const Matrix4 &proj);
+		void draw(const Transform &tform, const Rigidbody &rBody, const Matrix4 &proj);
 	};
-
-	// Returns collision data between two objects.
-	CollisionData isColliding(const Transform &, const Collider &,
-							  const Transform &, const Collider &);
 }

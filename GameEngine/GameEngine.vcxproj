@@ -28,27 +28,27 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)PortAudio;$(SolutionDir)glew;$(SolutionDir)glfw;$(SolutionDir)JMath;$(SolutionDir)JEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)stb;$(SolutionDir)PortAudio;$(SolutionDir)glew;$(SolutionDir)glfw;$(SolutionDir)JMath;$(SolutionDir)JEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -83,7 +83,7 @@
       <AdditionalDependencies>glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\Justin\Documents\Visual Studio 2015\Projects\Workspace\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -91,7 +91,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)PortAudio;$(SolutionDir)glew;$(SolutionDir)glfw;$(SolutionDir)JMath;$(SolutionDir)JEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)stb;$(SolutionDir)PortAudio;$(SolutionDir)glew;$(SolutionDir)glfw;$(SolutionDir)JMath;$(SolutionDir)JEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -100,7 +100,7 @@
       <AdditionalDependencies>glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\Justin\Documents\Visual Studio 2015\Projects\Workspace\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -110,7 +110,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)PortAudio;$(SolutionDir)glew;$(SolutionDir)glfw;$(SolutionDir)JMath;$(SolutionDir)JEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)stb;$(SolutionDir)PortAudio;$(SolutionDir)glew;$(SolutionDir)glfw;$(SolutionDir)JMath;$(SolutionDir)JEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -121,7 +121,7 @@
       <AdditionalDependencies>glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\Justin\Documents\Visual Studio 2015\Projects\Workspace\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,7 +131,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)PortAudio;$(SolutionDir)glew;$(SolutionDir)glfw;$(SolutionDir)JMath;$(SolutionDir)JEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)stb;$(SolutionDir)PortAudio;$(SolutionDir)glew;$(SolutionDir)glfw;$(SolutionDir)JMath;$(SolutionDir)JEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -142,35 +142,61 @@
       <AdditionalDependencies>glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\Justin\Documents\Visual Studio 2015\Projects\Workspace\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\JEngine\AABB2D.h" />
+    <ClInclude Include="..\JEngine\Asset.h" />
+    <ClInclude Include="..\JEngine\Camera.h" />
     <ClInclude Include="..\JEngine\Circle.h" />
     <ClInclude Include="..\JEngine\Collider.h" />
+    <ClInclude Include="..\JEngine\CollisionDetection.h" />
     <ClInclude Include="..\JEngine\ComponentData.h" />
     <ClInclude Include="..\JEngine\ConvexHull2D.h" />
+    <ClInclude Include="..\JEngine\DebugDraw.h" />
+    <ClInclude Include="..\JEngine\DebugStatistics.h" />
+    <ClInclude Include="..\JEngine\DynamicCollisionResolution.h" />
     <ClInclude Include="..\JEngine\Entity.h" />
     <ClInclude Include="..\JEngine\Factory.h" />
+    <ClInclude Include="..\JEngine\Health.h" />
     <ClInclude Include="..\JEngine\Input.h" />
+    <ClInclude Include="..\JEngine\Lifetime.h" />
+    <ClInclude Include="..\JEngine\Mana.h" />
+    <ClInclude Include="..\JEngine\Mesh.h" />
     <ClInclude Include="..\JEngine\Plane2D.h" />
+    <ClInclude Include="..\JEngine\PlayerController.h" />
+    <ClInclude Include="..\JEngine\PlayerUpdate.h" />
     <ClInclude Include="..\JEngine\Ray2D.h" />
+    <ClInclude Include="..\JEngine\Render.h" />
     <ClInclude Include="..\JEngine\Rigidbody.h" />
+    <ClInclude Include="..\JEngine\RigidbodyDynamics.h" />
+    <ClInclude Include="..\JEngine\Shader.h" />
+    <ClInclude Include="..\JEngine\ShaderLoader.h" />
+    <ClInclude Include="..\JEngine\Sprite.h" />
+    <ClInclude Include="..\JEngine\StaticCollisionResolution.h" />
     <ClInclude Include="..\JEngine\System.h" />
     <ClInclude Include="..\JEngine\Time.h" />
     <ClInclude Include="..\JEngine\Transform.h" />
+    <ClInclude Include="..\JEngine\TriggerCollisionResolution.h" />
     <ClInclude Include="..\JEngine\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\JEngine\AABB2D.cpp" />
+    <ClCompile Include="..\JEngine\Asset.cpp" />
+    <ClCompile Include="..\JEngine\Camera.cpp" />
     <ClCompile Include="..\JEngine\Circle.cpp" />
     <ClCompile Include="..\JEngine\Collider.cpp" />
     <ClCompile Include="..\JEngine\ConvexHull2D.cpp" />
+    <ClCompile Include="..\JEngine\DebugDraw.cpp" />
     <ClCompile Include="..\JEngine\Input.cpp" />
+    <ClCompile Include="..\JEngine\Mesh.cpp" />
     <ClCompile Include="..\JEngine\Plane2D.cpp" />
     <ClCompile Include="..\JEngine\Ray2D.cpp" />
     <ClCompile Include="..\JEngine\Rigidbody.cpp" />
+    <ClCompile Include="..\JEngine\Shader.cpp" />
+    <ClCompile Include="..\JEngine\ShaderLoader.cpp" />
+    <ClCompile Include="..\JEngine\Sprite.cpp" />
     <ClCompile Include="..\JEngine\Time.cpp" />
     <ClCompile Include="..\JEngine\Transform.cpp" />
     <ClCompile Include="..\JEngine\Window.cpp" />

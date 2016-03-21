@@ -1,3 +1,5 @@
+// TODO : Clean-up and move to math library as it's more fitting
+
 #include <cassert>
 #include <algorithm>
 #include "Circle.h"

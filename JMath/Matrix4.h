@@ -99,6 +99,7 @@ namespace JTL
 {
 
 	struct Vector4;
+	struct Matrix3;
 
 	__declspec(align(32)) struct Matrix4
 	{
@@ -140,6 +141,8 @@ namespace JTL
 	Matrix4 transpose(const Matrix4 &a);
 
 	Matrix4 matrix3To4(const Matrix3 &a);
+
+	Matrix4 orthoProj(const float &l, const float &r, const float &b, const float &t, const float &n, const float &f);
 
 #pragma endregion
 

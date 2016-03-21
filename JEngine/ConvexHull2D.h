@@ -20,6 +20,10 @@
 
 			(bool iTest(Shape, Shape))
 
+		* Check if two shapes are intersecting and return data if they are.
+
+			(CollisionData iTest_Data(Shape, Shape))
+
 		* Run test cases to make sure all functions work
 
 			(void DebugConvex2D())
@@ -69,7 +73,6 @@
 
 namespace JTL
 {
-	
 #pragma region ForwardDeclarations
 
 	struct Matrix3;
@@ -93,7 +96,7 @@ namespace JTL
 		size_t size;
 	};
 
-	ConvexHull2D operator*(const Matrix3 &m, const ConvexHull2D &a);
+	ConvexHull2D operator*(const Matrix3 &m, const ConvexHull2D &chull);
 
 #pragma region CollisionFunctions
 
@@ -110,5 +113,4 @@ namespace JTL
 #pragma endregion
 
 	void DebugConvex2D();
-
 }

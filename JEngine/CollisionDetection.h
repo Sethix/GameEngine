@@ -1,21 +1,10 @@
 /******************************************************
 
-----------------------Collider.h-----------------------
+------------------CollisionDetection.h-----------------
 
 	Purpose -
-		To provide a container to be used in
-		testing intersection between two objects.
-
-
-
-	Functionality -
-		Capable of the following,
-
-
-		* Intersection test between two objects.
-
-			(CollisionData isColliding(Transform&, Collider&, 
-									   Transform&, Collider&))
+		A system used to sort through entities and
+		store collisions.
 
 
 
@@ -56,39 +45,50 @@
 
 
 *******************************************************/
+
 #pragma once
-#include "AABB2D.h"
-#include "Circle.h"
-#include "Ray2D.h"
-#include "Plane2D.h"
-#include "ConvexHull2D.h"
-#include "ComponentData.h"
+#include "System.h"
+#include "Entity.h"
 
 namespace JTL
 {
-	class Transform;
-
-	class Collider : public ComponentData<Collider>
+	struct Collision
 	{
-	public:
-		enum SHAPE { e_CIRCLE = 1, e_AABB = 2, e_RAY = 4, e_PLANE = 8, e_CONVEX = 16 } shape;
-		
-		union
+		Handle<Entity> first, second;
+		CollisionData collision;
+
+		static std::vector<Collision> &getData()
 		{
-			Circle			circle;
-			AABB2D			aabb;
-			Ray2D			ray;
-			Plane2D			plane;
-			ConvexHull2D	chull;
-		};
-
-		// Used in collision resolution to detect how to handle the collision.
-		bool isTrigger;
-
-		Collider();
+			static std::vector<Collision> data;
+			return data;
+		}
 	};
 
-	// Returns collision data between two objects.
-	CollisionData isColliding(const Transform &, const Collider &,
-							  const Transform &, const Collider &);
+	class CollisionSystem
+	{
+		virtual bool condition(Collision &a) = 0;
+		virtual void update(Collision &a) = 0;
+		virtual void onStep() {}
+	public:
+		void step()
+		{
+			onStep();
+			for each(Collision c in Collision::getData())
+				if(condition(c) == true)
+					update(c);
+		}
+	};
+
+	class CollisionDetection : public BinarySystem
+	{
+		void onStep() { Collision::getData().clear(); }
+
+		bool condition(Handle<Entity> i) { return i->transform > -1 && i->collider > -1; }
+
+		void update(Handle<Entity> i, Handle<Entity> j)
+		{
+			auto cd = isColliding(*i->transform, *i->collider, *j->transform, *j->collider);
+			if (cd.penDepth > 0) Collision::getData().push_back(Collision{ i,j,cd });
+		}
+	};
 }

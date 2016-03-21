@@ -20,6 +20,10 @@
 
 			(bool iTest(Shape, Shape))
 
+		* Check if two shapes are intersecting and return data if they are.
+
+			(CollisionData iTest_Data(Shape, Shape))
+
 		* Run test cases to make sure all functions work
 
 			(void DebugCircle())
@@ -68,8 +72,7 @@
 #include "Vector2.h"
 
 namespace JTL
-{
-	
+{	
 #pragma region ForwardDeclarations
 
 	struct Matrix3;
@@ -85,30 +88,29 @@ namespace JTL
 
 	struct Circle { Vector2 position; float radius; };
 
-	Circle operator*(const Matrix3 &m, const Circle &a);
+	Circle operator*(const Matrix3 &m, const Circle &c);
 
 #pragma region CollisionFunctions
 
-	bool iTest(const Circle &ac, const Circle &bc);
+	bool iTest(const Circle &a, const Circle &b);
 
-	bool iTest(const Circle &ac, const AABB2D &bc);
+	bool iTest(const Circle &a, const AABB2D &b);
 
-	bool iTest(const Circle &ac, const Plane2D &bc);
+	bool iTest(const Circle &a, const Plane2D &b);
 
-	bool iTest(const Circle &ac, const Ray2D &bc);
+	bool iTest(const Circle &a, const Ray2D &b);
 
-	CollisionData iTest_data(const Circle &ac, const Circle &bc);
+	CollisionData iTest_data(const Circle &a, const Circle &b);
 
-	CollisionData iTest_data(const Circle &ac, const AABB2D &bc);
+	CollisionData iTest_data(const Circle &a, const AABB2D &b);
 
-	CollisionData iTest_data(const Circle &ac, const Plane2D &bc);
+	CollisionData iTest_data(const Circle &a, const Plane2D &b);
 
-	CollisionData iTest_data(const Circle &ac, const Ray2D &bc);
+	CollisionData iTest_data(const Circle &a, const Ray2D &b);
 
-	CollisionData iTest_data(const Circle &ac, const ConvexHull2D &bc);
+	CollisionData iTest_data(const Circle &a, const ConvexHull2D &b);
 
 #pragma endregion
 
 	void DebugCircle();
-
 }
