@@ -136,10 +136,10 @@ namespace JTL
 
 	Vector4  lerp	(const Vector4 &a  , const Vector4 &b  , const float   &alpha)
 	{
-		return Vector4{ a.x + ((a.x - b.x) * alpha) ,
-			a.y + ((a.y - b.y) * alpha) ,
-			a.z + ((a.z - b.z) * alpha) ,
-			a.w + ((a.w - b.w) * alpha) };
+		return Vector4{ a.x + (b.x - a.x) * alpha ,
+						a.y + (b.y - a.y) * alpha ,
+						a.z + (b.z - a.z) * alpha ,
+						a.w + (b.w - a.w) * alpha };
 	}
 
 	Vector4  clamp	(const Vector4 &a  , const Vector4 &min, const Vector4 &max  )

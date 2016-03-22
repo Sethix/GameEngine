@@ -108,9 +108,6 @@
     <ClInclude Include="..\JEngine\CollisionDetection.h">
       <Filter>Header Files\Sub Systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\JEngine\DebugStatistics.h">
-      <Filter>Header Files\Sub Systems</Filter>
-    </ClInclude>
     <ClInclude Include="..\JEngine\DynamicCollisionResolution.h">
       <Filter>Header Files\Sub Systems</Filter>
     </ClInclude>
@@ -145,6 +142,15 @@
       <Filter>Header Files\Entity Components</Filter>
     </ClInclude>
     <ClInclude Include="..\JEngine\TriggerCollisionResolution.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\HealthSystem.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\LifetimeSystem.h">
+      <Filter>Header Files\Sub Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\JEngine\ManaSystem.h">
       <Filter>Header Files\Sub Systems</Filter>
     </ClInclude>
   </ItemGroup>

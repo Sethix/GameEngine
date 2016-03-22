@@ -10,13 +10,14 @@
 #include "RigidbodyDynamics.h"
 #include "Entity.h"
 #include "DebugDraw.h"
+#include "LifetimeSystem.h"
 
 using namespace JTL;
 
 int main()
 {
 	auto &window = Window::instance();
-	window.init(1920, 1080, "WHAT", false, true);
+	window.init(800, 800, "WHAT", false, false);
 
 	auto &time = Time::instance();
 	time.init();
@@ -28,6 +29,7 @@ int main()
 	DynamicResolution dynamicResolution;
 	StaticResolution staticResolution;
 	RigidbodyDynamics rigidbodyDynamics;
+	LifetimeSystem lifetimeSystem;
 	PlayerUpdate playerUpdate;
 	RenderSystem renderSystem;
 
@@ -47,29 +49,68 @@ int main()
 	player->health = Health::make();
 	player->mana = Mana::make();
 
+	Vector2 curveTest[8];
+
+	for (int i = 0; i < 8; ++i)
+		curveTest[i] = hermite({ 0,0 }, { 10,10 }, { 10,0 }, { 0,10 }, (float)(i + 1) / (float)8);
+
+	//player->lifespan = Lifespan::make();
+
 	player->sprite->assetName = "test";
+
+	player->controller->PlayerNumber = 0;
 
 	player->controller->gravity = 600;
 
-	//player->rigidbody->drag = 1;
+	player->rigidbody->drag = 1;
 	
 	player->collider->shape = Collider::e_AABB;
+
+	//player->collider->chull.size = 5;
+	//player->collider->chull.verts[1] = { -20,-10 };
+	//player->collider->chull.verts[2] = { -10,-20 };
+	//player->collider->chull.verts[3] = {  10,-20 };
+	//player->collider->chull.verts[4] = {  20,-10 };
+	//player->collider->chull.verts[0] = {  0 , 10 };
+
+	//player->transform->setScale({ 3,3 });
 	player->collider->aabb.min = {-(float)(assets.getTextures("test").width  / assets.getTextures("test").rows) / 2,
 								  -(float)(assets.getTextures("test").height / assets.getTextures("test").cols) / 2 };
 	player->collider->aabb.max = { (float)(assets.getTextures("test").width  / assets.getTextures("test").rows) / 2,
 								   (float)(assets.getTextures("test").height / assets.getTextures("test").cols) / 2 };
 
+	//player->collider->circle.radius = 32;
+	player->collider->isTrigger = false;
+
+	player->controller->grounded = true;
+
 	auto ground = Entity::make();
 	ground->collider = Collider::make();
 	ground->transform = Transform::make();
+	ground->lifespan = Lifespan::make();
 
 	ground->collider->shape = Collider::e_AABB;
 	ground->collider->aabb.min = { -500,-50 };
 	ground->collider->aabb.max = {  500, 50 };
 
+	/*ground->collider->circle.position = { 0, -40 };
+	ground->collider->circle.radius = 100;*/
+
+	//ground->collider->chull.size = 5;
+	//ground->collider->chull.verts[1] = { -8,-12 };
+	//ground->collider->chull.verts[2] = { -4,-24 };
+	//ground->collider->chull.verts[3] = {  4,-24 };
+	//ground->collider->chull.verts[4] = {  8,-12 };
+	//ground->collider->chull.verts[0] = {  0 , 4 };
+
 	ground->transform->setPosition({ 0,-400 });
 
+	//ground->transform->setScale({ 10,10 });
+
+	ground->collider->isTrigger = false;
+
 	DebugDraw temp(ground->collider->getData().at(ground->collider->getIndex()));
+	//DebugDraw tempb(player->collider->getData().at(ground->collider->getIndex()));
 
 	while (window.step())
 	{
@@ -79,6 +120,7 @@ int main()
 		collisionDetection.step();
 		dynamicResolution.step();
 		staticResolution.step();
+		//lifetimeSystem.step();
 
 		playerUpdate.step();
 
@@ -88,7 +130,9 @@ int main()
 
 		renderSystem.step();
 
-		temp.draw(ground->transform->getData().at(ground->transform->getIndex()), camera->camera->getProj() * camera->camera->getView());
+		if(ground > -1) temp.draw(ground->transform->getData().at(ground->transform->getIndex()), camera->camera->getProj() * camera->camera->getView());
+		//tempb.draw(player->transform->getData().at(player->transform->getIndex()), camera->camera->getProj() * camera->camera->getView());
+
 		time.step();
 	}
 

@@ -71,5 +71,8 @@
     <ClInclude Include="..\JMath\Vector4.h">
       <Filter>Header Files\Vectors</Filter>
     </ClInclude>
+    <ClInclude Include="..\JMath\vhash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

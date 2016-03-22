@@ -3,6 +3,8 @@
 #include <cmath>
 #include "JMath.h"
 #include "Vector2.h"
+#include "Matrix4.h"
+#include "Vector4.h"
 
 namespace JTL
 {
@@ -166,8 +168,8 @@ namespace JTL
 
 	Vector2  lerp		(const Vector2 &a  , const Vector2 &b  , const float   &alpha)
 	{
-		return Vector2{ a.x + ((a.x - b.x) * alpha) ,
-			a.y + ((a.y - b.y) * alpha) };
+		return Vector2{ a.x + (b.x - a.x) * alpha,
+						a.y + (b.y - a.y) * alpha };
 	}
 
 	Vector2  clamp		(const Vector2 &a  , const Vector2 &min, const Vector2 &max  )
@@ -214,6 +216,28 @@ namespace JTL
 	Vector2  reflect	(const Vector2 &incident, const Vector2 &normal)
 	{
 		return incident - (normal * (2 * dot(incident, normal)));
+	}
+
+	Vector2  hermite(const Vector2 &ptA, const Vector2 &ptB, const Vector2 &tanA, const Vector2 &tanB, const float &t)
+	{
+		float h1 = pow( 2 * t, 3) -		pow(3 * t, 2) + 1;
+		float h2 = pow(-2 * t, 3) +		pow(3 * t, 2);
+		float h3 = pow(     t, 3) - 2 * pow(	t, 2) + t;
+		float h4 = pow(     t, 3) -		pow(	t, 2);
+
+		return { h1 * ptA.x + h2 * ptB.x + h3 * tanA.x + h4 * tanB.x,
+				 h1 * ptA.y + h2 * ptB.y + h3 * tanA.y + h4 * tanB.y };
+	}
+
+	Vector2  bezier(const Vector2 &a, const Vector2 &b, const Vector2 &c, const Vector2 &d, const float &t)
+	{
+		Vector2 ab, bc, cd, abbc, bccd;
+		ab	 = lerp(a, b, t);
+		bc	 = lerp(b, c, t);
+		cd	 = lerp(c, d, t);
+		abbc = lerp(ab, bc, t);
+		bccd = lerp(bc, cd, t);
+		return lerp(abbc, bccd, t);
 	}
 
 #pragma endregion

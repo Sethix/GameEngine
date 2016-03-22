@@ -12,6 +12,7 @@
 #include "Plane2D.h"
 #include "Ray2D.h"
 #include "ConvexHull2D.h"
+#include "JMath.h"
 
 namespace JTL
 {
@@ -57,9 +58,8 @@ namespace JTL
 	{
 		if (iTest(ac, bc))
 		{
-			return CollisionData{ (bc.position.x - ac.position.x) * (bc.position.x - ac.position.x   )
-								+ (bc.position.y - ac.position.y) * (bc.position.y - ac.position.y   )
-								- (ac.radius + bc.radius        ) ,  normal(bc.position - ac.position) };
+			return CollisionData{ (ac.radius + bc.radius) - (mag(ac.position - bc.position)),
+								  -normal(bc.position - ac.position) };
 		}
 		else return CollisionData{ 0,0 };
 	}
@@ -73,7 +73,7 @@ namespace JTL
 			a.size = 4;
 
 			a.verts[0] = bc.min;
-			a.verts[1] = Vector2{ bc.min.x, bc.max.y };
+			a.verts[1] = Vector2{ bc.min.x, bc.max.y } + E_VEC2;
 			a.verts[2] = bc.max;
 			a.verts[3] = Vector2{ bc.max.y, bc.min.y };
 

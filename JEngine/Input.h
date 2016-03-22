@@ -30,7 +30,7 @@ namespace JTL
 		float joyPress[NUM_OF_JOYSTICKS][NUM_OF_JOY_BTNS];
 		bool joyState[NUM_OF_JOYSTICKS][NUM_OF_JOY_BTNS];
 
-		Input::Input() : isInit(false) {}
+		Input() : isInit(false) {}
 
 		float mouseX, mouseY;
 

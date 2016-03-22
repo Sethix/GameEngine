@@ -10,6 +10,9 @@
 #include "Circle.h"
 #include "Plane2D.h"
 #include "Ray2D.h"
+#include "vhash.h"
+
+#include <unordered_set>
 
 
 namespace JTL
@@ -31,16 +34,29 @@ namespace JTL
 	CollisionData iTest_data(const ConvexHull2D &a, const ConvexHull2D &b)
 	{
 		std::vector<Vector2> axes;
+		std::unordered_set<Vector2,Vector2Hasher> saxes;
 
 		CollisionData cd{ INFINITY };
 
 		for (size_t i = 0; i < a.size; ++i)
-			axes.push_back(perp(normal(a.verts[i] - a.verts[(i + 1) % a.size])));
-
+		{
+			auto axis = -perp(normal(a.verts[i] - a.verts[(i + 1) % a.size]));
+			axes.push_back(axis);
+			
+			//if (!saxes.count(-axis))
+				saxes.insert(axis);
+		}
 		for (size_t i = 0; i < b.size; ++i)
-			axes.push_back(perp(normal(b.verts[i] - b.verts[(i + 1) % b.size])));
+		{
+			auto axis = -perp(normal(b.verts[i] - b.verts[(i + 1) % b.size]));
+			axes.push_back(axis);
 
-		for (size_t i = 0; i < axes.size(); ++i)
+			//if (!saxes.count(-axis))
+				saxes.insert(axis);
+		}
+
+		//for (size_t i = 0; i < axes.size(); ++i)
+		for each(Vector2 axis in saxes)
 		{
 			float amin = INFINITY;
 			float bmin = INFINITY;
@@ -49,7 +65,7 @@ namespace JTL
 
 			for (size_t j = 0; j < a.size; ++j)
 			{
-				float pp = JTL::dot(axes[i], a.verts[j]);
+				float pp = JTL::dot(axis, a.verts[j]);
 
 				amin = fminf(pp, amin);
 				amax = fmaxf(pp, amax);
@@ -57,7 +73,7 @@ namespace JTL
 
 			for (size_t j = 0; j < b.size; ++j)
 			{
-				float pp = JTL::dot(axes[i], b.verts[j]);
+				float pp = JTL::dot(axis, b.verts[j]);
 
 				bmin = fminf(pp, bmin);
 				bmax = fmaxf(pp, bmax);
@@ -66,9 +82,9 @@ namespace JTL
 			float pdepth = fminf(amax - bmin, bmax - amin);
 
 			if (pdepth < cd.penDepth)
-				cd = { pdepth, axes[i] };
+				cd = { pdepth, axis };
 
-			if (pdepth < 0)
+			if (pdepth <= 0)
 			{
 				return cd;
 			}

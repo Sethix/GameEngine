@@ -219,6 +219,10 @@ namespace JTL
 
 	Vector2  reflect(const Vector2 &incident, const Vector2 &normal);
 
+	Vector2  hermite(const Vector2 &ptA, const Vector2 &ptB, const Vector2 &tanA, const Vector2 &tanB, const float &t);
+
+	Vector2  bezier(const Vector2 &a, const Vector2 &b, const Vector2 &c, const Vector2 &d, const float &t);
+
 #pragma endregion
 
 }

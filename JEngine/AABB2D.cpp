@@ -10,6 +10,7 @@
 #include "Plane2D.h"
 #include "Ray2D.h"
 #include "ConvexHull2D.h"
+#include "JMath.h"
 
 namespace JTL
 {
@@ -125,17 +126,17 @@ namespace JTL
 			a.size = 4;
 			b.size = 4;
 
-			a.verts[2] = ac.min;
-			a.verts[1] = Vector2{ ac.min.x, ac.max.y };
-			a.verts[0] = ac.max;
-			a.verts[3] = Vector2{ ac.max.x, ac.min.y };
+			a.verts[1] = Vector2{ ac.min.x, ac.min.y };
+			a.verts[0] = Vector2{ ac.min.x, ac.max.y };
+			a.verts[3] = Vector2{ ac.max.x, ac.max.y };
+			a.verts[2] = Vector2{ ac.max.x, ac.min.y };
 
-			b.verts[2] = bc.min;
-			b.verts[1] = Vector2{ bc.min.x, bc.max.y };
-			b.verts[0] = bc.max;
-			b.verts[3] = Vector2{ bc.max.x, bc.min.y };
+			b.verts[1] = Vector2{ bc.min.x, bc.min.y };
+			b.verts[0] = Vector2{ bc.min.x, bc.max.y };
+			b.verts[3] = Vector2{ bc.max.x, bc.max.y };
+			b.verts[2] = Vector2{ bc.max.x, bc.min.y };
 
-			return iTest_data(a, b);
+			return iTest_data(Matrix3::rotate(DEG2RAD(2)) * a, b);
 		}
 		else return CollisionData{ 0,0 };
 	}
@@ -148,9 +149,9 @@ namespace JTL
 
 			a.size = 4;
 
-			a.verts[0] = ac.min;
+			a.verts[2] = ac.min;
 			a.verts[1] = Vector2{ ac.min.x, ac.max.y };
-			a.verts[2] = ac.max;
+			a.verts[0] = ac.max;
 			a.verts[3] = Vector2{ ac.max.y, ac.min.y };
 
 			return iTest_data(a, bc);

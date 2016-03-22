@@ -140,9 +140,9 @@ namespace JTL
 
 	Vector3  lerp	(const Vector3 &a  , const Vector3 &b  , const float   &alpha)
 	{
-		return Vector3{ a.x + ((a.x - b.x) * alpha) ,
-			a.y + ((a.y - b.y) * alpha) ,
-			a.z + ((a.z - b.z) * alpha) };
+		return Vector3{ a.x + (b.x - a.x) * alpha ,
+						a.y + (b.y - a.y) * alpha ,
+						a.z + (b.z - a.z) * alpha };
 	}
 
 	Vector3  clamp	(const Vector3 &a  , const Vector3 &min, const Vector3 &max  )

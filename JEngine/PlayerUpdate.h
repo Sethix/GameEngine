@@ -21,14 +21,30 @@ namespace JTL
 			
 			float dt = Time::instance().getDeltaTime();
 
-			if (input.getKey(controller.LEFT) && i->rigidbody->velocity.x > -controller.maxSpeed)
-				i->rigidbody->addForce({ -controller.moveSpeed, 0 });
+			if (controller.gamepad == false)
+			{
 
-			if (input.getKey(controller.RIGHT) && i->rigidbody->velocity.x < controller.maxSpeed)
-				i->rigidbody->addForce({  controller.moveSpeed, 0 });
+				if (input.getKey(controller.LEFT) && i->rigidbody->velocity.x > -controller.maxSpeed)
+					i->rigidbody->addForce({ -controller.moveSpeed, 0 });
 
-			if (input.getKey(controller.JUMP) && controller.grounded)
-				i->rigidbody->addForce({ 0, controller.jumpForce });
+				if (input.getKey(controller.RIGHT) && i->rigidbody->velocity.x < controller.maxSpeed)
+					i->rigidbody->addForce({ controller.moveSpeed, 0 });
+
+				if (input.getKeyPress(controller.JUMP) && controller.grounded)
+					i->rigidbody->addForce({ 0, controller.jumpForce });
+
+			}
+			else
+			{
+				if (input.getJoy(controller.PlayerNumber, controller.LEFT) && i->rigidbody->velocity.x > -controller.maxSpeed)
+					i->rigidbody->addForce({ -controller.moveSpeed, 0 });
+
+				if (input.getJoy(controller.PlayerNumber, controller.RIGHT) && i->rigidbody->velocity.x < controller.maxSpeed)
+					i->rigidbody->addForce({ controller.moveSpeed, 0 });
+
+				if (input.getJoyPress(controller.PlayerNumber, controller.JUMP) && controller.grounded)
+					i->rigidbody->addForce({ 0, controller.jumpForce });
+			}
 
 			if(i->rigidbody->velocity.y > -i->controller->terminalVelocity)
 				i->rigidbody->addForce({ 0, -controller.gravity });

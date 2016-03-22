@@ -10,17 +10,18 @@ namespace JTL
 	struct Handle
 	{
 		int index;
-		Handle(int i = -1) : index(i) {}
+		Handle(int i = -1) : index(i), dataref(&ComponentData<T>::getData()) {}
 
 		T *operator->()		  { return &ComponentData<T>::at(index); }
 		T *operator->() const { return &ComponentData<T>::at(index); }
-		T *operator& ()		  { return &ComponentData<T>::at(index); }
-		T *operator& () const { return &ComponentData<T>::at(index); }
-		T  operator* ()		  { return  ComponentData<T>::at(index); }
 		T  operator* () const { return  ComponentData<T>::at(index); }
+		T &operator* ()		  { return  ComponentData<T>::at(index); }
+		T *operator& ()		  { return &ComponentData<T>::at(index); }
 
-		operator int()		 { return index; }
+			operator int()		 { return index; }
 		operator int() const { return index; }
+	private:
+		std::vector<T> *dataref;
 	};
 
 	template<typename T>
@@ -41,7 +42,7 @@ namespace JTL
 
 		static void free(int i)
 		{
-			if (!at(i).isVacant)
+			if (i > -1 && !at(i).isVacant)
 			{
 				at(i).onFree();
 				getQueue().push(i);
@@ -58,6 +59,7 @@ namespace JTL
 			{
 				i = getQueue().front();
 				getQueue().pop();
+				at(i) = T();
 			}
 			else
 			{

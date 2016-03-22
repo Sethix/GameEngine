@@ -75,7 +75,8 @@ namespace JTL
 	public:
 		// This can be used to achieve effects such as split screen multiplayer
 		// by using multiple camera entities.
-		enum SPACE {FULL, TOP_HALF, BOT_HALF, LFT_HALF, RGT_HALF, TL_CORNER, TR_CORNER, BL_CORNER, BR_CORNER, CENTER_SQUARE} space;
+		enum SPACE {FULL, TOP_HALF, BOT_HALF, LFT_HALF, RGT_HALF, 
+					TL_CORNER, TR_CORNER, BL_CORNER, BR_CORNER, CENTER_SQUARE} space;
 
 		// This allows us to move our camera. It is used in the view matrix.
 		Vector2 pos;

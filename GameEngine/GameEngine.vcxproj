@@ -155,14 +155,16 @@
     <ClInclude Include="..\JEngine\ComponentData.h" />
     <ClInclude Include="..\JEngine\ConvexHull2D.h" />
     <ClInclude Include="..\JEngine\DebugDraw.h" />
-    <ClInclude Include="..\JEngine\DebugStatistics.h" />
     <ClInclude Include="..\JEngine\DynamicCollisionResolution.h" />
     <ClInclude Include="..\JEngine\Entity.h" />
     <ClInclude Include="..\JEngine\Factory.h" />
     <ClInclude Include="..\JEngine\Health.h" />
+    <ClInclude Include="..\JEngine\HealthSystem.h" />
     <ClInclude Include="..\JEngine\Input.h" />
     <ClInclude Include="..\JEngine\Lifetime.h" />
+    <ClInclude Include="..\JEngine\LifetimeSystem.h" />
     <ClInclude Include="..\JEngine\Mana.h" />
+    <ClInclude Include="..\JEngine\ManaSystem.h" />
     <ClInclude Include="..\JEngine\Mesh.h" />
     <ClInclude Include="..\JEngine\Plane2D.h" />
     <ClInclude Include="..\JEngine\PlayerController.h" />

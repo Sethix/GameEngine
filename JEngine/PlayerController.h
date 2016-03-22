@@ -183,12 +183,12 @@ namespace JTL
 	{
 	public:
 		bool gamepad;
-		int LEFT, RIGHT, JUMP;
+		int PlayerNumber, LEFT, RIGHT, JUMP;
 		float moveSpeed, maxSpeed, jumpForce, gravity, terminalVelocity, maxHealth, maxMana, healthRegen, manaRegen;
 		bool grounded;
 
-		PlayerController() : gamepad(false), LEFT(KEY_A), RIGHT(KEY_D), JUMP(KEY_W),
-							 moveSpeed(120), maxSpeed(20), jumpForce(60), gravity(180), terminalVelocity(400),
+		PlayerController() : gamepad(true), LEFT(13), RIGHT(11), JUMP(0),
+							 moveSpeed(720), maxSpeed(200), jumpForce(9999), gravity(180), terminalVelocity(400),
 							 maxHealth(50), maxMana(50), healthRegen(0.5f), manaRegen(5) {}
 	};
 }
