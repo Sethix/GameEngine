@@ -40,7 +40,7 @@ namespace JTL
 
 		for (size_t i = 0; i < a.size; ++i)
 		{
-			auto axis = -perp(normal(a.verts[i] - a.verts[(i + 1) % a.size]));
+			auto axis = perp(normal(a.verts[i] - a.verts[(i + 1) % a.size]));
 			axes.push_back(axis);
 			
 			//if (!saxes.count(-axis))
@@ -48,7 +48,7 @@ namespace JTL
 		}
 		for (size_t i = 0; i < b.size; ++i)
 		{
-			auto axis = -perp(normal(b.verts[i] - b.verts[(i + 1) % b.size]));
+			auto axis = perp(normal(b.verts[i] - b.verts[(i + 1) % b.size]));
 			axes.push_back(axis);
 
 			//if (!saxes.count(-axis))
@@ -82,9 +82,9 @@ namespace JTL
 			float pdepth = fminf(amax - bmin, bmax - amin);
 
 			if (pdepth < cd.penDepth)
-				cd = { pdepth, axis };
+				cd = { pdepth, (pdepth == (amax - bmin)) ? axis : -axis };
 
-			if (pdepth <= 0)
+			if (pdepth < 0)
 			{
 				return cd;
 			}
@@ -105,6 +105,8 @@ namespace JTL
 		temp.verts[2] = b.max;
 		temp.verts[3] = Vector2{ b.max.x, b.min.y };
 
+		return iTest_data(temp, a);
+
 		std::vector<Vector2> axes;
 
 		CollisionData cd{ INFINITY };
@@ -122,7 +124,7 @@ namespace JTL
 			float amax = -INFINITY;
 			float bmax = -INFINITY;
 
-			cd.collisionNormal = axes[i];
+			//cd.collisionNormal = axes[i];
 
 			for (size_t j = 0; j < a.size; ++j)
 			{
@@ -143,7 +145,7 @@ namespace JTL
 			float pdepth = fminf(amax - bmin, bmax - amin);
 
 			if (pdepth < cd.penDepth)
-				cd = { pdepth, axes[i] };
+				cd = { pdepth, (pdepth == (amax - bmin)) ? axes[i] : -axes[i] };
 
 			if (pdepth < 0)
 			{
@@ -171,7 +173,7 @@ namespace JTL
 			float amax = -INFINITY;
 			float bmax = -INFINITY;
 
-			cd.collisionNormal = axes[i];
+			//cd.collisionNormal = axes[i];
 
 			for (size_t j = 0; j < a.size; ++j)
 			{
@@ -190,7 +192,7 @@ namespace JTL
 			float pdepth = fminf(amax - bmin, bmax - amin);
 
 			if (pdepth < cd.penDepth)
-				cd = { pdepth, axes[i] };
+				cd = { pdepth, pdepth == (amax - bmin) ? axes[i] : -axes[i] };
 
 			if (pdepth < 0) 
 			{ 
@@ -198,7 +200,7 @@ namespace JTL
 			}
 		}
 
-		return cd;
+	return cd;
 
 	}
 
@@ -212,7 +214,7 @@ namespace JTL
 		float amin = INFINITY;
 		float amax = -INFINITY;
 
-		cd.collisionNormal = axis;
+		//cd.collisionNormal = axis;
 
 		for (size_t j = 0; j < a.size; ++j)
 		{

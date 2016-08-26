@@ -94,6 +94,7 @@ namespace JTL
 		struct Texture { unsigned _handle; int width, height; unsigned rows, cols; };
 
 		std::unordered_map<std::string, Texture> textures;
+		//std::unordered_map<std::string, Mesh> meshes;
 
 		// Load a texture or spritesheet from a path and assign a name.
 		void loadTexture(const std::string &name, const unsigned &rows, const unsigned &cols, const char *path);
@@ -104,6 +105,11 @@ namespace JTL
 		// Draw our texture in world space.
 		void drawTexture(const std::string & name, Shader &shader, const Vector4 &color, const int &idx,
 						 const Matrix4 &model, const Matrix4 &view, const Matrix4 &proj);
+
+		void loadMesh(const std::string &name, const char *path);
+
+		void drawMesh(const std::string &name, Shader &shader, const Vector4 &color,
+					  const Matrix4 &model, const Matrix4 &view, const Matrix4 &proj);
 
 
 		static Asset &instance() { static Asset i; return i; }

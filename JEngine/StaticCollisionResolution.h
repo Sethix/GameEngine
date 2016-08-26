@@ -70,10 +70,10 @@ namespace JTL
 			{
 				Vector2 MTV = c.collision.collisionNormal * c.collision.penDepth;
 
-				Vector2 p1 = c.first->transform->getPosition() + MTV;
+				Vector2 p1 = c.first->transform->getPosition() - MTV;
 
 				c.first->transform->setPosition(p1);
-				//c.first->rigidbody->velocity = reflect(c.first->rigidbody->velocity, c.collision.collisionNormal);
+				c.first->rigidbody->velocity = reflect(c.first->rigidbody->velocity, c.collision.collisionNormal);
 
 				//if (c.first->controller > -1 && c.collision.collisionNormal.y == 1) c.first->rigidbody->addForce({ 0, c.first->controller->gravity });
 
@@ -85,7 +85,7 @@ namespace JTL
 
 				Vector2 p1 = c.second->transform->getPosition() + MTV;
 
-				//c.second->transform->setPosition(p1);
+				c.second->transform->setPosition(p1);
 				c.second->rigidbody->velocity = reflect(c.second->rigidbody->velocity, c.collision.collisionNormal);
 				//c.second->rigidbody->acceleration = reflect(c.second->rigidbody->acceleration, c.collision.collisionNormal);
 			}

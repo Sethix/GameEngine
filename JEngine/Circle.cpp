@@ -75,7 +75,7 @@ namespace JTL
 			a.verts[0] = bc.min;
 			a.verts[1] = Vector2{ bc.min.x, bc.max.y } + E_VEC2;
 			a.verts[2] = bc.max;
-			a.verts[3] = Vector2{ bc.max.y, bc.min.y };
+			a.verts[3] = Vector2{ bc.max.x, bc.min.y };
 
 			return iTest_data(a, ac);
 		}

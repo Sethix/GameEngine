@@ -17,7 +17,7 @@ using namespace JTL;
 int main()
 {
 	auto &window = Window::instance();
-	window.init(800, 800, "WHAT", false, false);
+	window.init(800, 800, "WHAT", true, false);
 
 	auto &time = Time::instance();
 	time.init();
@@ -103,6 +103,22 @@ int main()
 	//ground->collider->chull.verts[4] = {  8,-12 };
 	//ground->collider->chull.verts[0] = {  0 , 4 };
 
+	auto triangle = Entity::make();
+	triangle->collider = Collider::make();
+	triangle->transform = Transform::make();
+	triangle->lifespan = Lifespan::make();
+
+	triangle->collider->shape = Collider::e_CIRCLE;
+	triangle->collider->circle.radius = 1;
+	/*triangle->collider->chull.size = 3;
+	triangle->collider->chull.verts[0] = { 0,0 };
+	triangle->collider->chull.verts[2] = { 1,0 };
+	triangle->collider->chull.verts[1] = { 0,1 };*/
+	triangle->collider->isTrigger = false;
+
+	triangle->transform->setPosition({ -40,-300 });
+	triangle->transform->setScale({ 20,20 });
+
 	ground->transform->setPosition({ 0,-400 });
 
 	//ground->transform->setScale({ 10,10 });
@@ -110,7 +126,13 @@ int main()
 	ground->collider->isTrigger = false;
 
 	DebugDraw temp(ground->collider->getData().at(ground->collider->getIndex()));
+	DebugDraw tri(triangle->collider->getData().at(triangle->collider->getIndex()));
 	//DebugDraw tempb(player->collider->getData().at(ground->collider->getIndex()));
+
+	player->controller->gamepad = false;
+	player->controller->LEFT = KEY_A;
+	player->controller->RIGHT = KEY_D;
+	player->controller->JUMP = KEY_W;
 
 	while (window.step())
 	{
@@ -124,14 +146,17 @@ int main()
 
 		playerUpdate.step();
 
-		//player->sprite->tint = { cosf(time.getTotalTime()) * 1.2f, sinf(time.getTotalTime()) * 1.35f, tanf(time.getTotalTime()) * 1.78f, 1 };
+		player->sprite->tint = { cosf(time.getTotalTime()) * 1.2f, sinf(time.getTotalTime()) * 1.35f, tanf(time.getTotalTime()) * 1.78f, 0.5f };
 
 		camera->camera->pos = -player->transform->getPosition();
 
 		renderSystem.step();
 
 		if(ground > -1) temp.draw(ground->transform->getData().at(ground->transform->getIndex()), camera->camera->getProj() * camera->camera->getView());
+		if (triangle > -1) tri.draw(triangle->transform->getData().at(triangle->transform->getIndex()), camera->camera->getProj() * camera->camera->getView());
 		//tempb.draw(player->transform->getData().at(player->transform->getIndex()), camera->camera->getProj() * camera->camera->getView());
+
+		//triangle->transform->setAngle(triangle->transform->getAngle() + time.getDeltaTime());
 
 		time.step();
 	}

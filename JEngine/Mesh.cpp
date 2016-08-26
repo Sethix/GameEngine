@@ -67,7 +67,7 @@ namespace JTL
 		glGenBuffers(NUMBUFFERS, VBO);
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO[e_POSITION]);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*n, verts, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*n, verts, GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBO[e_ELEMENT]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * drawCount, elements, GL_DYNAMIC_DRAW);
@@ -87,6 +87,8 @@ namespace JTL
 
 	Mesh::~Mesh()
 	{
+		glDeleteBuffers(1, &VBO[e_POSITION]);
+		glDeleteBuffers(1, &VBO[e_ELEMENT]);
 		glDeleteVertexArrays(1, &VAO);
 	}
 

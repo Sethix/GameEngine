@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)stb;$(SolutionDir)PortAudio;$(SolutionDir)glew;$(SolutionDir)glfw;$(SolutionDir)JMath;$(SolutionDir)JEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tinyobj;$(SolutionDir)stb;$(SolutionDir)PortAudio;$(SolutionDir)glew;$(SolutionDir)glfw;$(SolutionDir)JMath;$(SolutionDir)JEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -182,6 +182,7 @@
     <ClInclude Include="..\JEngine\Transform.h" />
     <ClInclude Include="..\JEngine\TriggerCollisionResolution.h" />
     <ClInclude Include="..\JEngine\Window.h" />
+    <ClInclude Include="MeshLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\JEngine\AABB2D.cpp" />
