@@ -40,6 +40,8 @@ namespace JTL
 		height = Height;
 
 		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
 		return isInit;
@@ -54,6 +56,7 @@ namespace JTL
 		
 		glClearColor(0.06f, 0.0f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_DEPTH_BUFFER_BIT);
 
 		return !glfwWindowShouldClose(window) && !exit;
 	}

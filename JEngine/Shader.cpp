@@ -1,6 +1,6 @@
 // TODO : Clean-up
 
-#include "Shader.h"
+#include "Asset.h"
 #include "ShaderLoader.h"
 #include "glew.h"
 #include "glfw3.h"

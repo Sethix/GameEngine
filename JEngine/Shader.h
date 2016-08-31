@@ -61,20 +61,5 @@
 namespace JTL
 {
 
-	class Shader
-	{
-	public:
-		// You can use the default shader with the default constructor.
-		// If you would prefer you can load in shaders yourself.
-		// Set fPath to true if it's a file path or false if it's a source string.
-		Shader();
-		Shader(const char* vertLoc, const char* fragLoc, const bool &fPath);
-		~Shader();
 
-		// Bind the program.
-		void Bind();
-
-	private:
-		unsigned int program, shaders[2];
-	};
 }

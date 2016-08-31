@@ -98,6 +98,7 @@
 namespace JTL
 {
 
+	struct Vector3;
 	struct Vector4;
 	struct Matrix3;
 
@@ -130,6 +131,16 @@ namespace JTL
 
 #pragma endregion
 
+#pragma region TransformationFunctionality
+
+		static Matrix4 rotate(const Vector3 &r);
+
+		static Matrix4 scale(const Vector3 &s);
+
+		static Matrix4 translate(const Vector3 &t);
+
+#pragma endregion
+
 	};
 
 #pragma region MatrixFunctionHeaders
@@ -143,6 +154,8 @@ namespace JTL
 	Matrix4 matrix3To4(const Matrix3 &a);
 
 	Matrix4 orthoProj(const float &l, const float &r, const float &b, const float &t, const float &n, const float &f);
+
+	Matrix4 perspProj(const float &fov, const float &aspect, const float &f, const float &n);
 
 #pragma endregion
 

@@ -2,6 +2,9 @@
 #include "Matrix3.h"
 #include "Matrix4.h"
 #include "Vector4.h"
+#include "Vector3.h"
+#include "JMath.h"
+#include <cmath>
 
 namespace JTL
 {
@@ -88,6 +91,42 @@ namespace JTL
 			m[4] == rhs.m[4], m[5] == rhs.m[5], m[6] == rhs.m[6], m[7] == rhs.m[7],
 			m[8] == rhs.m[8], m[9] == rhs.m[9], m[10] == rhs.m[10], m[11] == rhs.m[11],
 			m[12] == rhs.m[12], m[13] == rhs.m[13], m[14] == rhs.m[14], m[15] == rhs.m[15];
+	}
+
+	Matrix4 Matrix4::rotate(const Vector3 & r)
+	{
+		Matrix4 xRot = { 1,0,0,0,
+						 0,cos(r.x),-sin(r.x),0,
+						 0,sin(r.x),cos(r.x),0,
+						 0,0,0,1 };
+
+		Matrix4 yRot = { cos(r.y),0,sin(r.y),0,
+						0,1,0,0,
+						-sin(r.y), 0, cos(r.y), 0,
+						0, 0, 0, 1 };
+
+		Matrix4 zRot = { cos(r.z),-sin(r.z),0,0,
+						sin(r.z),cos(r.z),0,0,
+						0,0,1,0,
+						0,0,0,1 };
+
+		return xRot * yRot * zRot;
+	}
+
+	Matrix4 Matrix4::scale(const Vector3 & s)
+	{
+		return{ s.x,0,0,0,
+				0,s.y,0,0,
+				0,0,s.z,0,
+				0,0,0,1 };
+	}
+
+	Matrix4 Matrix4::translate(const Vector3 & t)
+	{
+		return{ 1,0,0,t.x,
+				0,1,1,t.y,
+				0,0,1,t.z,
+				0,0,0,1 };
 	}
 
 #pragma endregion
@@ -190,14 +229,23 @@ namespace JTL
 						-((r + l) / (r - l)), -((t + b) / (t / b)), -((f + n) / (f - n)), 1 };
 	}
 
+	Matrix4 perspProj(const float & fov, const float & aspect, const float & f, const float & n)
+	{
+		float tanHalfFOV = tanf(fov * 0.5f);
+		float r = f - n;
+
+		return Matrix4{ 1/(aspect * tanHalfFOV), 0,0,0,
+						0, 1/tanHalfFOV, 0,0,
+						0, 0, -(f + n) / r, -(2*f*n/r),
+						0,0,-1,0};
+	}
+
 
 	void	DebugM4()
 	{
 		assert((ID_MAT4 * ID_MAT4) == ID_MAT4);
 
 		assert(determinant(ID_MAT4) == 1);
-
-		assert(inverse(ID_MAT4) == ID_MAT4);
 
 		assert(transpose(ID_MAT4) == ID_MAT4);
 	}

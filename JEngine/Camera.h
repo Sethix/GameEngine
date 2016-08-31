@@ -65,7 +65,7 @@
 *******************************************************/
 #pragma once
 #include "ComponentData.h"
-#include "Vector2.h"
+#include "Vector3.h"
 #include "Matrix4.h"
 
 namespace JTL
@@ -79,14 +79,18 @@ namespace JTL
 					TL_CORNER, TR_CORNER, BL_CORNER, BR_CORNER, CENTER_SQUARE} space;
 
 		// This allows us to move our camera. It is used in the view matrix.
-		Vector2 pos;
+		Vector3 pos;
 
+		float near = 0.1f;
+		float far = 100;
+		float fov = 90;
 
 		// Return the view matrix.
 		Matrix4 getView();
 
 		// Return the projection matrix.
-		Matrix4 getProj();
+		Matrix4 getOrtho();
+		Matrix4 getPersp();
 
 		// Set our viewport in GL and draw everything.
 		void update();

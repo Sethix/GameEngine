@@ -74,61 +74,62 @@
 
 namespace JTL
 {
-	struct Vertex
-	{
-	public:
-		Vertex(const Vector2& vec, const Vector4& color)
-		{
-			pos.x = vec.x;
-			pos.y = vec.y;
-			pos.z = 0;
-			pos.w = 1;
-			col = color;
-		}
+	//class Mesh
+	//{
+	//public:
 
-		Vertex(const Vector3& vec, const Vector4& color)
-		{
-			pos.x = vec.x;
-			pos.y = vec.y;
-			pos.z = vec.z;
-			pos.w = 1;
-			col = color;
-		}
+	//	struct Vertex
+	//	{
+	//	public:
+	//		Vertex(const Vector2& vec, const Vector4& color)
+	//		{
+	//			pos.x = vec.x;
+	//			pos.y = vec.y;
+	//			pos.z = 0;
+	//			pos.w = 1;
+	//			col = color;
+	//		}
 
-		Vertex(const Vector4& vec, const Vector4& color)
-		{
-			pos = vec;
-			col = color;
-		}
+	//		Vertex(const Vector3& vec, const Vector4& color)
+	//		{
+	//			pos.x = vec.x;
+	//			pos.y = vec.y;
+	//			pos.z = vec.z;
+	//			pos.w = 1;
+	//			col = color;
+	//		}
 
-	private:
-		Vector4 pos;
-		Vector4 col;
-	};
+	//		Vertex(const Vector4& vec, const Vector4& color)
+	//		{
+	//			pos = vec;
+	//			col = color;
+	//		}
 
-	class Mesh
-	{
-	public:
-		Mesh(const Vertex* verts, const unsigned int &n, unsigned int dType = 999);
-		~Mesh();
+	//	private:
+	//		Vector4 pos;
+	//		Vector4 col;
+	//	};
 
-		// Not very good! My first attempt at drawing with OpenGL.
-		void DebugDraw(const Matrix4 &mat);
+	//	Mesh(const Vertex* verts, const unsigned int &n, unsigned int dType = 999);
+	//	~Mesh();
 
-		// Used in drawing textures in world space.
-		void DrawTexture(const Matrix4 &proj, const Matrix4 &view, const Matrix4 &model,
-						 const Vector4 &color, const int &rows, const int &cols,
-						 const int &idx, const unsigned &texture);
+	//	// Not very good! My first attempt at drawing with OpenGL.
+	//	void DebugDraw(const Matrix4 &mat);
 
-	private:
+	//	// Used in drawing textures in world space.
+	//	void DrawTexture(const Matrix4 &proj, const Matrix4 &view, const Matrix4 &model,
+	//					 const Vector4 &color, const int &rows, const int &cols,
+	//					 const int &idx, const unsigned &texture);
 
-		enum
-		{
-			e_POSITION,
-			e_ELEMENT,
-			NUMBUFFERS
-		};
+	//private:
 
-		unsigned int drawCount, drawType, VAO, VBO[NUMBUFFERS];
-	};
+	//	enum
+	//	{
+	//		e_POSITION,
+	//		e_ELEMENT,
+	//		NUMBUFFERS
+	//	};
+
+	//	unsigned int drawCount, drawType, VAO, VBO[NUMBUFFERS];
+	//};
 }

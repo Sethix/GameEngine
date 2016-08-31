@@ -62,8 +62,7 @@
 *******************************************************/
 #pragma once
 #include "System.h"
-#include "Shader.h"
-#include "Mesh.h"
+#include "Asset.h"
 #include "Collider.h"
 #include "Rigidbody.h"
 #include "Vector4.h"

@@ -50,7 +50,7 @@
 #include "ComponentData.h"
 #include "Vector2.h"
 #include "Vector4.h"
-#include "Shader.h"
+#include "Asset.h"
 
 namespace JTL
 {

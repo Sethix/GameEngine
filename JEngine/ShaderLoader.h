@@ -5,6 +5,21 @@
 
 #pragma region DefaultShaders
 
+static const char* DEFAULT_VERT_3D = GLSL(430,
+									 layout(location = 0) in vec4 position;
+									 layout(location = 1) in vec4 color;
+									 layout(location = 2) uniform mat4 model;
+									 layout(location = 3) uniform mat4 view;
+									 layout(location = 4) uniform mat4 proj;
+
+									 out vec4 inColor;
+
+									 void main()
+									 {
+										 gl_Position = proj * view * model * position;
+										 inColor = color;
+									 });
+
 static const char* DEFAULT_VERT = GLSL(430,
 									 layout(location = 0) in vec4 position;
 									 layout(location = 1) in vec4 texCoord;

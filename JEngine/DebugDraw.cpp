@@ -12,10 +12,10 @@ namespace JTL
 
 		isRigidBody = false;
 
-		Vertex vertices[] = 
-		{ 	Vertex(Vector2{ 0,1 }, SHAPECOLOR),
-			Vertex(Vector2{ 0,0 }, SHAPECOLOR),
-			Vertex(Vector2{ 1,0 }, SHAPECOLOR) };
+		Mesh::Vertex vertices[] =
+		{ Mesh::Vertex(Vector2{ 0,1 }, SHAPECOLOR),
+			Mesh::Vertex(Vector2{ 0,0 }, SHAPECOLOR),
+			Mesh::Vertex(Vector2{ 1,0 }, SHAPECOLOR) };
 		mesh = new Mesh(vertices, 3, GL_LINE_STRIP);
 	}
 
@@ -24,9 +24,9 @@ namespace JTL
 
 		isRigidBody = true;
 
-		Vertex vertices[] =
-		{	Vertex(Vector2{ 1,0 }, SHAPECOLOR),
-			Vertex(Vector2{ 0,0 }, SHAPECOLOR)};
+		Mesh::Vertex vertices[] =
+		{ Mesh::Vertex(Vector2{ 1,0 }, SHAPECOLOR),
+			Mesh::Vertex(Vector2{ 0,0 }, SHAPECOLOR)};
 		mesh = new Mesh(vertices, 2, GL_LINE_STRIP);
 	}
 
@@ -39,10 +39,10 @@ namespace JTL
 		{
 			case Collider::e_AABB:
 			{
-				Vertex vertices[] = { Vertex(coll.aabb.max, SHAPECOLOR),
-									  Vertex(Vector2{ coll.aabb.min.x, coll.aabb.max.y }, SHAPECOLOR),
-									  Vertex(coll.aabb.min, SHAPECOLOR),
-									  Vertex(Vector2{ coll.aabb.max.x, coll.aabb.min.y }, SHAPECOLOR) };
+				Mesh::Vertex vertices[] = { Mesh::Vertex(coll.aabb.max, SHAPECOLOR),
+					Mesh::Vertex(Vector2{ coll.aabb.min.x, coll.aabb.max.y }, SHAPECOLOR),
+					Mesh::Vertex(coll.aabb.min, SHAPECOLOR),
+					Mesh::Vertex(Vector2{ coll.aabb.max.x, coll.aabb.min.y }, SHAPECOLOR) };
 				mesh = new Mesh(vertices, 4);
 				break;
 			}
@@ -50,12 +50,12 @@ namespace JTL
 			{
 				int step = 36;
 				
-				std::vector<Vertex> vertices;
+				std::vector<Mesh::Vertex> vertices;
 
 				float anglePerStep = DEG2RAD(360.0f / step);
 
 				for (unsigned i = 0; i < step; ++i)
-					vertices.push_back(Vertex{ Vector2{coll.circle.position.x + cosf(i * anglePerStep) * coll.circle.radius,
+					vertices.push_back(Mesh::Vertex{ Vector2{coll.circle.position.x + cosf(i * anglePerStep) * coll.circle.radius,
 													   coll.circle.position.y + sinf(i * anglePerStep) * coll.circle.radius},Vector4{(float)i / step, ((float)i+3) / step * 2, ((float)i + 8) / step * 3 , 1 } });
 
 				mesh = new Mesh(&vertices[0], step);
@@ -63,8 +63,8 @@ namespace JTL
 			}
 			case Collider::e_RAY:
 			{
-				Vertex vertices[] = { Vertex(coll.ray.position, SHAPECOLOR),
-									  Vertex(coll.ray.position +
+				Mesh::Vertex vertices[] = { Mesh::Vertex(coll.ray.position, SHAPECOLOR),
+					Mesh::Vertex(coll.ray.position +
 											(coll.ray.direction *
 											 coll.ray.length) , SHAPECOLOR) };
 				mesh = new Mesh(vertices, 2);
@@ -72,17 +72,17 @@ namespace JTL
 			}
 			case Collider::e_PLANE:
 			{
-				Vertex vertices[] = { Vertex(coll.plane.position + (perp(coll.plane.normal) * 30), SHAPECOLOR),
-									  Vertex(coll.plane.position - (perp(coll.plane.normal) * 30), SHAPECOLOR) };
+				Mesh::Vertex vertices[] = { Mesh::Vertex(coll.plane.position + (perp(coll.plane.normal) * 30), SHAPECOLOR),
+					Mesh::Vertex(coll.plane.position - (perp(coll.plane.normal) * 30), SHAPECOLOR) };
 				mesh = new Mesh(vertices, 2);
 				break;
 			}
 			case Collider::e_CONVEX:
 			{
-				std::vector<Vertex> vertices;
+				std::vector<Mesh::Vertex> vertices;
 			
 				for (unsigned i = 0; i < coll.chull.size; ++i)
-					vertices.push_back(Vertex{ coll.chull.verts[i], SHAPECOLOR });
+					vertices.push_back(Mesh::Vertex{ coll.chull.verts[i], SHAPECOLOR });
 
 				mesh = new Mesh(&vertices[0], coll.chull.size);
 				break;

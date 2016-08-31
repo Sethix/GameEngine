@@ -5,6 +5,9 @@
 #include "Shader.h"
 #include "Mesh.h"
 #define STB_IMAGE_IMPLEMENTATION
+#define TINYOBJLOADER_IMPLEMENTATION 
+#include "tiny_obj_loader.h"
+#include <random>
 #include "stb_image.h"
 #include "glew.h"
 #include "glfw3.h"
@@ -28,7 +31,7 @@ namespace JTL
 		return texture;
 	}
 
-	Asset::Texture loadTextureMap(const char* path, unsigned rows, unsigned cols)
+	Texture loadTextureMap(const char* path, unsigned rows, unsigned cols)
 	{
 		int w, h, f;
 		unsigned d = 0;
@@ -47,21 +50,21 @@ namespace JTL
 
 		stbi_image_free(p);
 
-		return Asset::Texture{ td, w, h, rows, cols };
+		return Texture{ td, w, h, rows, cols };
 	}
 
 	void Asset::loadTexture(const std::string & name, const unsigned &rows, const unsigned &cols, const char * path)
 	{
 		textures[name] = loadTextureMap(path, rows, cols);
 
-		Vertex verts[] = {  Vertex(Vector2{ -(float)textures[name].width / 2,-(float)textures[name].height / 2 }, Vector4{ 0,1,0,1 }),
-							Vertex(Vector2{  (float)textures[name].width / 2,-(float)textures[name].height / 2 }, Vector4{ 1,1,0,1 }),
-							Vertex(Vector2{  (float)textures[name].width / 2, (float)textures[name].height / 2 }, Vector4{ 1,0,0,1 }),
-							Vertex(Vector2{ -(float)textures[name].width / 2, (float)textures[name].height / 2 }, Vector4{ 0,0,0,1 }) };
+		Mesh::Vertex verts[] = { Mesh::Vertex(Vector2{ -(float)textures[name].width / 2,-(float)textures[name].height / 2 }, Vector4{ 0,1,0,1 }),
+			Mesh::Vertex(Vector2{  (float)textures[name].width / 2,-(float)textures[name].height / 2 }, Vector4{ 1,1,0,1 }),
+			Mesh::Vertex(Vector2{  (float)textures[name].width / 2, (float)textures[name].height / 2 }, Vector4{ 1,0,0,1 }),
+			Mesh::Vertex(Vector2{ -(float)textures[name].width / 2, (float)textures[name].height / 2 }, Vector4{ 0,0,0,1 }) };
 
-		mesh = new Mesh(verts, 4);
+		meshes[name] = Mesh(verts, 4);
 	}
-	Asset::Texture Asset::getTextures(const std::string & name)
+	Texture Asset::getTextures(const std::string & name)
 	{
 		return textures[name];
 	}
@@ -69,8 +72,69 @@ namespace JTL
 							const Matrix4 &model, const Matrix4 &view, const Matrix4 &proj)
 	{
 		shader.Bind();
-		mesh->DrawTexture(proj, view, model, color,
+		meshes[name].DrawTexture(proj, view, model, color,
 						  textures[name].rows,textures[name].cols, idx, 
 						  textures[name]._handle);
+	}
+
+	void Asset::loadMesh(const std::string & name, const char * path)
+	{
+		tinyobj::attrib_t attrib;
+		std::vector<tinyobj::shape_t> shapes;
+		std::vector<tinyobj::material_t> materials;
+		std::string err;
+
+		bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, path);
+
+		Mesh::Vertex   *verts = new Mesh::Vertex[attrib.vertices.size() / 3];
+		unsigned * tris = new unsigned[shapes[0].mesh.indices.size()];
+
+		for (int i = 0; i < attrib.vertices.size() / 3; ++i)
+		{
+			verts[i] = Mesh::Vertex(Vector4{ attrib.vertices[i * 3],
+						  attrib.vertices[i * 3 + 1],
+						  attrib.vertices[i * 3 + 2],
+						  1.0f },
+						  Vector4 { 1.0,1.0,1.0,1.0 });
+
+			verts[i].col[0] = rand() * 1.0f / RAND_MAX;
+			verts[i].col[1] = rand() * 1.0f / RAND_MAX;
+			verts[i].col[2] = rand() * 1.0f / RAND_MAX;
+			verts[i].col[3] = 1;
+		}
+
+		for (int i = 0; i < shapes[0].mesh.indices.size(); ++i)
+			tris[i] = shapes[0].mesh.indices[i].vertex_index;
+
+		Mesh retval = Mesh(verts, tris, attrib.vertices.size() / 3, shapes[0].mesh.indices.size());
+
+		delete[] verts;
+		delete[] tris;
+		// then we can call makeGeometry as per normal.
+		meshes[name] = retval;
+
+	}
+	Mesh Asset::getMesh(const std::string & name)
+	{
+		return meshes[name];
+	}
+	void Asset::drawMesh(const std::string & name, Shader & shader, const Vector4 & color, const Matrix4 & model, const Matrix4 & view, const Matrix4 & proj)
+	{
+		shader.Bind();
+
+		// binding the VAO also binds the IBO (tri) and VBO (verts)
+		glBindVertexArray(meshes[name].VAO);
+
+		glUniformMatrix4fv(2, 1, GL_TRUE, model.m);
+		glUniformMatrix4fv(3, 1, GL_TRUE, view.m);
+		glUniformMatrix4fv(4, 1, GL_TRUE, proj.m);
+
+		// Draw elements will draw the vertices that are currently bound
+		// using an array of indices.
+		// IF AN IBO IS BOUND, we don't need to provide any indices.
+		glDrawElements(GL_TRIANGLES, meshes[name].tCount, GL_UNSIGNED_INT, 0);
+
+		glBindVertexArray(0);
+		
 	}
 }

@@ -11,13 +11,15 @@
 #include "Entity.h"
 #include "DebugDraw.h"
 #include "LifetimeSystem.h"
+#include "ShaderLoader.h"
+#include "JMath.h"
 
 using namespace JTL;
 
 int main()
 {
 	auto &window = Window::instance();
-	window.init(800, 800, "WHAT", true, false);
+	window.init(1280, 720, "WHAT", true, false);
 
 	auto &time = Time::instance();
 	time.init();
@@ -25,138 +27,73 @@ int main()
 	auto &input = Input::instance();
 	input.init();
 
-	CollisionDetection collisionDetection;
-	DynamicResolution dynamicResolution;
-	StaticResolution staticResolution;
-	RigidbodyDynamics rigidbodyDynamics;
-	LifetimeSystem lifetimeSystem;
-	PlayerUpdate playerUpdate;
+	auto &assets = Asset::instance();
+	
 	RenderSystem renderSystem;
 
-	auto &assets = Asset::instance();
-	assets.loadTexture("test", 1, 1, "../res/textures/alpacaButBetter.png");
+	assets.loadMesh("object", "../res/models/cube.obj");
+	Shader objectShader(DEFAULT_VERT_3D, DEBUG_FRAG, false);
 
-	auto camera = Entity::make();
-	camera->camera = Camera::make();
-	camera->camera->space = Camera::FULL;
+	assets.loadTexture("alpaca", 1, 1, "../res/textures/alpaca.png");
+	Shader alpacaShader(DEFAULT_VERT, DEFAULT_FRAG, false);
 
-	auto player = Entity::make();
-	player->controller = PlayerController::make();
-	player->rigidbody = Rigidbody::make();
-	player->transform = Transform::make();
-	player->collider = Collider::make();
-	player->sprite = Sprite::make();
-	player->health = Health::make();
-	player->mana = Mana::make();
+	auto cam = Entity::make();
+	cam->camera = Camera::make();
+	cam->camera->space = Camera::FULL;
+	cam->camera->pos = { 0.0,0.0 };
+	cam->camera->near = 0.1f;
+	cam->camera->far = 200;
+	cam->camera->fov = 120;
 
-	Vector2 curveTest[8];
+	auto alp = Entity::make();
+	alp->transform = Transform::make();
+	alp->sprite = Sprite::make();
 
-	for (int i = 0; i < 8; ++i)
-		curveTest[i] = hermite({ 0,0 }, { 10,10 }, { 10,0 }, { 0,10 }, (float)(i + 1) / (float)8);
+	alp->transform->setPosition({ 0.0,0.0 });
+	alp->transform->setScale({ 10,10 });
+	alp->sprite->assetName = "alpaca";
 
-	//player->lifespan = Lifespan::make();
+	Transform testform;
+	Matrix4 tMat;
+	tMat = ID_MAT4;
 
-	player->sprite->assetName = "test";
+	float cSpeed = 20;
 
-	player->controller->PlayerNumber = 0;
+	//Matrix4 scalemat = {1,0,0,200,
+	//					0,1,0,200,
+	//					0,0,1,200,
+	//					0,0,0,1 };
 
-	player->controller->gravity = 600;
-
-	player->rigidbody->drag = 1;
-	
-	player->collider->shape = Collider::e_AABB;
-
-	//player->collider->chull.size = 5;
-	//player->collider->chull.verts[1] = { -20,-10 };
-	//player->collider->chull.verts[2] = { -10,-20 };
-	//player->collider->chull.verts[3] = {  10,-20 };
-	//player->collider->chull.verts[4] = {  20,-10 };
-	//player->collider->chull.verts[0] = {  0 , 10 };
-
-	//player->transform->setScale({ 3,3 });
-	player->collider->aabb.min = {-(float)(assets.getTextures("test").width  / assets.getTextures("test").rows) / 2,
-								  -(float)(assets.getTextures("test").height / assets.getTextures("test").cols) / 2 };
-	player->collider->aabb.max = { (float)(assets.getTextures("test").width  / assets.getTextures("test").rows) / 2,
-								   (float)(assets.getTextures("test").height / assets.getTextures("test").cols) / 2 };
-
-	//player->collider->circle.radius = 32;
-	player->collider->isTrigger = false;
-
-	player->controller->grounded = true;
-
-	auto ground = Entity::make();
-	ground->collider = Collider::make();
-	ground->transform = Transform::make();
-	ground->lifespan = Lifespan::make();
-
-	ground->collider->shape = Collider::e_AABB;
-	ground->collider->aabb.min = { -500,-50 };
-	ground->collider->aabb.max = {  500, 50 };
-
-	/*ground->collider->circle.position = { 0, -40 };
-	ground->collider->circle.radius = 100;*/
-
-	//ground->collider->chull.size = 5;
-	//ground->collider->chull.verts[1] = { -8,-12 };
-	//ground->collider->chull.verts[2] = { -4,-24 };
-	//ground->collider->chull.verts[3] = {  4,-24 };
-	//ground->collider->chull.verts[4] = {  8,-12 };
-	//ground->collider->chull.verts[0] = {  0 , 4 };
-
-	auto triangle = Entity::make();
-	triangle->collider = Collider::make();
-	triangle->transform = Transform::make();
-	triangle->lifespan = Lifespan::make();
-
-	triangle->collider->shape = Collider::e_CIRCLE;
-	triangle->collider->circle.radius = 1;
-	/*triangle->collider->chull.size = 3;
-	triangle->collider->chull.verts[0] = { 0,0 };
-	triangle->collider->chull.verts[2] = { 1,0 };
-	triangle->collider->chull.verts[1] = { 0,1 };*/
-	triangle->collider->isTrigger = false;
-
-	triangle->transform->setPosition({ -40,-300 });
-	triangle->transform->setScale({ 20,20 });
-
-	ground->transform->setPosition({ 0,-400 });
-
-	//ground->transform->setScale({ 10,10 });
-
-	ground->collider->isTrigger = false;
-
-	DebugDraw temp(ground->collider->getData().at(ground->collider->getIndex()));
-	DebugDraw tri(triangle->collider->getData().at(triangle->collider->getIndex()));
-	//DebugDraw tempb(player->collider->getData().at(ground->collider->getIndex()));
-
-	player->controller->gamepad = false;
-	player->controller->LEFT = KEY_A;
-	player->controller->RIGHT = KEY_D;
-	player->controller->JUMP = KEY_W;
+	//tMat = scalemat * tMat;
 
 	while (window.step())
 	{
 		input.step();
 
-		rigidbodyDynamics.step();
-		collisionDetection.step();
-		dynamicResolution.step();
-		staticResolution.step();
-		//lifetimeSystem.step();
+		//tMat = Matrix4::translate({ 0,0,-time.getTotalTime() * 50.f}) * Matrix4::scale({ 50,50,50 }) * ID_MAT4;
 
-		playerUpdate.step();
+		if (input.getKey(KEY_A))
+			cam->camera->pos += {-1 * time.getDeltaTime() * cSpeed,0,0};
 
-		player->sprite->tint = { cosf(time.getTotalTime()) * 1.2f, sinf(time.getTotalTime()) * 1.35f, tanf(time.getTotalTime()) * 1.78f, 0.5f };
+		if (input.getKey(KEY_D))
+			cam->camera->pos += {1 * time.getDeltaTime() * cSpeed, 0, 0};
 
-		camera->camera->pos = -player->transform->getPosition();
+		if (input.getKey(KEY_W))
+			cam->camera->pos += {0, 0, -1 * time.getDeltaTime() * cSpeed};
 
-		renderSystem.step();
+		if (input.getKey(KEY_S))
+			cam->camera->pos += {0, 0, 1 * time.getDeltaTime() * cSpeed};
 
-		if(ground > -1) temp.draw(ground->transform->getData().at(ground->transform->getIndex()), camera->camera->getProj() * camera->camera->getView());
-		if (triangle > -1) tri.draw(triangle->transform->getData().at(triangle->transform->getIndex()), camera->camera->getProj() * camera->camera->getView());
-		//tempb.draw(player->transform->getData().at(player->transform->getIndex()), camera->camera->getProj() * camera->camera->getView());
+		if (input.getKey(KEY_LEFT_CONTROL))
+			cam->camera->pos += {0, -1 * time.getDeltaTime() * cSpeed};
 
-		//triangle->transform->setAngle(triangle->transform->getAngle() + time.getDeltaTime());
+		if (input.getKey(KEY_SPACE))
+			cam->camera->pos += {0, 1 * time.getDeltaTime() * cSpeed};
+
+		assets.drawMesh("object", objectShader, { 1.0,1.0,1.0,1.0 }, tMat,cam->camera->getView(),cam->camera->getPersp());
+		//assets.drawTexture("alpaca", alpacaShader, { 1.0,1.0,1.0,1.0 }, 0, tMat, cam->camera->getView(), cam->camera->getOrtho());
+
+		//renderSystem.step();
 
 		time.step();
 	}

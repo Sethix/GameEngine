@@ -153,9 +153,6 @@
     <ClInclude Include="..\JEngine\ManaSystem.h">
       <Filter>Header Files\Sub Systems</Filter>
     </ClInclude>
-    <ClInclude Include="MeshLoader.h">
-      <Filter>Header Files\GLComponents</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\JEngine\Collider.cpp">

@@ -8,9 +8,9 @@
 
 namespace JTL
 {
-	Matrix4 Camera::getView() {	return matrix3To4(Matrix3::translate(pos)); }
+	Matrix4 Camera::getView() {	return inverse(Matrix4::translate({pos})); }
 
-	Matrix4 Camera::getProj()
+	Matrix4 Camera::getOrtho()
 	{
 		float halfW, halfH;
 		halfW = Window::instance().getWidth() / 2;
@@ -19,42 +19,47 @@ namespace JTL
 		float quarterH = halfH / 2;
 
 #pragma region Space_Switch_Statement
-
+		
 		switch (space)
 		{
 		case JTL::Camera::FULL:
-			return orthoProj(-halfW, halfW, -halfH, halfH, -1, 1);
+			return orthoProj(-halfW, halfW, -halfH, halfH, near ,far);
 		
 		case JTL::Camera::TOP_HALF:
-			return orthoProj(-halfW, halfW, -quarterH, quarterH, -1, 1);
+			return orthoProj(-halfW, halfW, -quarterH, quarterH, near, far);
 		
 		case JTL::Camera::BOT_HALF:
-			return orthoProj(-halfW, halfW, -quarterH, quarterH, -1, 1);
+			return orthoProj(-halfW, halfW, -quarterH, quarterH, near, far);
 		
 		case JTL::Camera::LFT_HALF:
-			return orthoProj(-quarterW, quarterW, -halfH, halfH, -1, 1);
+			return orthoProj(-quarterW, quarterW, -halfH, halfH, near, far);
 
 		case JTL::Camera::RGT_HALF:
-			return orthoProj(-quarterW, quarterW, -halfH, halfH, -1, 1);
+			return orthoProj(-quarterW, quarterW, -halfH, halfH, near, far);
 
 		case JTL::Camera::TL_CORNER:
-			return orthoProj(-quarterW, quarterW, -quarterH, quarterH, -1, 1);
+			return orthoProj(-quarterW, quarterW, -quarterH, quarterH, near, far);
 
 		case JTL::Camera::TR_CORNER:
-			return orthoProj(-quarterW, quarterW, -quarterH, quarterH, -1, 1);
+			return orthoProj(-quarterW, quarterW, -quarterH, quarterH, near, far);
 
 		case JTL::Camera::BL_CORNER:
-			return orthoProj(-quarterW, quarterW, -quarterH, quarterH, -1, 1);
+			return orthoProj(-quarterW, quarterW, -quarterH, quarterH, near, far);
 
 		case JTL::Camera::BR_CORNER:
-			return orthoProj(-quarterW, quarterW, -quarterH, quarterH, -1, 1);
+			return orthoProj(-quarterW, quarterW, -quarterH, quarterH, near, far);
 
 		case JTL::Camera::CENTER_SQUARE:
-			return orthoProj(-quarterW, quarterW, -quarterH, quarterH, -1, 1);
+			return orthoProj(-quarterW, quarterW, -quarterH, quarterH, near, far);
 		}
 
 #pragma endregion
 
+	}
+
+	Matrix4 Camera::getPersp()
+	{
+		return perspProj(fov, Window::instance().getWidth() / Window::instance().getHeight(), far, near);
 	}
 	
 	void Camera::update()
@@ -116,7 +121,7 @@ namespace JTL
 						e.sprite->tint,
 						e.sprite->frame,
 						e.transform->getDrawMatrix(),
-						getView(), getProj());
+						getView(), getOrtho());
 				}
 				else
 				{
@@ -125,7 +130,7 @@ namespace JTL
 						e.sprite->tint,
 						e.sprite->frame,
 						ID_MAT4,
-						getView(), getProj());
+						getView(), getOrtho());
 				}
 			}
 		}
