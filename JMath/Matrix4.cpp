@@ -124,7 +124,7 @@ namespace JTL
 	Matrix4 Matrix4::translate(const Vector3 & t)
 	{
 		return{ 1,0,0,t.x,
-				0,1,1,t.y,
+				0,1,0,t.y,
 				0,0,1,t.z,
 				0,0,0,1 };
 	}
@@ -229,14 +229,17 @@ namespace JTL
 						-((r + l) / (r - l)), -((t + b) / (t / b)), -((f + n) / (f - n)), 1 };
 	}
 
-	Matrix4 perspProj(const float & fov, const float & aspect, const float & f, const float & n)
+	Matrix4 perspProj(const float &w, const float &h, const float &fov, const float &n, const float &f)
 	{
-		float tanHalfFOV = tanf(fov * 0.5f);
-		float r = f - n;
+		float aspect = w / h;
+		float top = tan(fov * 0.5f) * n;
+		float bot = -top;
+		float rgt = top * aspect;
+		float lft = -rgt;
 
-		return Matrix4{ 1/(aspect * tanHalfFOV), 0,0,0,
-						0, 1/tanHalfFOV, 0,0,
-						0, 0, -(f + n) / r, -(2*f*n/r),
+		return Matrix4{ n*2/(rgt-lft), 0, (rgt+lft)/(rgt-lft),0,
+						0, n*2/(top-bot), (top+bot)/(top-bot),0,
+						0, 0, -((f+n)/(f-n)), -(2*f*n/(f-n)),
 						0,0,-1,0};
 	}
 

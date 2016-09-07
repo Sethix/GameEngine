@@ -8,7 +8,7 @@
 
 namespace JTL
 {
-	Matrix4 Camera::getView() {	return inverse(Matrix4::translate({pos})); }
+	Matrix4 Camera::getView() { return inverse(Matrix4::translate({ pos }) * Matrix4::rotate({ rot })); }
 
 	Matrix4 Camera::getOrtho()
 	{
@@ -59,7 +59,37 @@ namespace JTL
 
 	Matrix4 Camera::getPersp()
 	{
-		return perspProj(fov, Window::instance().getWidth() / Window::instance().getHeight(), far, near);
+		float W, H, halfW, halfH;
+		W = Window::instance().getWidth();
+		H = Window::instance().getHeight();
+		halfW = W / 2;
+		halfH = H / 2;
+
+#pragma region Space_Switch_Statement
+
+		switch (space)
+		{
+		case JTL::Camera::FULL:
+			return perspProj(W, H, fov, near, far);
+
+		case JTL::Camera::TOP_HALF:
+		case JTL::Camera::BOT_HALF:
+			return perspProj(W, halfH, fov, near, far);
+
+		case JTL::Camera::LFT_HALF:
+		case JTL::Camera::RGT_HALF:
+			return perspProj(halfW, H, fov, near, far);
+
+		case JTL::Camera::TL_CORNER:
+		case JTL::Camera::TR_CORNER:
+		case JTL::Camera::BL_CORNER:
+		case JTL::Camera::BR_CORNER:
+		case JTL::Camera::CENTER_SQUARE:
+			return perspProj(halfW, halfH, fov, near, far);
+		}
+
+#pragma endregion
+	
 	}
 	
 	void Camera::update()

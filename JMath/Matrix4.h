@@ -155,7 +155,7 @@ namespace JTL
 
 	Matrix4 orthoProj(const float &l, const float &r, const float &b, const float &t, const float &n, const float &f);
 
-	Matrix4 perspProj(const float &fov, const float &aspect, const float &f, const float &n);
+	Matrix4 perspProj(const float &w, const float &h, const float &fov, const float &n, const float &f);
 
 #pragma endregion
 

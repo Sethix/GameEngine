@@ -29,6 +29,8 @@ int main()
 
 	auto &assets = Asset::instance();
 	
+	inverse({ 1,1,1,0,0,3,1,2,2,3,1,0,1,0,2,1 });
+
 	RenderSystem renderSystem;
 
 	assets.loadMesh("object", "../res/models/cube.obj");
@@ -55,7 +57,7 @@ int main()
 
 	Transform testform;
 	Matrix4 tMat;
-	tMat = ID_MAT4;
+	tMat = Matrix4::scale({1.1f,1.1f,1.1f});
 
 	float cSpeed = 20;
 
@@ -90,10 +92,17 @@ int main()
 		if (input.getKey(KEY_SPACE))
 			cam->camera->pos += {0, 1 * time.getDeltaTime() * cSpeed};
 
+		if (input.getKey(KEY_E))
+			cam->camera->rot += {0, 1 * time.getDeltaTime()};
+
+		if (input.getKey(KEY_Q))
+			cam->camera->rot += {0, -1 * time.getDeltaTime()};
+
+		//renderSystem.step();
+
 		assets.drawMesh("object", objectShader, { 1.0,1.0,1.0,1.0 }, tMat,cam->camera->getView(),cam->camera->getPersp());
 		//assets.drawTexture("alpaca", alpacaShader, { 1.0,1.0,1.0,1.0 }, 0, tMat, cam->camera->getView(), cam->camera->getOrtho());
 
-		//renderSystem.step();
 
 		time.step();
 	}

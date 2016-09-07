@@ -80,6 +80,7 @@ namespace JTL
 
 		// This allows us to move our camera. It is used in the view matrix.
 		Vector3 pos;
+		Vector3 rot;
 
 		float near = 0.1f;
 		float far = 100;
